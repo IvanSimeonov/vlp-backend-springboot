@@ -1,0 +1,15 @@
+server:
+    port: 8080
+spring:
+    application:
+        name: Virtual Learning Platform
+    datasource:
+        url: jdbc:mysql://localhost:3306/vlp?createDatabaseIfNotExist=true
+        username: vlp
+        password: vlpdbpassword
+        driver-class-name: com.mysql.cj.jdbc.Driver
+    jpa:
+        show-sql: false
+        open-in-view: false
+        hibernate:
+            ddl-auto: create-drop
