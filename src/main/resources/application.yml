@@ -9,7 +9,14 @@ spring:
         password: vlpdbpassword
         driver-class-name: com.mysql.cj.jdbc.Driver
     jpa:
-        show-sql: false
+        show-sql: true
         open-in-view: false
         hibernate:
             ddl-auto: create-drop
+        properties:
+          hibernate:
+              format_sql: true
+    security:
+        user:
+            name: test
+            password: test
