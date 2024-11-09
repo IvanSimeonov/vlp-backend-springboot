@@ -6,6 +6,8 @@ import bg.tusofia.vlp.user.dto.UserOverviewDto;
 import bg.tusofia.vlp.user.mapper.UserMapper;
 import bg.tusofia.vlp.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -37,5 +39,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserOverviewDto getUserOverviewById(Long id) {
         return this.userMapper.userOverviewToUserOverviewDto(this.userRepository.findUserOverviewById(id));
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return userRepository.findUserByEmail(username).orElseThrow(() -> new UsernameNotFoundException(username));
     }
 }

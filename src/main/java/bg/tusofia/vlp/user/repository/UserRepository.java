@@ -4,6 +4,8 @@ import bg.tusofia.vlp.user.domain.User;
 import bg.tusofia.vlp.user.domain.UserOverview;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.Optional;
+
 /**
  * Interface: UserRepository
  * <p>
@@ -14,4 +16,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface UserRepository extends JpaRepository<User, Long> {
     UserOverview findUserOverviewById(Long id);
+    Optional<User> findUserByEmail(String email);
 }
