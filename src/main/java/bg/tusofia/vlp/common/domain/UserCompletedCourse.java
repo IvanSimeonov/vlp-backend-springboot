@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
@@ -25,7 +27,10 @@ import java.util.Objects;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Setter
-public class UserCompletedCourse {
+public class UserCompletedCourse implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 4712861017871161919L;
 
     @EmbeddedId
     private UserCompletedCourseId id;

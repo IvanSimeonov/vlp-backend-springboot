@@ -30,7 +30,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class WebSecurityConfiguration {
 
-    private static final String[] WHITE_LISTED_URLS = {"/api/v1/courses/**", "/api/v1/auth/**"};
+    private static final String[] WHITE_LISTED_URLS = {"/api/v1/courses/**", "/api/v1/auth/**", "/api/v1/admin/users/**"};
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final UserService userService;
 

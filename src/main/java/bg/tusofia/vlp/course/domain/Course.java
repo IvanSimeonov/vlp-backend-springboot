@@ -10,8 +10,12 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 /**
  * Class: Course
@@ -27,7 +31,10 @@ import java.util.*;
 @AllArgsConstructor
 @Getter
 @Setter
-public class Course {
+public class Course implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = -1659139044663434546L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

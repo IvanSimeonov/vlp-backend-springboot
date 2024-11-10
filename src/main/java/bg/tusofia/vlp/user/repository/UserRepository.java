@@ -3,6 +3,7 @@ package bg.tusofia.vlp.user.repository;
 import bg.tusofia.vlp.user.domain.User;
 import bg.tusofia.vlp.user.domain.UserOverview;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import java.util.Optional;
 
@@ -14,7 +15,7 @@ import java.util.Optional;
  * @author Ivan Simeonov
  * @since 0.0.1
  */
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificationExecutor<User> {
     UserOverview findUserOverviewById(Long id);
     Optional<User> findUserByEmail(String email);
 }
