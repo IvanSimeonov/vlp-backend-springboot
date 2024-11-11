@@ -1,5 +1,6 @@
 package bg.tusofia.vlp.user.service;
 
+import bg.tusofia.vlp.exception.UserNotFoundException;
 import bg.tusofia.vlp.user.domain.RoleType;
 import bg.tusofia.vlp.user.domain.User;
 import bg.tusofia.vlp.user.dto.UserCreateDto;
@@ -146,7 +147,7 @@ public class UserManagementServiceImpl implements UserManagementService {
 
     private User checkUserExistsById(Long userId) {
         return userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException(userId));
     }
 
     private void checkSelfModification(Long userId) {
