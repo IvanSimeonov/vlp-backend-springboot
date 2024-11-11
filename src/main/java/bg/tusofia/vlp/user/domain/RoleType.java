@@ -11,5 +11,6 @@ package bg.tusofia.vlp.user.domain;
 public enum RoleType {
     ROLE_STUDENT,
     ROLE_TEACHER,
-    ROLE_ADMIN
+    ROLE_ADMIN,
+    ROLE_ROOT_ADMIN
 }

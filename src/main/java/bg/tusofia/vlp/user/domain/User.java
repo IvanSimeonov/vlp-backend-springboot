@@ -58,6 +58,8 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private RoleType role;
 
+    private boolean enabled = true;
+
     @Enumerated(EnumType.STRING)
     private UserStatus status;
 
