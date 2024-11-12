@@ -42,6 +42,14 @@ public class User implements UserDetails {
 
     private String lastName;
 
+    private String bio;
+
+    private String linkedInProfileUrl;
+
+    private String profileImagePath;
+
+    private LocalDateTime lastPasswordChangeDate;
+
     @NaturalId
     @Column(nullable = false, unique = true)
     private String email;

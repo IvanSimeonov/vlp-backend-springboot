@@ -1,9 +1,7 @@
 package bg.tusofia.vlp.user.controller;
 
 import bg.tusofia.vlp.user.domain.RoleType;
-import bg.tusofia.vlp.user.dto.UserCreateDto;
-import bg.tusofia.vlp.user.dto.UserOverviewDto;
-import bg.tusofia.vlp.user.dto.UserSearchCriteriaDto;
+import bg.tusofia.vlp.user.dto.*;
 import bg.tusofia.vlp.user.service.UserManagementService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
@@ -73,6 +72,25 @@ public class AdminController {
         userManagementService.disableUser(userId);
         return ResponseEntity.noContent().build();
     }
+
+    @PutMapping("/{userId}/profile")
+    public ResponseEntity<Void> updateUserProfile(@PathVariable Long userId, @RequestBody UserProfileUpdateDto userProfileUpdateDto) {
+        userManagementService.changeUserProfile(userId, userProfileUpdateDto);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/{userId}/profile-image")
+    public ResponseEntity<Void> updateUserAvatar(@PathVariable Long userId, @RequestParam("file") MultipartFile file) {
+        userManagementService.changeUserAvatar(userId, file);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/{userId}/change-password")
+    public ResponseEntity<Void> changePassword(@PathVariable Long userId, @RequestBody UserPasswordUpdateDto userPasswordUpdateDto) {
+        userManagementService.changeUserPassword(userId, userPasswordUpdateDto);
+        return ResponseEntity.noContent().build();
+    }
+
 
     @DeleteMapping("/{userId}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long userId) {
