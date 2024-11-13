@@ -1,10 +1,12 @@
 package bg.tusofia.vlp.user.repository;
 
+import bg.tusofia.vlp.user.domain.RoleType;
 import bg.tusofia.vlp.user.domain.User;
 import bg.tusofia.vlp.user.domain.UserOverview;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -18,4 +20,5 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificationExecutor<User> {
     UserOverview findUserOverviewById(Long id);
     Optional<User> findUserByEmail(String email);
+    List<UserOverview> findAllByRoleIn(List<RoleType> roleTypes);
 }

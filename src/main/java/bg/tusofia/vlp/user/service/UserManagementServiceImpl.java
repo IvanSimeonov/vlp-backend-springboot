@@ -1,6 +1,8 @@
 package bg.tusofia.vlp.user.service;
 
 import bg.tusofia.vlp.exception.UserNotFoundException;
+import bg.tusofia.vlp.notification.domain.NotificationType;
+import bg.tusofia.vlp.notification.service.NotificationService;
 import bg.tusofia.vlp.user.domain.RoleType;
 import bg.tusofia.vlp.user.domain.User;
 import bg.tusofia.vlp.user.dto.*;
@@ -39,9 +41,11 @@ public class UserManagementServiceImpl implements UserManagementService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
+    private final NotificationService notificationService;
 
     @Value("${user.profile.image.upload-dir}")
     private String uploadDir;
+
     /**
      * {@inheritDoc}
      */
@@ -85,6 +89,10 @@ public class UserManagementServiceImpl implements UserManagementService {
         if (canModifyUserRole(user, newRole)) {
             user.setRole(newRole);
             userRepository.save(user);
+            notificationService.createNotification(userId,
+                    NotificationType.ROLE_CHANGED,
+                    MessageFormat.format("Your role has been changed to {0}", newRole)
+            );
         }
     }
 
@@ -99,6 +107,10 @@ public class UserManagementServiceImpl implements UserManagementService {
         if (canModifyUser(user)) {
             user.setRole(RoleType.ROLE_ADMIN);
             userRepository.save(user);
+            notificationService.createNotification(userId,
+                    NotificationType.ROLE_CHANGED,
+                    "Your have been granted an Admin access!"
+            );
         }
     }
 
@@ -113,6 +125,10 @@ public class UserManagementServiceImpl implements UserManagementService {
         if (canModifyUser(user)) {
             user.setRole(RoleType.ROLE_TEACHER);
             userRepository.save(user);
+            notificationService.createNotification(userId,
+                    NotificationType.ROLE_CHANGED,
+                    "Your have been granted a Teacher access!"
+            );
         }
     }
 
@@ -151,7 +167,7 @@ public class UserManagementServiceImpl implements UserManagementService {
     public void changeUserPassword(Long userId, UserPasswordUpdateDto userPasswordUpdateDto) {
         checkUserAuthorization(userId);
         User user = checkUserExistsById(userId);
-        if(!passwordEncoder.matches(userPasswordUpdateDto.currentPassword(), user.getPassword())) {
+        if (!passwordEncoder.matches(userPasswordUpdateDto.currentPassword(), user.getPassword())) {
             throw new AccessDeniedException("Passwords do not match");
         }
         user.setPassword(passwordEncoder.encode(userPasswordUpdateDto.newPassword()));
