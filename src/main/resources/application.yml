@@ -1,6 +1,11 @@
 server:
     port: 8080
 spring:
+    sql:
+        init:
+            schema-locations: classpath:/db/schema.sql
+            data-locations: classpath:/db/data.sql
+            mode: always
     application:
         name: Virtual Learning Platform
     datasource:
@@ -12,7 +17,7 @@ spring:
         show-sql: true
         open-in-view: false
         hibernate:
-            ddl-auto: create-drop
+            ddl-auto: none
         properties:
           hibernate:
               format_sql: true
