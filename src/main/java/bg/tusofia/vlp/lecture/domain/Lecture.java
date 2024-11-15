@@ -65,7 +65,4 @@ public class Lecture implements Serializable {
     public int hashCode() {
         return getClass().hashCode();
     }
-
-
-
 }

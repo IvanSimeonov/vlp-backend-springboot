@@ -75,8 +75,6 @@ public class AssignmentSolutionServiceImpl implements AssignmentSolutionService 
         var assignmentSolution = assignmentSolutionMapper.assignmentSolutionCreateDtoToAssignmentSolution(assignmentSolutionCreateDto);
         assignmentSolution.setSubmissionStatus(SubmissionStatus.SUBMITTED);
         assignmentSolution.setSubmissionFilePath(filePath);
-        assignmentSolution.setLecture(lecture);
-        assignmentSolution.setStudent(user);
 
         lecture.addAssignmentSolution(assignmentSolution);
         user.addAssignmentSolution(assignmentSolution);

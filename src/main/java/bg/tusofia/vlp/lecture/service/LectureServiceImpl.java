@@ -1,5 +1,6 @@
 package bg.tusofia.vlp.lecture.service;
 
+import bg.tusofia.vlp.course.repository.CourseRepository;
 import bg.tusofia.vlp.exception.LectureNotFoundException;
 import bg.tusofia.vlp.lecture.dto.LectureCreateDto;
 import bg.tusofia.vlp.lecture.dto.LectureDetailDto;
@@ -25,6 +26,7 @@ import java.util.List;
 public class LectureServiceImpl implements LectureService {
     private final LectureRepository lectureRepository;
     private final LectureMapper lectureMapper;
+    private final CourseRepository courseRepository;
 
     @Override
     public LectureDetailDto getLectureDetailById(Long lectureId) {
@@ -36,7 +38,7 @@ public class LectureServiceImpl implements LectureService {
 
     @Override
     public List<LectureOverviewDto> getAllLectureOverviewByCourseId(Long courseId) {
-        return this.lectureRepository.findAllLectureOverviewByCourseIdOrderBySequenceNumber(courseId)
+        return lectureRepository.findAllLectureOverviewByCourseIdOrderBySequenceNumber(courseId)
                 .stream()
                 .map(lectureMapper::lectureOverviewToLectureOverviewDto)
                 .toList();
@@ -44,7 +46,7 @@ public class LectureServiceImpl implements LectureService {
 
     @Override
     public List<LectureDetailDto> getAllLectureDetailByCourseId(Long courseId) {
-        return this.lectureRepository.findAllLectureDetailsByCourseIdOrderBySequenceNumber(courseId)
+        return lectureRepository.findAllLectureDetailsByCourseIdOrderBySequenceNumber(courseId)
                 .stream()
                 .map(lectureMapper::lectureDetailToLectureDetailDto)
                 .toList();
@@ -52,24 +54,25 @@ public class LectureServiceImpl implements LectureService {
 
     @Override
     public Long createLecture(LectureCreateDto lectureCreateDto) {
-        var savedLecture = this.lectureRepository.save(lectureMapper.lectureCreateDtoToLecture(lectureCreateDto));
-        return savedLecture.getId();
+        var lecture = lectureMapper.lectureCreateDtoToLecture(lectureCreateDto);
+        courseRepository.getReferenceById(lectureCreateDto.courseId()).addLecture(lecture);
+        return this.lectureRepository.save(lecture).getId();
     }
 
     @Override
     public void updateLecture(Long lectureId, LectureUpdateDto lectureUpdateDto) {
-        var lecture = this.lectureRepository.findById(lectureId).orElseThrow(() -> new LectureNotFoundException(lectureId));
+        var lecture = lectureRepository.findById(lectureId)
+                .orElseThrow(() -> new LectureNotFoundException(lectureId));
         lecture.setTitle(lectureUpdateDto.title());
         lecture.setShortDescription(lectureUpdateDto.shortDescription());
         lecture.setFullDescription(lectureUpdateDto.fullDescription());
         lecture.setVideoUrl(lectureUpdateDto.videoUrl());
         lecture.setSequenceNumber(lectureUpdateDto.sequenceNumber());
-        this.lectureRepository.save(lecture);
+        lectureRepository.save(lecture);
     }
 
     @Override
     public void deleteLecture(Long lectureId) {
-        var lecture = this.lectureRepository.findById(lectureId).orElseThrow(() -> new LectureNotFoundException(lectureId));
-        this.lectureRepository.delete(lecture);
+       lectureRepository.deleteById(lectureId);
     }
 }
