@@ -17,6 +17,7 @@ import java.util.Optional;
  */
 @Repository
 public interface LectureRepository extends JpaRepository<Lecture, Long> {
+    Optional<Lecture> findLectureById(Long id);
     List<LectureOverview> findAllLectureOverviewByCourseIdOrderBySequenceNumber(Long courseId);
     List<LectureDetail> findAllLectureDetailsByCourseIdOrderBySequenceNumber(Long courseId);
     Optional<LectureDetail> findLectureDetailById(Long id);

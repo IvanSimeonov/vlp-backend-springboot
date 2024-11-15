@@ -1,5 +1,6 @@
 package bg.tusofia.vlp.user.domain;
 
+import bg.tusofia.vlp.assignment.domain.AssignmentSolution;
 import bg.tusofia.vlp.common.domain.UserCompletedCourse;
 import bg.tusofia.vlp.course.domain.Course;
 import jakarta.persistence.CascadeType;
@@ -80,6 +81,9 @@ public class User implements UserDetails {
     @ManyToMany(mappedBy = "enrolledUsers")
     private Set<Course> enrolledCourses = new HashSet<>();
 
+    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<AssignmentSolution> assignmentSolutions = new HashSet<>();
+
     public void createCourse(Course course) {
         createdCourses.add(course);
         course.setAuthor(this);
@@ -88,6 +92,16 @@ public class User implements UserDetails {
     public void deleteCourse(Course course) {
         createdCourses.remove(course);
         course.setAuthor(null);
+    }
+
+    public void addAssignmentSolution(AssignmentSolution assignmentSolution) {
+        assignmentSolutions.add(assignmentSolution);
+        assignmentSolution.setStudent(this);
+    }
+
+    public void removeAssignmentSolution(AssignmentSolution assignmentSolution) {
+        assignmentSolutions.remove(assignmentSolution);
+        assignmentSolution.setStudent(null);
     }
 
     @Override

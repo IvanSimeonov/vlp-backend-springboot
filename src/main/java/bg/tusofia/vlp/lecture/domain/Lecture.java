@@ -1,8 +1,14 @@
 package bg.tusofia.vlp.lecture.domain;
 
+import bg.tusofia.vlp.assignment.domain.AssignmentSolution;
 import bg.tusofia.vlp.course.domain.Course;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.io.Serial;
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Class: Lecture
@@ -17,7 +23,10 @@ import lombok.*;
 @AllArgsConstructor
 @Getter
 @Setter
-public class Lecture {
+public class Lecture implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 201038943719721117L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,6 +41,19 @@ public class Lecture {
     @ManyToOne(fetch = FetchType.LAZY)
     private Course course;
 
+    @OneToMany(mappedBy = "lecture", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<AssignmentSolution> assignmentSolutions = new HashSet<>();
+
+    public void addAssignmentSolution(AssignmentSolution assignmentSolution) {
+        assignmentSolutions.add(assignmentSolution);
+        assignmentSolution.setLecture(this);
+    }
+
+    public void removeAssignmentSolution(AssignmentSolution assignmentSolution) {
+        assignmentSolutions.remove(assignmentSolution);
+        assignmentSolution.setLecture(null);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -43,6 +65,7 @@ public class Lecture {
     public int hashCode() {
         return getClass().hashCode();
     }
+
 
 
 }

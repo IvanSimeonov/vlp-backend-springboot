@@ -5,7 +5,7 @@ spring:
         init:
             schema-locations: classpath:/db/schema.sql
             data-locations: classpath:/db/data.sql
-            mode: always
+            mode: never
     application:
         name: Virtual Learning Platform
     datasource:
@@ -17,7 +17,7 @@ spring:
         show-sql: true
         open-in-view: false
         hibernate:
-            ddl-auto: none
+            ddl-auto: create-drop
         properties:
           hibernate:
               format_sql: true
@@ -38,3 +38,7 @@ user:
     profile:
         image:
             upload-dir: usersProfileImages
+    course:
+        lecture:
+            assignment:
+                upload-dir: userAssignments
