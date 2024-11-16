@@ -5,6 +5,8 @@ import bg.tusofia.vlp.course.dto.CourseOverviewDto;
 import bg.tusofia.vlp.course.service.CourseService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -29,6 +31,11 @@ public class CourseController {
     @GetMapping("/{id}")
     public ResponseEntity<CourseOverviewDto> getCourseOverviewById(@PathVariable(name = "id") Long id) {
         return ResponseEntity.ok(courseService.getCourseOverviewById(id));
+    }
+
+    @GetMapping("/topic/{topicId}")
+    public ResponseEntity<Page<CourseOverviewDto>> getCourseOverviewByTopicId(@PathVariable(name = "topicId") Long topicId, Pageable pageable) {
+        return ResponseEntity.ok(courseService.getAllCoursesByTopic(topicId, pageable));
     }
 
     @PostMapping

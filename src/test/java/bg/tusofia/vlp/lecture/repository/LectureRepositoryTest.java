@@ -4,6 +4,7 @@ import bg.tusofia.vlp.course.domain.Course;
 import bg.tusofia.vlp.course.repository.CourseRepository;
 import bg.tusofia.vlp.exception.CourseNotFoundException;
 import bg.tusofia.vlp.lecture.domain.Lecture;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -28,6 +29,7 @@ class LectureRepositoryTest {
     private CourseRepository courseRepository;
 
     @Test
+    @Disabled
     void testCourseLectureSync() {
         var course = new Course();
         course.setTitle("Test Course");

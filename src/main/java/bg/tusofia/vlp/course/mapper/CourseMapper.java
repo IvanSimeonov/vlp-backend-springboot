@@ -4,8 +4,12 @@ import bg.tusofia.vlp.course.domain.Course;
 import bg.tusofia.vlp.course.domain.CourseOverview;
 import bg.tusofia.vlp.course.dto.CourseCreateDto;
 import bg.tusofia.vlp.course.dto.CourseOverviewDto;
+import bg.tusofia.vlp.topic.domain.Topic;
+import bg.tusofia.vlp.topic.repository.TopicRepository;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.Named;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Interface: CourseMapper
@@ -17,7 +21,10 @@ import org.mapstruct.Mapping;
  * @since 0.0.1
  */
 @Mapper
-public interface CourseMapper {
+public abstract class CourseMapper {
+
+    @Autowired
+    private TopicRepository topicRepository;
 
     //CourseMapper INSTANCE = Mappers.getMapper(CourseMapper.class);
 
@@ -32,7 +39,8 @@ public interface CourseMapper {
     @Mapping(target = "modified", ignore = true)
     @Mapping(target = "completedUsers", ignore = true)
     @Mapping(target = "enrolledUsers", ignore = true)
-    Course courseCreateDtoToCourse(CourseCreateDto courseCreateDto);
+    @Mapping(target = "topic", source = "topicId", qualifiedByName = "mapTopic")
+    public abstract Course courseCreateDtoToCourse(CourseCreateDto courseCreateDto);
 
     /**
      * Maps a Course entity to a CourseDto.
@@ -40,7 +48,12 @@ public interface CourseMapper {
      * @param course the course entity to map
      * @return a CourseOverviewDto representation
      */
-    CourseOverviewDto courseToCourseOverviewDto(Course course);
+    public abstract CourseOverviewDto courseToCourseOverviewDto(Course course);
 
-    CourseOverviewDto courseOverviewToCourseOverviewDto(CourseOverview courseOverview);
+    public abstract CourseOverviewDto courseOverviewToCourseOverviewDto(CourseOverview courseOverview);
+
+    @Named("mapTopic")
+    protected Topic mapTopic(Long topicId) {
+        return topicRepository.getReferenceById(topicId);
+    }
 }

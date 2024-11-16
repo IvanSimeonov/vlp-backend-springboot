@@ -3,6 +3,7 @@ package bg.tusofia.vlp.course.repository;
 import bg.tusofia.vlp.course.domain.Course;
 import bg.tusofia.vlp.course.domain.CourseOverview;
 import bg.tusofia.vlp.course.domain.DifficultyLevel;
+import bg.tusofia.vlp.topic.domain.Topic;
 import bg.tusofia.vlp.user.domain.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -48,4 +49,6 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
     Page<Course> findByDifficultyLevel(DifficultyLevel difficultyLevel, Pageable pageable);
 
     CourseOverview findCourseOverviewById(Long id);
+
+    Page<CourseOverview> findCourseOverviewByTopic(Topic topic, Pageable pageable);
 }

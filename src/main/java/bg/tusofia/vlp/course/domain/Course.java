@@ -2,6 +2,7 @@ package bg.tusofia.vlp.course.domain;
 
 import bg.tusofia.vlp.common.domain.UserCompletedCourse;
 import bg.tusofia.vlp.lecture.domain.Lecture;
+import bg.tusofia.vlp.topic.domain.Topic;
 import bg.tusofia.vlp.user.domain.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -71,6 +72,9 @@ public class Course implements Serializable {
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Lecture> lectures = new HashSet<>();
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    private Topic topic;
 
     public void addCompletedUser(User user) {
         UserCompletedCourse uc = new UserCompletedCourse(user, this);

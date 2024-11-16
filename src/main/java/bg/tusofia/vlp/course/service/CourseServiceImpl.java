@@ -5,6 +5,7 @@ import bg.tusofia.vlp.course.dto.CourseCreateDto;
 import bg.tusofia.vlp.course.dto.CourseOverviewDto;
 import bg.tusofia.vlp.course.mapper.CourseMapper;
 import bg.tusofia.vlp.course.repository.CourseRepository;
+import bg.tusofia.vlp.topic.repository.TopicRepository;
 import bg.tusofia.vlp.user.domain.User;
 import bg.tusofia.vlp.user.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -30,6 +31,7 @@ public class CourseServiceImpl implements CourseService {
     private final CourseRepository courseRepository;
     private final CourseMapper courseMapper;
     private final UserRepository userRepository;
+    private final TopicRepository topicRepository;
 
     @Override
     public Long createCourse(CourseCreateDto courseCreateDto) {
@@ -49,5 +51,11 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public Page<CourseOverviewDto> getAllCourses(Pageable pageable) {
         return null;
+    }
+
+    @Override
+    public Page<CourseOverviewDto> getAllCoursesByTopic(Long topicId, Pageable pageable) {
+        return courseRepository.findCourseOverviewByTopic(topicRepository.getReferenceById(topicId), pageable)
+                .map(courseMapper::courseOverviewToCourseOverviewDto);
     }
 }

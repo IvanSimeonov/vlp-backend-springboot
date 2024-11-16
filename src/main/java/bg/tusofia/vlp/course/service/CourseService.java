@@ -20,4 +20,6 @@ public interface CourseService {
     CourseOverviewDto getCourseOverviewById(Long courseId);
 
     Page<CourseOverviewDto> getAllCourses(Pageable pageable);
+
+    Page<CourseOverviewDto> getAllCoursesByTopic(Long topicId, Pageable pageable);
 }

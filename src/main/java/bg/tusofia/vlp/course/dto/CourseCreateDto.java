@@ -27,7 +27,10 @@ public record CourseCreateDto(
         DifficultyLevel difficultyLevel,
 
         @NotNull(message = "Author ID is required")
-        Long authorId
+        Long authorId,
+
+        @NotNull(message = "Topic ID is required")
+        Long topicId
 ) {
 
 }
