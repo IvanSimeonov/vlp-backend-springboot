@@ -1,21 +1,17 @@
 package bg.tusofia.vlp.course.dto;
 
 import bg.tusofia.vlp.course.domain.DifficultyLevel;
-import bg.tusofia.vlp.course.domain.Status;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 /**
- * Record: CourseCreateDto
- * <p>
- * A data transfer object (DTO) that represents the data required to create a new {@link bg.tusofia.vlp.course.domain.Course} entity.
- * Used to capture input data for course creation from the client, with validation constraints to ensure data integrity.
+ * Record: CourseUpdateDto
  *
  * @author Ivan Simeonov
  * @since 0.0.1
  */
-public record CourseCreateDto(
+public record CourseUpdateDto(
 
         @NotBlank(message = "Title is required")
         @Size(min = 10, max = 100, message = "Title must be between 10 and 100 characters")
@@ -27,14 +23,8 @@ public record CourseCreateDto(
         @NotNull(message = "Difficulty level is required")
         DifficultyLevel difficultyLevel,
 
-        @NotNull(message = "Author ID is required")
-        Long authorId,
-
         @NotNull(message = "Topic ID is required")
-        Long topicId,
-
-        @NotNull
-        Status status
+        Long topicId
 ) {
 
 }

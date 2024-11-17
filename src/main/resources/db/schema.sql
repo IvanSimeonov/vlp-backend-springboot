@@ -1,88 +1,129 @@
-DROP TABLE IF EXISTS `user_enrolled_course`;
-DROP TABLE IF EXISTS `user_completed_course`;
 DROP TABLE IF EXISTS `notification`;
+DROP TABLE IF EXISTS `assignment_solution`;
+DROP TABLE IF EXISTS `user_completed_course`;
+DROP TABLE IF EXISTS `user_enrolled_course`;
 DROP TABLE IF EXISTS `lecture`;
 DROP TABLE IF EXISTS `course`;
+DROP TABLE IF EXISTS `topic`;
 DROP TABLE IF EXISTS `user`;
 
-CREATE TABLE `user`
-(
-    `enabled`                   bit(1)       NOT NULL,
-    `created`                   datetime(6)                                                         DEFAULT NULL,
-    `id`                        bigint       NOT NULL AUTO_INCREMENT,
-    `last_password_change_date` datetime(6)                                                         DEFAULT NULL,
-    `modified`                  datetime(6)                                                         DEFAULT NULL,
-    `bio`                       varchar(255)                                                        DEFAULT NULL,
-    `email`                     varchar(255) NOT NULL,
-    `first_name`                varchar(255)                                                        DEFAULT NULL,
-    `last_name`                 varchar(255)                                                        DEFAULT NULL,
-    `linked_in_profile_url`     varchar(255)                                                        DEFAULT NULL,
-    `password`                  varchar(255) NOT NULL,
-    `profile_image_path`        varchar(255)                                                        DEFAULT NULL,
-    `role`                      enum ('ROLE_ADMIN','ROLE_ROOT_ADMIN','ROLE_STUDENT','ROLE_TEACHER') DEFAULT NULL,
-    `status`                    enum ('ACTIVE','INACTIVE','PENDING_APPROVAL')                       DEFAULT NULL,
+CREATE TABLE `user` (
+    `id` BIGINT NOT NULL AUTO_INCREMENT,
+    `enabled` BIT(1) NOT NULL,
+    `created` DATETIME(6) NULL,
+    `modified` DATETIME(6) NULL,
+    `last_password_change_date` DATETIME(6) NULL DEFAULT NULL,
+    `bio` VARCHAR(255) NULL DEFAULT NULL,
+    `email` VARCHAR(255) NOT NULL,
+    `first_name` VARCHAR(255) NULL DEFAULT NULL,
+    `last_name` VARCHAR(255) NULL DEFAULT NULL,
+    `linked_in_profile_url` VARCHAR(255) NULL DEFAULT NULL,
+    `password` VARCHAR(255) NOT NULL,
+    `profile_image_path` VARCHAR(255) NULL DEFAULT NULL,
+    `role` ENUM('ROLE_ROOT_ADMIN', 'ROLE_ADMIN', 'ROLE_TEACHER', 'ROLE_STUDENT') NOT NULL DEFAULT 'ROLE_STUDENT',
+    `status` ENUM('ACTIVE', 'INACTIVE', 'PENDING_APPROVAL') NULL DEFAULT NULL,
     PRIMARY KEY (`id`),
-    UNIQUE KEY `UKob8kqyqqgmefl0aco34akdtpe` (`email`)
+    UNIQUE INDEX `UK_user_email` (`email` ASC)
 );
 
-CREATE TABLE `course`
-(
-    `author_id`        bigint                                      DEFAULT NULL,
-    `created`          datetime(6)                                 DEFAULT NULL,
-    `id`               bigint       NOT NULL AUTO_INCREMENT,
-    `modified`         datetime(6)                                 DEFAULT NULL,
-    `description`      text         NOT NULL,
-    `title`            varchar(255) NOT NULL,
-    `difficulty_level` enum ('ADVANCED','BEGINNER','INTERMEDIATE') DEFAULT NULL,
+CREATE TABLE `topic` (
+    `id` BIGINT NOT NULL AUTO_INCREMENT,
+    `title` VARCHAR(255) NOT NULL,
+    `description` VARCHAR(255) NULL DEFAULT NULL,
     PRIMARY KEY (`id`),
-    KEY `FKmaatvkqyrdpwoiq3opi1obk7b` (`author_id`),
-    CONSTRAINT `FKmaatvkqyrdpwoiq3opi1obk7b` FOREIGN KEY (`author_id`) REFERENCES `user` (`id`)
+    UNIQUE INDEX `UK_topic_title` (`title` ASC)
 );
 
-CREATE TABLE `lecture`
-(
-    `sequence_number`   int    NOT NULL,
-    `course_id`         bigint       DEFAULT NULL,
-    `id`                bigint NOT NULL AUTO_INCREMENT,
-    `full_description`  varchar(255) DEFAULT NULL,
-    `short_description` varchar(255) DEFAULT NULL,
-    `title`             varchar(255) DEFAULT NULL,
-    `video_url`         varchar(255) DEFAULT NULL,
+CREATE TABLE `course` (
+    `id` BIGINT NOT NULL AUTO_INCREMENT,
+    `author_id` BIGINT NOT NULL,
+    `topic_id` BIGINT NOT NULL,
+    `created` DATETIME(6) NULL,
+    `modified` DATETIME(6) NULL,
+    `title` VARCHAR(255) NOT NULL,
+    `description` TEXT NOT NULL,
+    `difficulty_level` ENUM('BEGINNER', 'INTERMEDIATE', 'ADVANCED') NOT NULL,
+    `status` ENUM('DRAFT', 'PUBLISHED') NOT NULL DEFAULT 'DRAFT',
     PRIMARY KEY (`id`),
-    KEY `FKjoc9yetfohpygdvx5wv385vwb` (`course_id`),
-    CONSTRAINT `FKjoc9yetfohpygdvx5wv385vwb` FOREIGN KEY (`course_id`) REFERENCES `course` (`id`)
+    INDEX `FK_course_author` (`author_id` ASC),
+    INDEX `FK_course_topic` (`topic_id` ASC),
+    CONSTRAINT `FK_course_author`
+                      FOREIGN KEY (`author_id`)
+                      REFERENCES `user` (`id`),
+    CONSTRAINT `FK_course_topic`
+                      FOREIGN KEY (`topic_id`)
+                      REFERENCES `topic` (`id`)
 );
 
-CREATE TABLE `notification`
-(
-    `is_read`    bit(1) NOT NULL,
-    `created`    datetime(6)                                                                                                      DEFAULT NULL,
-    `id`         bigint NOT NULL AUTO_INCREMENT,
-    `related_id` bigint                                                                                                           DEFAULT NULL,
-    `updated`    datetime(6)                                                                                                      DEFAULT NULL,
-    `user_id`    bigint                                                                                                           DEFAULT NULL,
-    `message`    varchar(255)                                                                                                     DEFAULT NULL,
-    `type`       enum ('ROLE_CHANGED','TEACHER_ACCESS_REQUEST','TEACHER_ACCESS_REQUEST_APPROVED','TEACHER_ACCESS_REQUEST_DENIED') DEFAULT NULL,
-    PRIMARY KEY (`id`)
+CREATE TABLE `lecture` (
+    `id` BIGINT NOT NULL AUTO_INCREMENT,
+    `course_id` BIGINT NOT NULL,
+    `sequence_number` INT NOT NULL,
+    `title` VARCHAR(255) NULL DEFAULT NULL,
+    `short_description` VARCHAR(255) NULL DEFAULT NULL,
+    `full_description` VARCHAR(255) NULL DEFAULT NULL,
+    `video_url` VARCHAR(255) NULL DEFAULT NULL,
+    PRIMARY KEY (`id`),
+    INDEX `FK_lecture_course` (`course_id` ASC),
+    CONSTRAINT `FK_lecture_course`
+                      FOREIGN KEY (`course_id`)
+                      REFERENCES `course` (`id`),
+    UNIQUE (`course_id`, `sequence_number`)
 );
 
-CREATE TABLE `user_completed_course`
-(
-    `completed_on` datetime(6) DEFAULT NULL,
-    `course_id`    bigint NOT NULL,
-    `user_id`      bigint NOT NULL,
-    PRIMARY KEY (`course_id`, `user_id`),
-    KEY `FKmbvb4dn2xmci9gfxib0gjwted` (`user_id`),
-    CONSTRAINT `FKmbvb4dn2xmci9gfxib0gjwted` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
-    CONSTRAINT `FKqylteab8dn7gy387qp1ggcx4k` FOREIGN KEY (`course_id`) REFERENCES `course` (`id`)
+CREATE TABLE `assignment_solution` (
+    `id` BIGINT NOT NULL AUTO_INCREMENT,
+    `lecture_id` BIGINT NULL DEFAULT NULL,
+    `student_id` BIGINT NULL DEFAULT NULL,
+    `grade` INT NULL DEFAULT NULL CHECK ( `grade` >= 0 AND `grade` <= 100 ),
+    `retry_flag` BIT(1) NOT NULL,
+    `submission_file_path` VARCHAR(255) NULL DEFAULT NULL,
+    `submission_status` ENUM('SUBMITTED', 'GRADED') NULL DEFAULT NULL,
+    PRIMARY KEY (`id`),
+    INDEX `FK_assignment_solution_lecture` (`lecture_id` ASC),
+    INDEX `FK_assignment_solution_student` (`student_id` ASC),
+    CONSTRAINT `FK_assignment_solution_lecture`
+                                   FOREIGN KEY (`lecture_id`)
+                                   REFERENCES `lecture` (`id`),
+    CONSTRAINT `FK_assignment_solution_student`
+                                   FOREIGN KEY (`student_id`)
+                                   REFERENCES `user` (`id`)
 );
 
-CREATE TABLE `user_enrolled_course`
-(
-    `course_id` bigint NOT NULL,
-    `user_id`   bigint NOT NULL,
-    PRIMARY KEY (`course_id`, `user_id`),
-    KEY `FKod3fcoehdj59ru8wctvj652t5` (`user_id`),
-    CONSTRAINT `FKd53skgi4vs7v7w9le9bob10fn` FOREIGN KEY (`course_id`) REFERENCES `course` (`id`),
-    CONSTRAINT `FKod3fcoehdj59ru8wctvj652t5` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
+CREATE TABLE `notification` (
+   `id` BIGINT NOT NULL AUTO_INCREMENT,
+   `user_id` BIGINT NULL DEFAULT NULL,
+   `is_read` BIT(1) NOT NULL,
+   `message` VARCHAR(255) NULL DEFAULT NULL,
+   `related_id` BIGINT NULL DEFAULT NULL,
+   `created` DATETIME(6) NULL,
+   `modified` DATETIME(6) NULL,
+   `type` ENUM('ROLE_CHANGED','TEACHER_ACCESS_REQUEST','TEACHER_ACCESS_REQUEST_APPROVED','TEACHER_ACCESS_REQUEST_DENIED') DEFAULT NULL,
+   PRIMARY KEY (`id`)
+);
+
+CREATE TABLE `user_completed_course` (
+   `course_id` BIGINT NOT NULL,
+   `user_id` BIGINT NOT NULL,
+   `completed_on` DATETIME(6) NULL DEFAULT NULL,
+   PRIMARY KEY (`course_id`, `user_id`),
+   INDEX `FK_user_completed_course` (`user_id` ASC),
+   CONSTRAINT `FK_user_completed_course_user`
+       FOREIGN KEY (`user_id`)
+       REFERENCES `user` (`id`),
+   CONSTRAINT `FK_user_completed_course_course`
+       FOREIGN KEY (`course_id`)
+       REFERENCES `course` (`id`)
+);
+
+CREATE TABLE `user_enrolled_course` (
+   `course_id` BIGINT NOT NULL,
+   `user_id` BIGINT NOT NULL,
+   PRIMARY KEY (`course_id`, `user_id`),
+   CONSTRAINT `FK_user_enrolled_course_user`
+       FOREIGN KEY (`user_id`)
+       REFERENCES `user` (`id`),
+   CONSTRAINT `FK_user_enrolled_course_course`
+       FOREIGN KEY (`course_id`)
+       REFERENCES `course` (`id`)
 );

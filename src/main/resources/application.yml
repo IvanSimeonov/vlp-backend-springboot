@@ -5,7 +5,7 @@ spring:
         init:
             schema-locations: classpath:/db/schema.sql
             data-locations: classpath:/db/data.sql
-            mode: never
+            mode: always
     application:
         name: Virtual Learning Platform
     datasource:
@@ -17,7 +17,7 @@ spring:
         show-sql: true
         open-in-view: false
         hibernate:
-            ddl-auto: create-drop
+            ddl-auto: validate
         properties:
           hibernate:
               format_sql: true

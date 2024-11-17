@@ -10,6 +10,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 /**
  * Interface: CourseRepository
  * <p>
@@ -20,6 +22,8 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface CourseRepository extends JpaRepository<Course, Long> {
+
+    Optional<Course> findCourseById(Long id);
 
     /**
      * Retrieves a page of courses based on the specified title.
@@ -49,6 +53,6 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
     Page<Course> findByDifficultyLevel(DifficultyLevel difficultyLevel, Pageable pageable);
 
     CourseOverview findCourseOverviewById(Long id);
-
     Page<CourseOverview> findCourseOverviewByTopic(Topic topic, Pageable pageable);
+    Page<CourseOverview> findAllProjectedBy(Pageable pageable);
 }

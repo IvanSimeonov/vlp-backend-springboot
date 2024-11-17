@@ -41,5 +41,5 @@ public class Notification {
     private LocalDateTime created;
 
     @UpdateTimestamp
-    private LocalDateTime updated;
+    private LocalDateTime modified;
 }

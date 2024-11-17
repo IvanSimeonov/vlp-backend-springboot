@@ -1,10 +1,14 @@
 package bg.tusofia.vlp.course.service;
 
 import bg.tusofia.vlp.course.domain.Course;
+import bg.tusofia.vlp.course.domain.Status;
 import bg.tusofia.vlp.course.dto.CourseCreateDto;
 import bg.tusofia.vlp.course.dto.CourseOverviewDto;
+import bg.tusofia.vlp.course.dto.CourseUpdateDto;
 import bg.tusofia.vlp.course.mapper.CourseMapper;
 import bg.tusofia.vlp.course.repository.CourseRepository;
+import bg.tusofia.vlp.exception.CourseNotFoundException;
+import bg.tusofia.vlp.exception.UserNotFoundException;
 import bg.tusofia.vlp.topic.repository.TopicRepository;
 import bg.tusofia.vlp.user.domain.User;
 import bg.tusofia.vlp.user.repository.UserRepository;
@@ -50,7 +54,57 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public Page<CourseOverviewDto> getAllCourses(Pageable pageable) {
-        return null;
+        return courseRepository.findAllProjectedBy(pageable).map(courseMapper::courseOverviewToCourseOverviewDto);
+    }
+
+    @Override
+    public void updateCourseById(Long courseId, CourseUpdateDto courseUpdateDto) {
+        var course = this.courseRepository.findCourseById(courseId).orElseThrow(() -> new CourseNotFoundException(courseId));
+        course.setTitle(courseUpdateDto.title());
+        course.setDescription(courseUpdateDto.description());
+        course.setDifficultyLevel(courseUpdateDto.difficultyLevel());
+        course.setTopic(topicRepository.getReferenceById(courseUpdateDto.topicId()));
+        courseRepository.save(course);
+    }
+
+    @Override
+    public void updateCourseStatus(Long courseId, Status status) {
+        var course = courseRepository.findCourseById(courseId)
+                .orElseThrow(() -> new CourseNotFoundException(courseId));
+        if (status.equals(Status.PUBLISHED) && course.getLectures().isEmpty()) {
+            throw new IllegalStateException("Cannot publish a course without lectures.");
+        }
+        course.setStatus(status);
+        courseRepository.save(course);
+    }
+
+    @Override
+    public void deleteCourseById(Long courseId) {
+        var course = courseRepository.getReferenceById(courseId);
+        if (course.getLectures().isEmpty()) {
+            throw new IllegalStateException("Cannot delete course with enrolled users.");
+        }
+        courseRepository.deleteById(courseId);
+    }
+
+    @Override
+    public void enrollUserToCourse(Long courseId, Long userId) {
+        var course = courseRepository.findCourseById(courseId).orElseThrow(() -> new CourseNotFoundException(courseId));
+        var user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException(userId));
+
+        if (user.getId().equals(course.getAuthor().getId())) {
+            throw new IllegalStateException("Cannot enroll to self-created course.");
+        }
+
+        if (!course.getStatus().equals(Status.PUBLISHED)) {
+            throw new IllegalStateException("Cannot enroll in a non-published course.");
+        }
+
+        if (course.getEnrolledUsers().contains(user)) {
+            throw new IllegalStateException("User is already enrolled to the course. ");
+        }
+        course.addEnrolledUser(user);
+        courseRepository.save(course);
     }
 
     @Override

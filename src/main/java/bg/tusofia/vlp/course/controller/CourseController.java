@@ -1,7 +1,9 @@
 package bg.tusofia.vlp.course.controller;
 
+import bg.tusofia.vlp.course.domain.Status;
 import bg.tusofia.vlp.course.dto.CourseCreateDto;
 import bg.tusofia.vlp.course.dto.CourseOverviewDto;
+import bg.tusofia.vlp.course.dto.CourseUpdateDto;
 import bg.tusofia.vlp.course.service.CourseService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -46,6 +48,30 @@ public class CourseController {
                 .buildAndExpand(courseService.createCourse(courseCreateDto))
                 .toUri();
         return ResponseEntity.created(location).build();
+    }
+
+    @PutMapping("/{courseId}")
+    public ResponseEntity<Void> updateCourseById(@PathVariable Long courseId, @RequestBody @Valid CourseUpdateDto courseUpdateDto) {
+        courseService.updateCourseById(courseId, courseUpdateDto);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/{courseId}/status-update")
+    public ResponseEntity<Void> updateCourseStatus(@PathVariable Long courseId, @RequestParam Status status) {
+        courseService.updateCourseStatus(courseId, status);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/{courseId}/enroll/{userId}")
+    public ResponseEntity<Void> enrollUserToCourse(@PathVariable Long courseId, @PathVariable Long userId) {
+        courseService.enrollUserToCourse(courseId, userId);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/{courseId}")
+    public ResponseEntity<Void> deleteCourseById(@PathVariable Long courseId) {
+        courseService.deleteCourseById(courseId);
+        return ResponseEntity.noContent().build();
     }
 
 }

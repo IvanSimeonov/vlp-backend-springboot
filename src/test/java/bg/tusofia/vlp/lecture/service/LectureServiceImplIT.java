@@ -1,6 +1,7 @@
 package bg.tusofia.vlp.lecture.service;
 
 import bg.tusofia.vlp.course.domain.DifficultyLevel;
+import bg.tusofia.vlp.course.domain.Status;
 import bg.tusofia.vlp.course.dto.CourseCreateDto;
 import bg.tusofia.vlp.course.service.CourseService;
 import bg.tusofia.vlp.exception.LectureNotFoundException;
@@ -67,7 +68,7 @@ class LectureServiceImplIT {
     void createAndGetLecture() {
         var user = new RegisterRequest("John", "Doe", "john@doe.com", "12345678");
         authService.register(user);
-        var courseCreateDto = new CourseCreateDto("Test Course Title", "Test Course Description", DifficultyLevel.BEGINNER, 1L, 1L);
+        var courseCreateDto = new CourseCreateDto("Test Course Title", "Test Course Description", DifficultyLevel.BEGINNER, 1L, 1L, Status.DRAFT);
         var courseId = courseService.createCourse(courseCreateDto);
         var lectureCreateDto1 = new LectureCreateDto("Test Lecture Title 1", "Short Lecture Description 1", "Full Lecture Description 1", "https://test-video-url.com", 1, courseId);
         var lectureId1 = lectureService.createLecture(lectureCreateDto1);
@@ -93,7 +94,7 @@ class LectureServiceImplIT {
     @Order(2)
     @Disabled
     void testDeleteLecture() {
-        var courseCreateDto = new CourseCreateDto("Test Course Title", "Test Course Description", DifficultyLevel.BEGINNER, 1L, 1L);
+        var courseCreateDto = new CourseCreateDto("Test Course Title", "Test Course Description", DifficultyLevel.BEGINNER, 1L, 1L, Status.DRAFT);
         var courseId = courseService.createCourse(courseCreateDto);
         var lectureCreateDto = new LectureCreateDto("Test Lecture Title", "Short Lecture Description", "Full Lecture Description", "https://test-video-url.com", 1, courseId);
         var lectureId = lectureService.createLecture(lectureCreateDto);

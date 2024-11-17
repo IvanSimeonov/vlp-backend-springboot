@@ -57,6 +57,9 @@ public class Course implements Serializable {
     @Enumerated(EnumType.STRING)
     private DifficultyLevel difficultyLevel;
 
+    @Enumerated(EnumType.STRING)
+    private Status status;
+
     @ManyToOne(fetch = FetchType.LAZY)
     private User author;
 
