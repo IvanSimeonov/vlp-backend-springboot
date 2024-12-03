@@ -1,0 +1,51 @@
+name: Java CI with Maven and MySQL
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - develop
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Setup DB
+        uses: mirromutth/mysql-action@v1.1
+        with:
+          character set server: 'utf8'
+          collation server: 'utf8_general_ci'
+          mysql database: 'vlp'
+          mysql user: ${{ secrets.DB_MYSQL_USER }}
+          mysql password: ${{ secrets.DB_MYSQL_PASSWORD }}
+
+      - name: Pull Repository
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v3
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Build with Maven
+        run: mvn -B install --file pom.xml
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          always-auth: true
+          node-version: '20.18.0'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Publish generated Angular Client to NPM
+        uses: JS-DevTools/npm-publish@v3
+        with:
+          package: target/generated-sources/angular/dist
+          token: ${{ secrets.NPM_TOKEN_VLP }}
+          access: public

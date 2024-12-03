@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.3.5</version>
+        <version>3.4.0</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -15,7 +15,7 @@
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>Virtual Learning Platform</name>
+    <name>vlp-backend</name>
     <description>
         VLP is a virtual learning platform designed to support students, teachers, and administrators. With
         comprehensive RESTful APIs and secure data handling, VLP ensures an efficient and user-friendly educational
@@ -50,8 +50,23 @@
         <jjwt.version>0.12.6</jjwt.version>
         <lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
         <mapstruct.version>1.6.2</mapstruct.version>
+        <node.version>20.18.0</node.version>
+        <npm.version>10.8.2</npm.version>
+        <ng.version>18.2.0</ng.version>
+        <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
+        <springdoc-openapi-starter-webmvc-ui.version>2.7.0</springdoc-openapi-starter-webmvc-ui.version>
+        <springdoc-openapi-maven-plugin.version>1.4</springdoc-openapi-maven-plugin.version>
+        <openapi-generator-maven-plugin.version>7.10.0</openapi-generator-maven-plugin.version>
+        <angular-client.version>0.0.1</angular-client.version>
+        <exec-maven-plugin.version>3.5.0</exec-maven-plugin.version>
+
     </properties>
     <dependencies>
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>${springdoc-openapi-starter-webmvc-ui.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
@@ -155,6 +170,20 @@
                         </exclude>
                     </excludes>
                 </configuration>
+                <executions>
+                    <execution>
+                        <id>pre-integration-test</id>
+                        <goals>
+                            <goal>start</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>post-integration-test</id>
+                        <goals>
+                            <goal>stop</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -190,5 +219,100 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+    <profile>
+        <id>angular</id>
+        <activation>
+            <activeByDefault>true</activeByDefault>
+        </activation>
+        <build>
+            <plugins>
+                <plugin>
+                    <groupId>org.springdoc</groupId>
+                    <artifactId>springdoc-openapi-maven-plugin</artifactId>
+                    <version>${springdoc-openapi-maven-plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <id>openapi-file-generation</id>
+                            <goals>
+                                <goal>generate</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <attachArtifact>true</attachArtifact>
+                        <apiDocsUrl>http://localhost:8080/v3/api-docs</apiDocsUrl>
+                        <skip>false</skip>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.openapitools</groupId>
+                    <artifactId>openapi-generator-maven-plugin</artifactId>
+                    <version>${openapi-generator-maven-plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <id>angular-client-code-generation</id>
+                            <phase>post-integration-test</phase>
+                            <goals>
+                                <goal>generate</goal>
+                            </goals>
+                            <configuration>
+                                <inputSpec>${project.basedir}/target/openapi.json</inputSpec>
+                                <output>${project.build.directory}/generated-sources/angular</output>
+                                <generatorName>typescript-angular</generatorName>
+                                <configOptions>
+                                    <ngVersion>${ng.version}</ngVersion>
+                                    <npmName>@ivannicksim/vlp-backend-openapi-client</npmName>
+                                    <npmVersion>${angular-client.version}</npmVersion>
+                                    <gitUser>IvanSimeonov</gitUser>
+                                </configOptions>
+                                <gitHost>github.com</gitHost>
+                                <gitUserId>IvanSimeonov</gitUserId>
+                                <gitRepoId>vlp-backend-springboot</gitRepoId>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>exec-maven-plugin</artifactId>
+                    <version>${exec-maven-plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <id>install-vlp-openapi-angular-client-dependencies</id>
+                            <phase>verify</phase>
+                            <goals>
+                                <goal>exec</goal>
+                            </goals>
+                            <configuration>
+                                <executable>npm</executable>
+                                <workingDirectory>target/generated-sources/angular</workingDirectory>
+                                <arguments>
+                                    <argument>install</argument>
+                                </arguments>
+                            </configuration>
+                        </execution>
+                        <execution>
+                            <id>build-vlp-openapi-angular-client</id>
+                            <phase>verify</phase>
+                            <goals>
+                                <goal>exec</goal>
+                            </goals>
+                            <configuration>
+                                <executable>npm</executable>
+                                <workingDirectory>target/generated-sources/angular</workingDirectory>
+                                <arguments>
+                                    <argument>run</argument>
+                                    <argument>build</argument>
+                                </arguments>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </build>
+    </profile>
+    </profiles>
 
 </project>
