@@ -6,6 +6,7 @@ import bg.tusofia.vlp.topic.dto.TopicUpdateDto;
 import bg.tusofia.vlp.topic.service.TopicService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -20,8 +21,9 @@ import java.util.List;
  * @since 0.0.1
  */
 @RestController
-@RequestMapping("/api/v1/topic")
+@RequestMapping(value = "/api/v1/topic", produces = MediaType.APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:4200")
 public class TopicController {
 
     private final TopicService topicService;
