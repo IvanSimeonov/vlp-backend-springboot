@@ -10,6 +10,9 @@ import jakarta.validation.constraints.Size;
  * @since 0.0.1
  */
 public record TopicUpdateDto(
+        @NotBlank(message = "Topic ID is required")
+        Long id,
+
         @NotBlank(message = "Topic title is required")
         @Size(min = 5, max = 50, message = "Topic title must be between 5 and 50 characters")
         String title,
