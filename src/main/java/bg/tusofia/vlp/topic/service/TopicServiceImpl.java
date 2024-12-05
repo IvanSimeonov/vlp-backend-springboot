@@ -7,10 +7,10 @@ import bg.tusofia.vlp.topic.dto.TopicUpdateDto;
 import bg.tusofia.vlp.topic.mapper.TopicMapper;
 import bg.tusofia.vlp.topic.repository.TopicRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 /**
  * Class: TopicServiceImpl
@@ -32,11 +32,13 @@ public class TopicServiceImpl implements TopicService {
     }
 
     @Override
-    public List<TopicOverviewDto> getAllTopicOverviews() {
-        return topicRepository.findAll()
-                .stream()
-                .map(topicMapper::topicToTopicOverviewDto)
-                .toList();
+    public Page<TopicOverviewDto> getAllTopicOverviews(String searchTerm, PageRequest pageRequest) {
+        return topicRepository.findByTitleContainingIgnoreCase(searchTerm, pageRequest)
+                .map(topicMapper::topicToTopicOverviewDto);
+//        return topicRepository.findAll()
+//                .stream()
+//                .map(topicMapper::topicToTopicOverviewDto)
+//                .toList();
     }
 
     @Override

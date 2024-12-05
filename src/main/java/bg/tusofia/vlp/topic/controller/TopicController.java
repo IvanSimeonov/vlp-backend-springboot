@@ -6,13 +6,15 @@ import bg.tusofia.vlp.topic.dto.TopicUpdateDto;
 import bg.tusofia.vlp.topic.service.TopicService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.util.List;
 
 /**
  * Class: TopicController
@@ -21,7 +23,7 @@ import java.util.List;
  * @since 0.0.1
  */
 @RestController
-@RequestMapping(value = "/api/v1/topic", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/v1/topics", produces = MediaType.APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
 @CrossOrigin(origins = "http://localhost:4200")
 public class TopicController {
@@ -34,8 +36,20 @@ public class TopicController {
     }
 
     @GetMapping
-    public ResponseEntity<List<TopicOverviewDto>> getAllTopics() {
-        return ResponseEntity.ok(topicService.getAllTopicOverviews());
+    public ResponseEntity<Page<TopicOverviewDto>> getAllTopics(
+            @RequestParam(defaultValue = "0") int pageNumber,
+            @RequestParam(defaultValue = "10") int pageSize,
+            @RequestParam(defaultValue = "title") String sortBy,
+            @RequestParam(defaultValue = "asc") String sortDirection,
+            @RequestParam(defaultValue = "") String searchTerm
+            )
+    {
+        PageRequest pageRequest = PageRequest.of(
+                pageNumber,
+                pageSize,
+                sortDirection.equalsIgnoreCase("desc") ? Sort.by(sortBy).descending() : Sort.by(sortBy).ascending()
+        );
+        return ResponseEntity.ok(topicService.getAllTopicOverviews(searchTerm, pageRequest));
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)

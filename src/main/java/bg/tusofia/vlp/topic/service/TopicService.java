@@ -3,8 +3,8 @@ package bg.tusofia.vlp.topic.service;
 import bg.tusofia.vlp.topic.dto.TopicCreateDto;
 import bg.tusofia.vlp.topic.dto.TopicOverviewDto;
 import bg.tusofia.vlp.topic.dto.TopicUpdateDto;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 /**
  * Interface: TopicService
@@ -15,7 +15,7 @@ import java.util.List;
 public interface TopicService {
     TopicOverviewDto getTopicOverviewById(Long topicId);
 
-    List<TopicOverviewDto> getAllTopicOverviews();
+    Page<TopicOverviewDto> getAllTopicOverviews(String searchTerm, PageRequest pageRequest);
 
     Long createTopic(TopicCreateDto topicCreateDto);
 
