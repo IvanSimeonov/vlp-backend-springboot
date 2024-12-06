@@ -4,6 +4,7 @@ import bg.tusofia.vlp.user.domain.RoleType;
 import bg.tusofia.vlp.user.dto.*;
 import bg.tusofia.vlp.user.service.UserManagementService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -49,7 +50,12 @@ public class AdminController {
                     @ApiResponse(
                             responseCode = "200",
                             description = "Successfully retrieved user analytics",
-                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserAnalyticsDto.class))
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    array = @ArraySchema(
+                                            schema = @Schema(implementation = UserAnalyticsDto.class)
+                                    )
+                            )
                     )
             }
     )

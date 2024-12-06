@@ -7,6 +7,7 @@ import bg.tusofia.vlp.course.dto.CourseOverviewDto;
 import bg.tusofia.vlp.course.dto.CourseUpdateDto;
 import bg.tusofia.vlp.course.service.CourseService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -53,7 +54,12 @@ public class CourseController {
                     @ApiResponse(
                             responseCode = "200",
                             description = "Successfully retrieved course analytics",
-                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = CourseAnalyticsDto.class))
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    array = @ArraySchema(
+                                            schema = @Schema(implementation = CourseAnalyticsDto.class)
+                                    )
+                            )
                     )
             }
     )
