@@ -14,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -29,7 +30,7 @@ import java.util.List;
  * @since 0.0.1
  */
 @RestController
-@RequestMapping("/api/v1/admin/users")
+@RequestMapping(name = "/api/v1/admin/users", produces = MediaType.APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
 public class AdminController {
 
@@ -65,23 +66,7 @@ public class AdminController {
     public ResponseEntity<List<UserAnalyticsDto>> getUserAnalytics() {
         return ResponseEntity.ok(userManagementService.getUserAnalytics());
     }
-
-    @Operation(
-            summary = "Get User Teacher Access Requests",
-            description = "Returns a page of user teacher access requests with pagination and sorting options",
-            responses = {
-                    @ApiResponse(
-                            responseCode = "200",
-                            description = "Successfully retrieved user teacher access requests",
-                            content = @Content(
-                                    mediaType = "application/json",
-                                    array = @ArraySchema(
-                                            schema = @Schema(implementation = UserTeacherAccessRequestDto.class)
-                                    )
-                            )
-                    )
-            }
-    )
+    
     @GetMapping("/teacher-access-requests")
     public ResponseEntity<Page<UserTeacherAccessRequestDto>> getPendingTeacherAccessRequests(
             @RequestParam(defaultValue = "0") int pageNumber,
