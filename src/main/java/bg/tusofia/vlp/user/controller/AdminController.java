@@ -3,6 +3,10 @@ package bg.tusofia.vlp.user.controller;
 import bg.tusofia.vlp.user.domain.RoleType;
 import bg.tusofia.vlp.user.dto.*;
 import bg.tusofia.vlp.user.service.UserManagementService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -38,6 +42,17 @@ public class AdminController {
         return ResponseEntity.ok(userManagementService.getAllUsers(userSearchCriteriaDto, pageable));
     }
 
+    @Operation(
+            summary = "Get User Analytics",
+            description = "Returns a list of user analytics",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Successfully retrieved user analytics",
+                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserAnalyticsDto.class))
+                    )
+            }
+    )
     @GetMapping("/analytics")
     public ResponseEntity<List<UserAnalyticsDto>> getUserAnalytics() {
         return ResponseEntity.ok(userManagementService.getUserAnalytics());

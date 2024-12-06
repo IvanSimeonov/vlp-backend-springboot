@@ -6,6 +6,10 @@ import bg.tusofia.vlp.course.dto.CourseCreateDto;
 import bg.tusofia.vlp.course.dto.CourseOverviewDto;
 import bg.tusofia.vlp.course.dto.CourseUpdateDto;
 import bg.tusofia.vlp.course.service.CourseService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -42,6 +46,17 @@ public class CourseController {
         return ResponseEntity.ok(courseService.getAllCoursesByTopic(topicId, pageable));
     }
 
+    @Operation(
+            summary = "Get Course Analytics",
+            description = "Returns a list of course analytics",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Successfully retrieved course analytics",
+                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = CourseAnalyticsDto.class))
+                    )
+            }
+    )
     @GetMapping("/analytics")
     public ResponseEntity<List<CourseAnalyticsDto>> getCourseAnalytics() {
         return ResponseEntity.ok(courseService.getCourseAnalytics());

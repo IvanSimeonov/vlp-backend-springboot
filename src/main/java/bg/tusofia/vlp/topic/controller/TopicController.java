@@ -27,7 +27,6 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/api/v1/topics", produces = MediaType.APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:4200")
 public class TopicController {
 
     private final TopicService topicService;
