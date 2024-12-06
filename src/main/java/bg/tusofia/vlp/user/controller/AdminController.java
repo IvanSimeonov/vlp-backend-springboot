@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 
 /**
  * Class: AdminController
@@ -35,6 +36,11 @@ public class AdminController {
     @GetMapping
     public ResponseEntity<Page<UserOverviewDto>> getUsers(UserSearchCriteriaDto userSearchCriteriaDto, Pageable pageable) {
         return ResponseEntity.ok(userManagementService.getAllUsers(userSearchCriteriaDto, pageable));
+    }
+
+    @GetMapping("/analytics")
+    public ResponseEntity<List<UserAnalyticsDto>> getUserAnalytics() {
+        return ResponseEntity.ok(userManagementService.getUserAnalytics());
     }
 
     @PostMapping

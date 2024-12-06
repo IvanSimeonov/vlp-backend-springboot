@@ -1,6 +1,7 @@
 package bg.tusofia.vlp.course.controller;
 
 import bg.tusofia.vlp.course.domain.Status;
+import bg.tusofia.vlp.course.dto.CourseAnalyticsDto;
 import bg.tusofia.vlp.course.dto.CourseCreateDto;
 import bg.tusofia.vlp.course.dto.CourseOverviewDto;
 import bg.tusofia.vlp.course.dto.CourseUpdateDto;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 
 /**
  * Class: CourseController
@@ -38,6 +40,11 @@ public class CourseController {
     @GetMapping("/topic/{topicId}")
     public ResponseEntity<Page<CourseOverviewDto>> getCourseOverviewByTopicId(@PathVariable(name = "topicId") Long topicId, Pageable pageable) {
         return ResponseEntity.ok(courseService.getAllCoursesByTopic(topicId, pageable));
+    }
+
+    @GetMapping("/analytics")
+    public ResponseEntity<List<CourseAnalyticsDto>> getCourseAnalytics() {
+        return ResponseEntity.ok(courseService.getCourseAnalytics());
     }
 
     @PostMapping

@@ -2,6 +2,7 @@ package bg.tusofia.vlp.course.service;
 
 import bg.tusofia.vlp.course.domain.Course;
 import bg.tusofia.vlp.course.domain.Status;
+import bg.tusofia.vlp.course.dto.CourseAnalyticsDto;
 import bg.tusofia.vlp.course.dto.CourseCreateDto;
 import bg.tusofia.vlp.course.dto.CourseOverviewDto;
 import bg.tusofia.vlp.course.dto.CourseUpdateDto;
@@ -18,6 +19,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * Class: CourseServiceImpl
@@ -55,6 +58,14 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public Page<CourseOverviewDto> getAllCourses(Pageable pageable) {
         return courseRepository.findAllProjectedBy(pageable).map(courseMapper::courseOverviewToCourseOverviewDto);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<CourseAnalyticsDto> getCourseAnalytics() {
+        return courseRepository.findCourseAnalytics();
     }
 
     @Override

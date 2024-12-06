@@ -27,6 +27,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.MessageFormat;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * Class: UserManagementServiceImpl
@@ -56,6 +57,7 @@ public class UserManagementServiceImpl implements UserManagementService {
         return userMapper.userToUserOverviewDto(user);
     }
 
+
     /**
      * {@inheritDoc}
      */
@@ -64,6 +66,27 @@ public class UserManagementServiceImpl implements UserManagementService {
     public Page<UserOverviewDto> getAllUsers(UserSearchCriteriaDto criteria, Pageable pageable) {
         var users = userRepository.findAll(UserSpecifications.getUsersByCriteria(criteria), pageable);
         return users.map(userMapper::userToUserOverviewDto);
+    }
+
+
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    // @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ROOT_ADMIN')")
+    public List<UserAnalyticsDto> getUserAnalytics() {
+        long totalActiveUsers = userRepository.countAllByEnabled(true);
+        long totalStudents = userRepository.countAllByRole(RoleType.ROLE_STUDENT);
+        long totalTeachers = userRepository.countAllByRole(RoleType.ROLE_TEACHER);
+        long totalAdmins = userRepository.countAllByRole(RoleType.ROLE_ADMIN);
+        return List.of(
+                new UserAnalyticsDto("Active Users", totalActiveUsers),
+                new UserAnalyticsDto("Total Students", totalStudents),
+                new UserAnalyticsDto("Total Teachers", totalTeachers),
+                new UserAnalyticsDto("Total Admins", totalAdmins)
+        );
+
     }
 
     /**

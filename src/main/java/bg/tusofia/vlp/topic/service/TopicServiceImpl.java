@@ -1,6 +1,7 @@
 package bg.tusofia.vlp.topic.service;
 
 import bg.tusofia.vlp.exception.TopicNotFoundException;
+import bg.tusofia.vlp.topic.dto.TopicAnalyticsDto;
 import bg.tusofia.vlp.topic.dto.TopicCreateDto;
 import bg.tusofia.vlp.topic.dto.TopicOverviewDto;
 import bg.tusofia.vlp.topic.dto.TopicUpdateDto;
@@ -11,6 +12,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * Class: TopicServiceImpl
@@ -39,6 +42,14 @@ public class TopicServiceImpl implements TopicService {
 //                .stream()
 //                .map(topicMapper::topicToTopicOverviewDto)
 //                .toList();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<TopicAnalyticsDto> getTopicAnalytics() {
+        return topicRepository.findTopicAnalytics();
     }
 
     @Override

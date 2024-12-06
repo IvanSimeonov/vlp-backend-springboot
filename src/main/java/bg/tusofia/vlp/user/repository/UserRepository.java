@@ -21,4 +21,6 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
     UserOverview findUserOverviewById(Long id);
     Optional<User> findUserByEmail(String email);
     List<UserOverview> findAllByRoleIn(List<RoleType> roleTypes);
+    long countAllByEnabled(boolean enabled);
+    long countAllByRole(RoleType role);
 }

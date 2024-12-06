@@ -7,6 +7,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 /**
  * Interface: UserManagementService
  * <p>
@@ -40,6 +42,15 @@ public interface UserManagementService {
      *         Note: This method can only be called by an admin user.
      */
     Page<UserOverviewDto> getAllUsers(UserSearchCriteriaDto criteria, Pageable pageable);
+
+    /**
+     * Retrieves a list of users analytics, where we can se the amount of active or inactive users, and total amount
+     * of users per role.
+     *
+     * @return a list of {@link UserAnalyticsDto} objects
+     *         Note: This method can only be called by an admin user.
+     */
+    List<UserAnalyticsDto> getUserAnalytics();
 
     /**
      * Creates a new admin user in the system.

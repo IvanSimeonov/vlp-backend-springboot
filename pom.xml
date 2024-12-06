@@ -57,7 +57,7 @@
         <springdoc-openapi-starter-webmvc-ui.version>2.7.0</springdoc-openapi-starter-webmvc-ui.version>
         <springdoc-openapi-maven-plugin.version>1.4</springdoc-openapi-maven-plugin.version>
         <openapi-generator-maven-plugin.version>7.10.0</openapi-generator-maven-plugin.version>
-        <angular-client.version>0.0.6</angular-client.version>
+        <angular-client.version>0.0.7</angular-client.version>
         <exec-maven-plugin.version>3.5.0</exec-maven-plugin.version>
 
     </properties>

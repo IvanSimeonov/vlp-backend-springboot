@@ -1,5 +1,6 @@
 package bg.tusofia.vlp.topic.controller;
 
+import bg.tusofia.vlp.topic.dto.TopicAnalyticsDto;
 import bg.tusofia.vlp.topic.dto.TopicCreateDto;
 import bg.tusofia.vlp.topic.dto.TopicOverviewDto;
 import bg.tusofia.vlp.topic.dto.TopicUpdateDto;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 
 /**
  * Class: TopicController
@@ -50,6 +52,11 @@ public class TopicController {
                 sortDirection.equalsIgnoreCase("desc") ? Sort.by(sortBy).descending() : Sort.by(sortBy).ascending()
         );
         return ResponseEntity.ok(topicService.getAllTopicOverviews(searchTerm, pageRequest));
+    }
+
+    @GetMapping("/analytics")
+    public ResponseEntity<List<TopicAnalyticsDto>> getTopicAnalytics() {
+        return ResponseEntity.ok(topicService.getTopicAnalytics());
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
