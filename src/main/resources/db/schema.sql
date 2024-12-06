@@ -22,6 +22,7 @@ CREATE TABLE `user` (
     `profile_image_path` VARCHAR(255) NULL DEFAULT NULL,
     `role` ENUM('ROLE_ROOT_ADMIN', 'ROLE_ADMIN', 'ROLE_TEACHER', 'ROLE_STUDENT') NOT NULL DEFAULT 'ROLE_STUDENT',
     `status` ENUM('ACTIVE', 'INACTIVE', 'PENDING_APPROVAL') NULL DEFAULT NULL,
+    `is_teacher_access_requested` BIT(1) NOT NULL,
     PRIMARY KEY (`id`),
     UNIQUE INDEX `UK_user_email` (`email` ASC)
 );

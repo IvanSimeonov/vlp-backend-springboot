@@ -11,7 +11,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -64,10 +66,66 @@ public class AdminController {
         return ResponseEntity.ok(userManagementService.getUserAnalytics());
     }
 
+    @Operation(
+            summary = "Get User Teacher Access Requests",
+            description = "Returns a page of user teacher access requests with pagination and sorting options",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Successfully retrieved user teacher access requests",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    array = @ArraySchema(
+                                            schema = @Schema(implementation = UserTeacherAccessRequestDto.class)
+                                    )
+                            )
+                    )
+            }
+    )
+    @GetMapping("/teacher-access-requests")
+    public ResponseEntity<Page<UserTeacherAccessRequestDto>> getPendingTeacherAccessRequests(
+            @RequestParam(defaultValue = "0") int pageNumber,
+            @RequestParam(defaultValue = "5") int pageSize,
+            @RequestParam(defaultValue = "firstName") String sortBy,
+            @RequestParam(defaultValue = "asc") String sortDirection) {
+        PageRequest pageRequest = PageRequest.of(
+                pageNumber,
+                pageSize,
+                sortDirection.equalsIgnoreCase("desc") ? Sort.by(sortBy).descending() : Sort.by(sortBy).ascending()
+        );
+        return ResponseEntity.ok(userManagementService.getUserTeacherAccessRequests(pageRequest));
+    }
+
     @PostMapping
     public ResponseEntity<Void> createAdminUser(@RequestBody @Valid UserCreateDto userCreateDto) {
         var userId = userManagementService.createAdminUser(userCreateDto);
         return entityWithLocation(userId);
+    }
+
+    @Operation(
+            summary = "Approve Teacher Access Request",
+            description = "Approves a pending teacher access request for a user",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Teacher access approved successfully")
+            }
+    )
+    @PutMapping("/teacher-access-requests/approve")
+    public ResponseEntity<Void> approveTeacherAccessRequest(@RequestBody UserTeacherAccessRequestDto requestDto) {
+        userManagementService.approveTeacherAccess(requestDto.id());
+        return ResponseEntity.ok().build();
+    }
+
+    @Operation(
+            summary = "Deny Teacher Access Request",
+            description = "Denies a pending teacher access request for a user",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Teacher access denied successfully")
+            }
+    )
+    @PutMapping("/teacher-access-requests/deny")
+    public ResponseEntity<Void> denyTeacherAccessRequest(@RequestBody UserTeacherAccessRequestDto requestDto) {
+        userManagementService.denyTeacherAccess(requestDto.id());
+        return ResponseEntity.ok().build();
     }
 
     @PutMapping("/{userId}/change-role")

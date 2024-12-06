@@ -12,6 +12,7 @@ import bg.tusofia.vlp.user.repository.UserSpecifications;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -86,7 +87,15 @@ public class UserManagementServiceImpl implements UserManagementService {
                 new UserAnalyticsDto("Total Teachers", totalTeachers),
                 new UserAnalyticsDto("Total Admins", totalAdmins)
         );
+    }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    // @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ROOT_ADMIN')")
+    public Page<UserTeacherAccessRequestDto> getUserTeacherAccessRequests(PageRequest pageRequest) {
+        return userRepository.findAllUserTeacherAccessRequests(pageRequest);
     }
 
     /**
@@ -99,6 +108,29 @@ public class UserManagementServiceImpl implements UserManagementService {
         user.setRole(RoleType.ROLE_ADMIN);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user).getId();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    // @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ROOT_ADMIN')")
+    public void approveTeacherAccess(Long userId) {
+        User user = checkUserExistsById(userId);
+        user.setRole(RoleType.ROLE_TEACHER);
+        user.setTeacherAccessRequested(false);
+        userRepository.save(user);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    // @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ROOT_ADMIN')")
+    public void denyTeacherAccess(Long userId) {
+        User user = checkUserExistsById(userId);
+        user.setTeacherAccessRequested(false);
+        userRepository.save(user);
     }
 
     /**

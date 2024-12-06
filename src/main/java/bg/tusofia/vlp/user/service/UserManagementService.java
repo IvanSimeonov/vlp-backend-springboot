@@ -4,6 +4,7 @@ import bg.tusofia.vlp.exception.UserNotFoundException;
 import bg.tusofia.vlp.user.domain.RoleType;
 import bg.tusofia.vlp.user.dto.*;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -53,6 +54,15 @@ public interface UserManagementService {
     List<UserAnalyticsDto> getUserAnalytics();
 
     /**
+     * Retrieves a paginated list of users teacher access request based pagination and sorting parameters.
+     *
+     * @param pageRequest pagination information including page number, page size and sorting.
+     * @return a {@link Page} containing a list of {@link UserTeacherAccessRequestDto} objects.
+     *         Note: This method can only be called by an admin user.
+     */
+    Page<UserTeacherAccessRequestDto> getUserTeacherAccessRequests(PageRequest pageRequest);
+
+    /**
      * Creates a new admin user in the system.
      *
      * @param userCreateDto the data transfer object containing information about the new admin user
@@ -60,6 +70,22 @@ public interface UserManagementService {
      *         Note: This method can only be called by users having the ADMIN or ROOT_ADMIN role.
      */
     Long createAdminUser(UserCreateDto userCreateDto);
+
+    /**
+     * Approves a user teacher access request, giving them teacher access.
+     *
+     * @param userId the unique identifier of the user to enable
+     *         Note: This method can only be called by users having the ADMIN or ROOT_ADMIN role.
+     */
+    void approveTeacherAccess(Long userId);
+
+    /**
+     * Denys a user teacher access request, leaving them with their current user access.
+     *
+     * @param userId the unique identifier of the user to enable
+     *         Note: This method can only be called by users having the ADMIN or ROOT_ADMIN role.
+     */
+    void denyTeacherAccess(Long userId);
 
     /**
      * Changes the role of an existing user.
