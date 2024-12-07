@@ -4,9 +4,6 @@ import bg.tusofia.vlp.user.domain.RoleType;
 import bg.tusofia.vlp.user.dto.*;
 import bg.tusofia.vlp.user.service.UserManagementService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.ArraySchema;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +27,7 @@ import java.util.List;
  * @since 0.0.1
  */
 @RestController
-@RequestMapping(name = "/api/v1/admin/users", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/v1/admin/users", produces = MediaType.APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
 public class AdminController {
 
@@ -46,27 +43,11 @@ public class AdminController {
         return ResponseEntity.ok(userManagementService.getAllUsers(userSearchCriteriaDto, pageable));
     }
 
-    @Operation(
-            summary = "Get User Analytics",
-            description = "Returns a list of user analytics",
-            responses = {
-                    @ApiResponse(
-                            responseCode = "200",
-                            description = "Successfully retrieved user analytics",
-                            content = @Content(
-                                    mediaType = "application/json",
-                                    array = @ArraySchema(
-                                            schema = @Schema(implementation = UserAnalyticsDto.class)
-                                    )
-                            )
-                    )
-            }
-    )
     @GetMapping("/analytics")
     public ResponseEntity<List<UserAnalyticsDto>> getUserAnalytics() {
         return ResponseEntity.ok(userManagementService.getUserAnalytics());
     }
-    
+
     @GetMapping("/teacher-access-requests")
     public ResponseEntity<Page<UserTeacherAccessRequestDto>> getPendingTeacherAccessRequests(
             @RequestParam(defaultValue = "0") int pageNumber,

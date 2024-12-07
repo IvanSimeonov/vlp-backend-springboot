@@ -30,7 +30,7 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
 
     long countAllByEnabled(boolean enabled);
 
-    long countAllByRole(RoleType role);
+    long countAllByRoleAndEnabled(RoleType role, boolean enabled);
 
     @Query("SELECT new bg.tusofia.vlp.user.dto.UserTeacherAccessRequestDto(u.id, u.firstName, u.lastName, u.email) " +
             "FROM User u WHERE u.isTeacherAccessRequested = true AND u.enabled = true")

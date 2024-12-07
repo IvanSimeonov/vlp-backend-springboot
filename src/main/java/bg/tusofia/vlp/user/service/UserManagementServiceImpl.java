@@ -78,14 +78,15 @@ public class UserManagementServiceImpl implements UserManagementService {
     // @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ROOT_ADMIN')")
     public List<UserAnalyticsDto> getUserAnalytics() {
         long totalActiveUsers = userRepository.countAllByEnabled(true);
-        long totalStudents = userRepository.countAllByRole(RoleType.ROLE_STUDENT);
-        long totalTeachers = userRepository.countAllByRole(RoleType.ROLE_TEACHER);
-        long totalAdmins = userRepository.countAllByRole(RoleType.ROLE_ADMIN);
+        long totalStudents = userRepository.countAllByRoleAndEnabled(RoleType.ROLE_STUDENT, true);
+        long totalTeachers = userRepository.countAllByRoleAndEnabled(RoleType.ROLE_TEACHER, true);
+        long totalAdmins = userRepository.countAllByRoleAndEnabled(RoleType.ROLE_ADMIN, true);
+        long totalRootAdmins = userRepository.countAllByRoleAndEnabled(RoleType.ROLE_ROOT_ADMIN, true);
         return List.of(
                 new UserAnalyticsDto("Active Users", totalActiveUsers),
                 new UserAnalyticsDto("Total Students", totalStudents),
                 new UserAnalyticsDto("Total Teachers", totalTeachers),
-                new UserAnalyticsDto("Total Admins", totalAdmins)
+                new UserAnalyticsDto("Total Admins", totalAdmins + totalRootAdmins)
         );
     }
 
