@@ -1,6 +1,7 @@
 package bg.tusofia.vlp.topic.repository;
 
 import bg.tusofia.vlp.topic.domain.Topic;
+import org.javers.spring.annotation.JaversSpringDataAuditable;
 import bg.tusofia.vlp.topic.dto.TopicAnalyticsDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,6 +18,7 @@ import java.util.List;
  * @since 0.0.1
  */
 @Repository
+@JaversSpringDataAuditable
 public interface TopicRepository extends JpaRepository<Topic, Long> {
     Page<Topic> findByTitleContainingIgnoreCase(String searchTerm, Pageable pageable);
 
