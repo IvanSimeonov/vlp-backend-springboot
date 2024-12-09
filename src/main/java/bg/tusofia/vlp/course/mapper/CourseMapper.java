@@ -3,6 +3,7 @@ package bg.tusofia.vlp.course.mapper;
 import bg.tusofia.vlp.course.domain.Course;
 import bg.tusofia.vlp.course.domain.CourseOverview;
 import bg.tusofia.vlp.course.dto.CourseCreateDto;
+import bg.tusofia.vlp.course.dto.CourseManagementDto;
 import bg.tusofia.vlp.course.dto.CourseOverviewDto;
 import bg.tusofia.vlp.topic.domain.Topic;
 import bg.tusofia.vlp.topic.repository.TopicRepository;
@@ -49,6 +50,11 @@ public abstract class CourseMapper {
      * @return a CourseOverviewDto representation
      */
     public abstract CourseOverviewDto courseToCourseOverviewDto(Course course);
+
+    @Mapping(target = "modificationDate", source = "modified")
+    @Mapping(target = "totalStudents", expression = "java(course.getEnrolledUsers().size())")
+    @Mapping(target = "totalLectures", expression = "java(course.getLectures().size())")
+    public abstract CourseManagementDto courseToCourseManagementDto(Course course);
 
     public abstract CourseOverviewDto courseOverviewToCourseOverviewDto(CourseOverview courseOverview);
 

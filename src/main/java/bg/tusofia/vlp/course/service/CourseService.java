@@ -1,11 +1,8 @@
 package bg.tusofia.vlp.course.service;
 
-import bg.tusofia.vlp.course.domain.Status;
-import bg.tusofia.vlp.course.dto.CourseAnalyticsDto;
-import bg.tusofia.vlp.course.dto.CourseCreateDto;
-import bg.tusofia.vlp.course.dto.CourseOverviewDto;
-import bg.tusofia.vlp.course.dto.CourseUpdateDto;
+import bg.tusofia.vlp.course.dto.*;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -32,13 +29,21 @@ public interface CourseService {
      */
     List<CourseAnalyticsDto> getCourseAnalytics();
 
+    Page<CourseManagementDto> getCourses(CourseSearchCriteriaDto criteria, PageRequest pageRequest);
+
     Page<CourseOverviewDto> getAllCourses(Pageable pageable);
 
     Page<CourseOverviewDto> getAllCoursesByTopic(Long topicId, Pageable pageable);
 
     void updateCourseById(Long courseId, CourseUpdateDto courseUpdateDto);
 
-    void updateCourseStatus(Long courseId, Status status);
+    /**
+     * Updates the status of a course.
+     *
+     * @param courseId the ID of the course to update.
+     * @param courseStatusUpdateDto the status update details.
+     */
+    void updateCourseStatus(Long courseId, CourseStatusUpdateDto courseStatusUpdateDto);
 
     void deleteCourseById(Long courseId);
 

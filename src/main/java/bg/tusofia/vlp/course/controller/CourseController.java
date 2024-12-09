@@ -1,10 +1,6 @@
 package bg.tusofia.vlp.course.controller;
 
-import bg.tusofia.vlp.course.domain.Status;
-import bg.tusofia.vlp.course.dto.CourseAnalyticsDto;
-import bg.tusofia.vlp.course.dto.CourseCreateDto;
-import bg.tusofia.vlp.course.dto.CourseOverviewDto;
-import bg.tusofia.vlp.course.dto.CourseUpdateDto;
+import bg.tusofia.vlp.course.dto.*;
 import bg.tusofia.vlp.course.service.CourseService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -14,7 +10,10 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -68,6 +67,21 @@ public class CourseController {
         return ResponseEntity.ok(courseService.getCourseAnalytics());
     }
 
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Page<CourseManagementDto>> getCourseManagementOverview(
+            @RequestParam(defaultValue = "0") int pageNumber,
+            @RequestParam(defaultValue = "10") int pageSize,
+            @RequestParam(defaultValue = "title") String sortBy,
+            @RequestParam(defaultValue = "asc") String sortDirection,
+            CourseSearchCriteriaDto courseSearchCriteriaDto) {
+        PageRequest pageRequest = PageRequest.of(
+                pageNumber,
+                pageSize,
+                sortDirection.equalsIgnoreCase("desc") ? Sort.by(sortBy).descending() : Sort.by(sortBy).ascending()
+        );
+        return ResponseEntity.ok(courseService.getCourses(courseSearchCriteriaDto, pageRequest));
+    }
+
     @PostMapping
     public ResponseEntity<Void> createCourse(@RequestBody @Valid CourseCreateDto courseCreateDto) {
         URI location = ServletUriComponentsBuilder
@@ -84,9 +98,9 @@ public class CourseController {
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("/{courseId}/status-update")
-    public ResponseEntity<Void> updateCourseStatus(@PathVariable Long courseId, @RequestParam Status status) {
-        courseService.updateCourseStatus(courseId, status);
+    @PutMapping("/{courseId}/status")
+    public ResponseEntity<Void> updateCourseStatusById(@PathVariable Long courseId, @RequestBody @Valid CourseStatusUpdateDto courseStatusUpdateDto) {
+        courseService.updateCourseStatus(courseId, courseStatusUpdateDto);
         return ResponseEntity.noContent().build();
     }
 

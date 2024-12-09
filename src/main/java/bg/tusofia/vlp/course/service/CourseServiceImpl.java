@@ -2,12 +2,10 @@ package bg.tusofia.vlp.course.service;
 
 import bg.tusofia.vlp.course.domain.Course;
 import bg.tusofia.vlp.course.domain.Status;
-import bg.tusofia.vlp.course.dto.CourseAnalyticsDto;
-import bg.tusofia.vlp.course.dto.CourseCreateDto;
-import bg.tusofia.vlp.course.dto.CourseOverviewDto;
-import bg.tusofia.vlp.course.dto.CourseUpdateDto;
+import bg.tusofia.vlp.course.dto.*;
 import bg.tusofia.vlp.course.mapper.CourseMapper;
 import bg.tusofia.vlp.course.repository.CourseRepository;
+import bg.tusofia.vlp.course.repository.CourseSpecification;
 import bg.tusofia.vlp.exception.CourseNotFoundException;
 import bg.tusofia.vlp.exception.UserNotFoundException;
 import bg.tusofia.vlp.topic.repository.TopicRepository;
@@ -16,6 +14,7 @@ import bg.tusofia.vlp.user.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -60,6 +59,12 @@ public class CourseServiceImpl implements CourseService {
         return courseRepository.findAllProjectedBy(pageable).map(courseMapper::courseOverviewToCourseOverviewDto);
     }
 
+    @Override
+    public Page<CourseManagementDto> getCourses(CourseSearchCriteriaDto criteria, PageRequest pageRequest) {
+        var courses = courseRepository.findAll(CourseSpecification.getCoursesByCriteria(criteria), pageRequest);
+        return courses.map(courseMapper::courseToCourseManagementDto);
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -79,11 +84,12 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public void updateCourseStatus(Long courseId, Status status) {
+    public void updateCourseStatus(Long courseId, CourseStatusUpdateDto courseStatusUpdateDto) {
         var course = courseRepository.findCourseById(courseId)
                 .orElseThrow(() -> new CourseNotFoundException(courseId));
-        if (status.equals(Status.PUBLISHED) && course.getLectures().isEmpty()) {
-            throw new IllegalStateException("Cannot publish a course without lectures.");
+        var status = courseStatusUpdateDto.status();
+        if (status.equals(Status.PUBLISHED) && (course.getLectures().isEmpty() || course.getLectures().size() < 3)) {
+            throw new IllegalStateException("Cannot publish a course without the required amount of lectures.");
         }
         course.setStatus(status);
         courseRepository.save(course);
