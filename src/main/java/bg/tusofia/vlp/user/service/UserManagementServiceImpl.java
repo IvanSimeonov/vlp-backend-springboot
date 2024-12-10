@@ -52,7 +52,7 @@ public class UserManagementServiceImpl implements UserManagementService {
      * {@inheritDoc}
      */
     @Override
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ROOT_ADMIN')")
+//    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ROOT_ADMIN')")
     public UserOverviewDto getUserById(Long userId) {
         var user = checkUserExistsById(userId);
         return userMapper.userToUserOverviewDto(user);
@@ -107,6 +107,7 @@ public class UserManagementServiceImpl implements UserManagementService {
         var user = userMapper.userCreateDtoToUser(userCreateDto);
         user.setRole(RoleType.ROLE_ADMIN);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setEnabled(true);
         return userRepository.save(user).getId();
     }
 
