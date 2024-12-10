@@ -1,7 +1,6 @@
 package bg.tusofia.vlp.user.service;
 
 import bg.tusofia.vlp.exception.UserNotFoundException;
-import bg.tusofia.vlp.user.domain.RoleType;
 import bg.tusofia.vlp.user.dto.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -90,42 +89,10 @@ public interface UserManagementService {
      * Changes the role of an existing user.
      *
      * @param userId the unique identifier of the user whose role will be changed
-     * @param newRole the new role to assign to the user
+     * @param userAccessUpdateDto contains the new role and the new status (enabled/disabled) of the users
      *         Note: This method can only be called by users having the ADMIN or ROOT_ADMIN role.
      */
-    void changeUserRole(Long userId, RoleType newRole);
-
-    /**
-     * Assigns the admin role to an existing user.
-     *
-     * @param userId the unique identifier of the user to whom the admin role will be assigned
-     *         Note: This method can only be called by users having the ADMIN or ROOT_ADMIN role.
-     */
-    void assignAdminRole(Long userId);
-
-    /**
-     * Assigns the teacher role to an existing user.
-     *
-     * @param userId the unique identifier of the user to whom the teacher role will be assigned
-     *         Note: This method can only be called by users having the ADMIN or ROOT_ADMIN role.
-     */
-    void assignTeacherRole(Long userId);
-
-    /**
-     * Enables a user account, allowing them to log in and access services.
-     *
-     * @param userId the unique identifier of the user to enable
-     *         Note: This method can only be called by users having the ADMIN or ROOT_ADMIN role.
-     */
-    void enableUser(Long userId);
-
-    /**
-     * Disables a user account, preventing them from logging in and accessing services.
-     *
-     * @param userId the unique identifier of the user to disable
-     *         Note: This method can only be called by users having the ADMIN or ROOT_ADMIN role.
-     */
-    void disableUser(Long userId);
+    void updateUserAccess(Long userId, UserAccessUpdateDto userAccessUpdateDto);
 
     /**
      * Changes the password for a specified user by securely updating it to a new password.

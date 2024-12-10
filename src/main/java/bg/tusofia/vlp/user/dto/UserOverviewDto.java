@@ -10,5 +10,5 @@ import bg.tusofia.vlp.user.domain.RoleType;
  * @author Ivan Simeonov
  * @since 0.0.1
  */
-public record UserOverviewDto(Long id, String firstName, String lastName, String email, RoleType role, boolean enabled) {
+public record UserOverviewDto(Long id, String firstName, String lastName, String email, RoleType role, boolean enabled, String created) {
 }

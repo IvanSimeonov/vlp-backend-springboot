@@ -1,6 +1,5 @@
 package bg.tusofia.vlp.user.controller;
 
-import bg.tusofia.vlp.user.domain.RoleType;
 import bg.tusofia.vlp.user.dto.*;
 import bg.tusofia.vlp.user.service.UserManagementService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -103,33 +102,9 @@ public class AdminController {
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping("/{userId}/change-role")
-    public ResponseEntity<Void> changeUserRole(@PathVariable Long userId, @RequestParam RoleType newRole) {
-        userManagementService.changeUserRole(userId, newRole);
-        return ResponseEntity.noContent().build();
-    }
-
-    @PutMapping("/{userId}/assign-admin")
-    public ResponseEntity<Void> assignAdminRole(@PathVariable Long userId) {
-        userManagementService.assignAdminRole(userId);
-        return ResponseEntity.noContent().build();
-    }
-
-    @PutMapping("/{userId}/assign-teacher")
-    public ResponseEntity<Void> assignTeacherRole(@PathVariable Long userId) {
-        userManagementService.assignTeacherRole(userId);
-        return ResponseEntity.noContent().build();
-    }
-
-    @PutMapping("/{userId}/enable")
-    public ResponseEntity<Void> enableUser(@PathVariable Long userId) {
-        userManagementService.enableUser(userId);
-        return ResponseEntity.noContent().build();
-    }
-
-    @PutMapping("/{userId}/disable")
-    public ResponseEntity<Void> disableUser(@PathVariable Long userId) {
-        userManagementService.disableUser(userId);
+    @PutMapping("/{userId}/access-update")
+    public ResponseEntity<Void> updateUserAccess(@PathVariable Long userId, @RequestBody UserAccessUpdateDto userAccessUpdateDto) {
+        this.userManagementService.updateUserAccess(userId, userAccessUpdateDto);
         return ResponseEntity.noContent().build();
     }
 
