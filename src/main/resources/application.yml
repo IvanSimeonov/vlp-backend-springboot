@@ -11,6 +11,8 @@ management:
         health:
           show-details: always
 spring:
+    autoconfigure:
+        exclude: org.javers.spring.boot.sql.JaversSqlAutoConfiguration
     sql:
         init:
             schema-locations: classpath:/db/schema.sql

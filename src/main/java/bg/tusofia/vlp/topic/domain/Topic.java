@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.javers.core.metamodel.annotation.ShallowReference;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -39,6 +40,7 @@ public class Topic implements Serializable {
     private String description;
 
     @OneToMany(mappedBy = "topic", cascade = {CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
+    @ShallowReference
     private Set<Course> courses = new HashSet<>();
 
     public void addCourse(Course course) {

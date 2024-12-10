@@ -4,6 +4,8 @@ import bg.tusofia.vlp.assignment.domain.AssignmentSolution;
 import bg.tusofia.vlp.course.domain.Course;
 import jakarta.persistence.*;
 import lombok.*;
+import org.javers.core.metamodel.annotation.DiffIgnore;
+import org.javers.spring.annotation.JaversSpringDataAuditable;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -23,6 +25,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Getter
 @Setter
+@JaversSpringDataAuditable
 public class Lecture implements Serializable {
 
     @Serial
@@ -45,9 +48,11 @@ public class Lecture implements Serializable {
     private int sequenceNumber;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @DiffIgnore
     private Course course;
 
     @OneToMany(mappedBy = "lecture", cascade = CascadeType.ALL, orphanRemoval = true)
+    @DiffIgnore
     private Set<AssignmentSolution> assignmentSolutions = new HashSet<>();
 
     public void addAssignmentSolution(AssignmentSolution assignmentSolution) {

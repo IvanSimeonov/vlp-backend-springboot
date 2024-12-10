@@ -3,6 +3,11 @@ package bg.tusofia.vlp.course.repository;
 import bg.tusofia.vlp.course.domain.Course;
 import bg.tusofia.vlp.course.domain.CourseOverview;
 import bg.tusofia.vlp.course.dto.CourseAnalyticsDto;
+import bg.tusofia.vlp.topic.domain.Topic;
+import bg.tusofia.vlp.user.domain.User;
+import org.javers.spring.annotation.JaversSpringDataAuditable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -20,6 +25,7 @@ import java.util.Optional;
  * @since 0.0.1
  */
 @Repository
+@JaversSpringDataAuditable
 public interface CourseRepository extends JpaRepository<Course, Long>, JpaSpecificationExecutor<Course> {
 
     Optional<Course> findCourseById(Long id);

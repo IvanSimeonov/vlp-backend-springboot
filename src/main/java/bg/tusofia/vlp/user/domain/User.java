@@ -9,6 +9,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.*;
+import org.javers.core.metamodel.annotation.ShallowReference;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -75,15 +76,19 @@ public class User implements UserDetails {
     private UserStatus status;
 
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ShallowReference
     private List<Course> createdCourses = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ShallowReference
     private Set<UserCompletedCourse> completedCourses = new HashSet<>();
 
     @ManyToMany(mappedBy = "enrolledUsers")
+    @ShallowReference
     private Set<Course> enrolledCourses = new HashSet<>();
 
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ShallowReference
     private Set<AssignmentSolution> assignmentSolutions = new HashSet<>();
 
     public void createCourse(Course course) {

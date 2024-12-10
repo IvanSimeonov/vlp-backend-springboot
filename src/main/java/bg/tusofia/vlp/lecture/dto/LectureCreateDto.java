@@ -14,6 +14,8 @@ public record LectureCreateDto(
         String title,
 
         @NotBlank(message = "Full description is required")
+        @Size(min = 100, max = 300, message = "Full description must be in range between 100 and 300 characters")
+        String fullDescription,
         @Size(min = 100, max = 500, message = "Description must be in range between 100 and 300 characters")
         String description,
 

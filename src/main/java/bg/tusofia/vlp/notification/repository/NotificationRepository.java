@@ -2,6 +2,7 @@ package bg.tusofia.vlp.notification.repository;
 
 import bg.tusofia.vlp.notification.domain.Notification;
 import bg.tusofia.vlp.notification.domain.NotificationType;
+import org.javers.spring.annotation.JaversSpringDataAuditable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -14,6 +15,7 @@ import java.util.List;
  * @since 0.0.1
  */
 @Repository
+@JaversSpringDataAuditable
 public interface NotificationRepository extends JpaRepository<Notification, Long> {
     List<Notification> findByUserIdAndIsReadFalse(Long recipientId);
     List<Notification> findByUserIdOrderByIdDesc(Long recipientId);

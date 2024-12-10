@@ -1,6 +1,7 @@
 package bg.tusofia.vlp.assignment.repository;
 
 import bg.tusofia.vlp.assignment.domain.AssignmentSolution;
+import bg.tusofia.vlp.lecture.domain.Lecture;
 import org.javers.spring.annotation.JaversSpringDataAuditable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -22,4 +23,7 @@ public interface AssignmentSolutionRepository extends JpaRepository<AssignmentSo
     List<AssignmentSolution> findAllByLecture_Course_IdAndStudent_Id(Long courseId, Long userId);
     List<AssignmentSolution> findByStudentId(Long studentId);
     List<AssignmentSolution> findByLectureId(Long lectureId);
+    List<AssignmentSolution> findAllByLecture_Id(Long id);
+
+
 }

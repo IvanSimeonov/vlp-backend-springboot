@@ -12,6 +12,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.javers.core.metamodel.annotation.DiffIgnore;
+import org.javers.core.metamodel.annotation.ShallowReference;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -70,15 +72,18 @@ public class Course implements Serializable {
     private DifficultyLevel difficultyLevel;
 
     @Enumerated(EnumType.STRING)
+    @ShallowReference
     private Status status;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @DiffIgnore
     private User author;
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<CourseRating> ratings = new HashSet<>();
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ShallowReference
     private Set<UserCompletedCourse> completedUsers = new HashSet<>();
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
@@ -86,12 +91,15 @@ public class Course implements Serializable {
             joinColumns = @JoinColumn(name = "course_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
+    @ShallowReference
     private Set<User> enrolledUsers = new HashSet<>();
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ShallowReference
     private Set<Lecture> lectures = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @DiffIgnore
     private Topic topic;
 
     public void addRating(CourseRating rating) {

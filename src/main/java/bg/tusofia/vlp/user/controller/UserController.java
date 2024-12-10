@@ -80,7 +80,7 @@ public class UserController {
     }
 
     @GetMapping
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    //@PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<List<UserOverviewDto>> getAllUsers() {
         return ResponseEntity.ok(userService.getAllUsers());
     }
