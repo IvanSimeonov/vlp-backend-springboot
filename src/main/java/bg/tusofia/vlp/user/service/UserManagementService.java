@@ -5,7 +5,6 @@ import bg.tusofia.vlp.user.domain.RoleType;
 import bg.tusofia.vlp.user.dto.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -37,12 +36,12 @@ public interface UserManagementService {
      * Retrieves a paginated list of users based on search criteria.
      *
      * @param criteria the criteria used to filter users
-     * @param pageable pagination information including page number and size
+     * @param pageRequest pagination information including page number and size
      * @return a {@link Page} containing a list of {@link UserOverviewDto} objects
      *         that match the search criteria
      *         Note: This method can only be called by an admin user.
      */
-    Page<UserOverviewDto> getAllUsers(UserSearchCriteriaDto criteria, Pageable pageable);
+    Page<UserOverviewDto> getAllUsers(UserSearchCriteriaDto criteria, PageRequest pageRequest);
 
     /**
      * Retrieves a list of users analytics, where we can se the amount of active or inactive users, and total amount

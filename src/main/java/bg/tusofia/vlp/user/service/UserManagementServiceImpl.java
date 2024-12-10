@@ -13,7 +13,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -63,9 +62,9 @@ public class UserManagementServiceImpl implements UserManagementService {
      * {@inheritDoc}
      */
     @Override
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ROOT_ADMIN')")
-    public Page<UserOverviewDto> getAllUsers(UserSearchCriteriaDto criteria, Pageable pageable) {
-        var users = userRepository.findAll(UserSpecifications.getUsersByCriteria(criteria), pageable);
+//    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ROOT_ADMIN')")
+    public Page<UserOverviewDto> getAllUsers(UserSearchCriteriaDto criteria, PageRequest pageRequest) {
+        var users = userRepository.findAll(UserSpecifications.getUsersByCriteria(criteria), pageRequest);
         return users.map(userMapper::userToUserOverviewDto);
     }
 

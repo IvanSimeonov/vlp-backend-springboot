@@ -24,6 +24,7 @@ public class UserSpecifications {
     private static final String LAST_NAME = "lastName";
     private static final String EMAIL = "email";
     private static final String ROLE_TYPE = "role";
+    private static final String ENABLED = "enabled";
 
     public static Specification<User> getUsersByCriteria(UserSearchCriteriaDto userSearchCriteriaDto) {
         return ((root, query, criteriaBuilder) -> {
@@ -32,6 +33,9 @@ public class UserSpecifications {
             addLikePredicateIfNotNullOrEmpty(predicates, criteriaBuilder, root.get(LAST_NAME), userSearchCriteriaDto.lastName());
             addLikePredicateIfNotNullOrEmpty(predicates, criteriaBuilder, root.get(EMAIL), userSearchCriteriaDto.email());
             addRoleTypePredicateIfNotNull(predicates, criteriaBuilder, root.get(ROLE_TYPE), userSearchCriteriaDto.roleType());
+            if (userSearchCriteriaDto.enabled() != null)  {
+                predicates.add(criteriaBuilder.and(criteriaBuilder.equal(root.get(ENABLED), userSearchCriteriaDto.enabled())));
+            }
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         });
     }

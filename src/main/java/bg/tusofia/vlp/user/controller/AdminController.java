@@ -9,7 +9,6 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -39,8 +38,18 @@ public class AdminController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<UserOverviewDto>> getUsers(UserSearchCriteriaDto userSearchCriteriaDto, Pageable pageable) {
-        return ResponseEntity.ok(userManagementService.getAllUsers(userSearchCriteriaDto, pageable));
+    public ResponseEntity<Page<UserOverviewDto>> getUsers(
+            @RequestParam(defaultValue = "0") int pageNumber,
+            @RequestParam(defaultValue = "10") int pageSize,
+            @RequestParam(defaultValue = "title") String sortBy,
+            @RequestParam(defaultValue = "asc") String sortDirection,
+            UserSearchCriteriaDto userSearchCriteriaDto) {
+        PageRequest pageRequest = PageRequest.of(
+                pageNumber,
+                pageSize,
+                sortDirection.equalsIgnoreCase("desc") ? Sort.by(sortBy).descending() : Sort.by(sortBy).ascending()
+        );
+        return ResponseEntity.ok(userManagementService.getAllUsers(userSearchCriteriaDto, pageRequest));
     }
 
     @GetMapping("/analytics")
