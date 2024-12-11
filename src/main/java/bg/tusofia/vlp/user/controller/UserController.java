@@ -41,7 +41,7 @@ public class UserController {
         return ResponseEntity.ok(userService.getUserOverviewById(id));
     }
 
-    @GetMapping("/{userId}/profile")
+    @GetMapping(value = "/{userId}/profile", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserPublicProfileDto> getUserPublicProfile(@PathVariable("userId") Long userId) {
         return ResponseEntity.ok(userService.getUserPublicProfileById(userId));
     }
