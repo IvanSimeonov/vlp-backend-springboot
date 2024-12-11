@@ -5,6 +5,7 @@ import bg.tusofia.vlp.user.domain.RoleType;
 import bg.tusofia.vlp.user.domain.User;
 import bg.tusofia.vlp.user.dto.UserCreateDto;
 import bg.tusofia.vlp.user.dto.UserOverviewDto;
+import bg.tusofia.vlp.user.dto.UserPublicProfileDto;
 import bg.tusofia.vlp.user.mapper.UserMapper;
 import bg.tusofia.vlp.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +14,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -24,6 +26,7 @@ import java.util.List;
  */
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
@@ -48,6 +51,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findUserByEmail(username).orElseThrow(() -> new UsernameNotFoundException(username));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public UserPublicProfileDto getUserPublicProfileById(Long userId) {
+        var user = checkUserExistsById(userId);
+        return userMapper.userToUserPublicProfileDto(user);
     }
 
     @Override

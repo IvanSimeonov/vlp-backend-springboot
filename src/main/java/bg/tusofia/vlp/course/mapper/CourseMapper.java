@@ -5,6 +5,7 @@ import bg.tusofia.vlp.course.domain.CourseOverview;
 import bg.tusofia.vlp.course.dto.CourseCreateDto;
 import bg.tusofia.vlp.course.dto.CourseManagementDto;
 import bg.tusofia.vlp.course.dto.CourseOverviewDto;
+import bg.tusofia.vlp.course.dto.CourseUserProfileDto;
 import bg.tusofia.vlp.topic.domain.Topic;
 import bg.tusofia.vlp.topic.repository.TopicRepository;
 import org.mapstruct.Mapper;
@@ -26,9 +27,6 @@ public abstract class CourseMapper {
 
     @Autowired
     private TopicRepository topicRepository;
-
-    //CourseMapper INSTANCE = Mappers.getMapper(CourseMapper.class);
-
     /**
      * Maps a CreateCourseDTO to a Course entity.
      *
@@ -56,10 +54,16 @@ public abstract class CourseMapper {
     @Mapping(target = "totalLectures", expression = "java(course.getLectures().size())")
     public abstract CourseManagementDto courseToCourseManagementDto(Course course);
 
+    @Mapping(target = "topic", source = "topic.title")
+    @Mapping(target = "author", expression = "java(course.getAuthor().getFirstName() + \" \" + course.getAuthor().getLastName())")
+    public abstract CourseUserProfileDto courseToCourseUserProfileDto(Course course);
+
     public abstract CourseOverviewDto courseOverviewToCourseOverviewDto(CourseOverview courseOverview);
 
     @Named("mapTopic")
     protected Topic mapTopic(Long topicId) {
         return topicRepository.getReferenceById(topicId);
     }
+
+
 }
