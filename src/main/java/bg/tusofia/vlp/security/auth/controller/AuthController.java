@@ -6,6 +6,7 @@ import bg.tusofia.vlp.security.auth.dto.RegisterRequest;
 import bg.tusofia.vlp.security.auth.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 0.0.1
  */
 @RestController
-@RequestMapping("/api/v1/auth")
+@RequestMapping(value = "/api/v1/auth", produces = MediaType.APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
 public class AuthController {
 
