@@ -6,6 +6,7 @@ import bg.tusofia.vlp.security.auth.dto.AuthResponse;
 import bg.tusofia.vlp.security.auth.dto.RegisterRequest;
 import bg.tusofia.vlp.user.domain.RoleType;
 import bg.tusofia.vlp.user.domain.User;
+import bg.tusofia.vlp.user.mapper.UserMapper;
 import bg.tusofia.vlp.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -27,6 +28,7 @@ public class AuthServiceImpl implements AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final UserMapper userMapper;
 
     @Override
     public AuthResponse register(RegisterRequest registerRequest) {
@@ -40,7 +42,7 @@ public class AuthServiceImpl implements AuthService {
        var savedUser = userRepository.save(user);
        var accessToken = jwtService.generateAccessToken(null, savedUser);
        var refreshToken = jwtService.generateRefreshToken(savedUser);
-       return new AuthResponse(accessToken, refreshToken);
+       return new AuthResponse(accessToken, refreshToken, userMapper.userToUserOverviewDto(savedUser));
     }
 
     @Override
@@ -52,6 +54,7 @@ public class AuthServiceImpl implements AuthService {
         return AuthResponse.builder()
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
+                .userOverviewDto(userMapper.userToUserOverviewDto(user))
                 .build();
     }
 }

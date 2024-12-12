@@ -1,5 +1,6 @@
 package bg.tusofia.vlp.security.auth.dto;
 
+import bg.tusofia.vlp.user.dto.UserOverviewDto;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,4 +24,7 @@ public class AuthResponse {
 
     @NotBlank(message = "Refresh Token is required")
     private String refreshToken;
+
+    @NotBlank
+    private UserOverviewDto userOverviewDto;
 }
