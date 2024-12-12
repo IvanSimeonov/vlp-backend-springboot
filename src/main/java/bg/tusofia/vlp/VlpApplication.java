@@ -1,25 +1,21 @@
 package bg.tusofia.vlp;
 
 import bg.tusofia.vlp.assignment.dto.AssignmentSolutionCreateDto;
-import bg.tusofia.vlp.assignment.repository.AssignmentSolutionRepository;
 import bg.tusofia.vlp.assignment.service.AssignmentSolutionService;
 import bg.tusofia.vlp.course.domain.DifficultyLevel;
 import bg.tusofia.vlp.course.domain.Status;
 import bg.tusofia.vlp.course.dto.CourseCreateDto;
-import bg.tusofia.vlp.course.repository.CourseRepository;
+import bg.tusofia.vlp.course.dto.CourseStatusUpdateDto;
 import bg.tusofia.vlp.course.service.CourseService;
 import bg.tusofia.vlp.lecture.domain.Lecture;
 import bg.tusofia.vlp.lecture.dto.LectureCreateDto;
 import bg.tusofia.vlp.lecture.dto.LectureUpdateDto;
-import bg.tusofia.vlp.lecture.repository.LectureRepository;
 import bg.tusofia.vlp.lecture.service.LectureService;
 import bg.tusofia.vlp.topic.dto.TopicCreateDto;
-import bg.tusofia.vlp.topic.repository.TopicRepository;
 import bg.tusofia.vlp.topic.service.TopicService;
-import bg.tusofia.vlp.user.domain.User;
 import bg.tusofia.vlp.user.repository.UserRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.boot.model.internal.QueryBinder;
 import org.javers.core.Javers;
 import org.javers.repository.jql.QueryBuilder;
 import org.springframework.boot.CommandLineRunner;
@@ -27,7 +23,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
@@ -40,6 +35,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+
+import static bg.tusofia.vlp.course.domain.Status.PUBLISHED;
 
 @SpringBootApplication
 @ConfigurationPropertiesScan
@@ -56,6 +53,7 @@ public class VlpApplication {
                                         CourseService courseService,
                                         UserRepository userRepository,
                                         AssignmentSolutionService assignmentSolutionService,
+                                        ObjectMapper objectMapper,
                                         Javers javers) {
         return args -> {
             var mockSecurityContext = new MockSecurityContext(userRepository);
@@ -94,6 +92,11 @@ public class VlpApplication {
                 2, colorTheoryCourseId
             );
 
+            var colorTheoryMaster = new LectureCreateDto("Masterclass color theory",
+                "Only for masters",
+                "....".repeat(20),
+                "https://www.youtube.com/watch?v=XNkV6m4fosw", 3, colorTheoryCourseId);
+
             var colorTheoryIntoId = lectureService.createLecture(colorTheoryIntroLecture);
 
             lectureService.updateLecture(colorTheoryIntoId, new LectureUpdateDto(
@@ -106,8 +109,10 @@ public class VlpApplication {
 
             var colorTheoryAdvancedId = lectureService.createLecture(colorTheoryAdvanced);
 
+            lectureService.createLecture(colorTheoryMaster);
+
             // PUBLISH THE LECTURE!!!
-            courseService.updateCourseStatus(colorTheoryCourseId, Status.PUBLISHED);
+            courseService.updateCourseStatus(colorTheoryCourseId, new CourseStatusUpdateDto(PUBLISHED));
 
 
             // Simulate User login - Hans Hofer (student)
@@ -130,6 +135,8 @@ public class VlpApplication {
             var shadows = javers.findShadows(QueryBuilder.byInstanceId(colorTheoryIntoId, Lecture.class).build());
             log.info(shadows.toString());
 
+            var authorShadows = javers.findShadows(QueryBuilder.byInstanceId(colorTheoryIntoId, "bg.tusofia.vlp.lecture.domain.Lecture").byAuthorLikeIgnoreCase("lucas").build());
+            log.info(authorShadows.toString());
         };
     }
 
