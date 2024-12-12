@@ -19,7 +19,7 @@ public record UserPublicProfileDto(
         String linkedInProfileUrl,
         String email,
         String profileImagePath,
-        RoleType roleType,
+        RoleType role,
         List<CourseUserProfileDto> createdCourses,
         List<CourseUserProfileDto> enrolledCourses) {
 }
