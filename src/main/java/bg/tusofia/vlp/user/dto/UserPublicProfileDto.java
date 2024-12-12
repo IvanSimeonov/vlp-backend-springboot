@@ -1,6 +1,7 @@
 package bg.tusofia.vlp.user.dto;
 
 import bg.tusofia.vlp.course.dto.CourseUserProfileDto;
+import bg.tusofia.vlp.user.domain.RoleType;
 
 import java.util.List;
 
@@ -18,6 +19,7 @@ public record UserPublicProfileDto(
         String linkedInProfileUrl,
         String email,
         String profileImagePath,
+        RoleType roleType,
         List<CourseUserProfileDto> createdCourses,
         List<CourseUserProfileDto> enrolledCourses) {
 }

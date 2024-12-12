@@ -56,6 +56,7 @@ public abstract class CourseMapper {
 
     @Mapping(target = "topic", source = "topic.title")
     @Mapping(target = "author", expression = "java(course.getAuthor().getFirstName() + \" \" + course.getAuthor().getLastName())")
+    @Mapping(target = "totalStudents", expression = "java(course.getEnrolledUsers().size())")
     public abstract CourseUserProfileDto courseToCourseUserProfileDto(Course course);
 
     public abstract CourseOverviewDto courseOverviewToCourseOverviewDto(CourseOverview courseOverview);

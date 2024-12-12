@@ -13,6 +13,7 @@ public record CourseUserProfileDto(
         String title,
         DifficultyLevel difficultyLevel,
         String topic,
-        String author
-) {
+        String author,
+        int totalStudents
+        ) {
 }
