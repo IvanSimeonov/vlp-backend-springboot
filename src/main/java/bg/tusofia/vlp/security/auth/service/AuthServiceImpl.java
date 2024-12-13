@@ -38,6 +38,7 @@ public class AuthServiceImpl implements AuthService {
                .password(passwordEncoder.encode(registerRequest.password()))
                .email(registerRequest.email())
                .role(RoleType.ROLE_STUDENT)
+               .enabled(true)
                .build();
        var savedUser = userRepository.save(user);
        var accessToken = jwtService.generateAccessToken(null, savedUser);
