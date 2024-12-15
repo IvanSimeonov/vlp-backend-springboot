@@ -3,6 +3,8 @@ package bg.tusofia.vlp.user.controller;
 import bg.tusofia.vlp.user.dto.*;
 import bg.tusofia.vlp.user.service.UserManagementService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -114,7 +116,19 @@ public class AdminController {
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("/{userId}/profile-image")
+    @Operation(
+            summary = "Upload profile image",
+            description = "Allows users to upload or update their profile image"
+    )
+    @io.swagger.v3.oas.annotations.parameters.RequestBody(
+            content = @Content(
+                    mediaType = "multipart/form-data",
+                    schema = @Schema(
+                            implementation = MultipartFile.class
+                    )
+            )
+    )
+    @PutMapping(value = "/{userId}/profile-image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Void> updateUserAvatar(@PathVariable Long userId, @RequestParam("file") MultipartFile file) {
         userManagementService.changeUserAvatar(userId, file);
         return ResponseEntity.noContent().build();
