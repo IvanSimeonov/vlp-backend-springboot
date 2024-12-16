@@ -13,7 +13,7 @@ CREATE TABLE `user` (
     `created` DATETIME(6) NULL,
     `modified` DATETIME(6) NULL,
     `last_password_change_date` DATETIME(6) NULL DEFAULT NULL,
-    `bio` VARCHAR(255) NULL DEFAULT NULL,
+    `bio` VARCHAR(5000) NULL DEFAULT NULL,
     `email` VARCHAR(255) NOT NULL,
     `first_name` VARCHAR(255) NULL DEFAULT NULL,
     `last_name` VARCHAR(255) NULL DEFAULT NULL,

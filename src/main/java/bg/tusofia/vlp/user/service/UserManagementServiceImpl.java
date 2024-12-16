@@ -224,9 +224,20 @@ public class UserManagementServiceImpl implements UserManagementService {
             Path userDir = baseDir.resolve(String.valueOf(userId));
             if (!Files.exists(userDir)) {
                 Files.createDirectories(userDir);
+            } else {
+                Files.list(userDir)
+                        .filter(Files::isRegularFile) // Only delete files, not directories
+                        .forEach(filePath -> {
+                            try {
+                                Files.delete(filePath);
+                            } catch (IOException e) {
+                                throw new RuntimeException("Failed to delete existing file: " + filePath, e);
+                            }
+                        });
             }
             String fileName = MessageFormat.format("user_{0}_{1}", userId, file.getOriginalFilename());
             Path filePath = userDir.resolve(fileName);
+            Files.deleteIfExists(filePath);
             Files.copy(file.getInputStream(), filePath);
             return filePath.toString();
 

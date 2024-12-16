@@ -20,6 +20,7 @@ public record UserPublicProfileDto(
         String email,
         String profileImagePath,
         RoleType role,
+        boolean enabled,
         List<CourseUserProfileDto> createdCourses,
         List<CourseUserProfileDto> enrolledCourses) {
 }
