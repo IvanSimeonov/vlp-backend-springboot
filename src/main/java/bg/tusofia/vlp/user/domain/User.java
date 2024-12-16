@@ -51,8 +51,7 @@ public class User implements UserDetails {
 
     private LocalDateTime lastPasswordChangeDate;
 
-    @Column(nullable = false)
-    private boolean isTeacherAccessRequested = false;
+    private boolean isTeacherAccessRequested;
 
     @NaturalId
     @Column(nullable = false, unique = true)

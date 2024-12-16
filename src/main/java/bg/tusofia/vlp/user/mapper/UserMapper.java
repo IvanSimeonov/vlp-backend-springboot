@@ -7,6 +7,7 @@ import bg.tusofia.vlp.user.dto.UserCreateDto;
 import bg.tusofia.vlp.user.dto.UserOverviewDto;
 import bg.tusofia.vlp.user.dto.UserPublicProfileDto;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 /**
  * Interface: UserMapper
@@ -19,5 +20,6 @@ public interface UserMapper {
     User userCreateDtoToUser(UserCreateDto userCreateDto);
     UserOverviewDto userToUserOverviewDto(User user);
     UserOverviewDto userOverviewToUserOverviewDto(UserOverview userOverview);
+    @Mapping(target = "isTeacherAccessRequested", source = "teacherAccessRequested")
     UserPublicProfileDto userToUserPublicProfileDto(User user);
 }
