@@ -7,6 +7,10 @@ DROP TABLE IF EXISTS `lecture`;
 DROP TABLE IF EXISTS `course`;
 DROP TABLE IF EXISTS `topic`;
 DROP TABLE IF EXISTS `user`;
+DROP TABLE IF EXISTS `jv_snapshot`;
+DROP TABLE IF EXISTS `jv_commit_property`;
+DROP TABLE IF EXISTS `jv_commit`;
+DROP TABLE IF EXISTS `jv_global_id`;
 
 CREATE TABLE `user` (
     `id` BIGINT NOT NULL AUTO_INCREMENT,
