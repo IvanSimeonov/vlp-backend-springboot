@@ -15,4 +15,6 @@ public interface CourseOverview {
     String getTitle();
     DifficultyLevel getDifficultyLevel();
     User getAuthor();
+    Double getAverageRating();
+    Integer getTotalRatings();
 }

@@ -56,6 +56,11 @@ public interface CourseRepository extends JpaRepository<Course, Long>, JpaSpecif
      */
     Page<Course> findByDifficultyLevel(DifficultyLevel difficultyLevel, Pageable pageable);
 
+    @Query("SELECT c.id AS id, c.title AS title, c.difficultyLevel AS difficultyLevel, c.author AS author, " +
+            "(SELECT COALESCE(AVG(cr.rating), 0) FROM CourseRating cr WHERE cr.course.id = c.id) AS averageRating, " +
+            "(SELECT COUNT(cr) FROM CourseRating cr WHERE cr.course.id = c.id) AS totalRatings " +
+            "FROM Course c"
+    )
     CourseOverview findCourseOverviewById(Long id);
     Page<CourseOverview> findCourseOverviewByTopic(Topic topic, Pageable pageable);
     Page<CourseOverview> findAllProjectedBy(Pageable pageable);

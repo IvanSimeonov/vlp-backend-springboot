@@ -2,6 +2,7 @@ package bg.tusofia.vlp.course.controller;
 
 import bg.tusofia.vlp.course.dto.*;
 import bg.tusofia.vlp.course.service.CourseService;
+import bg.tusofia.vlp.courserating.dto.CourseRatingDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -90,6 +91,11 @@ public class CourseController {
                 .buildAndExpand(courseService.createCourse(courseCreateDto))
                 .toUri();
         return ResponseEntity.created(location).build();
+    }
+
+    @PostMapping("/{courseId}/rate")
+    public ResponseEntity<CourseRatingDto> rateCourseById(@PathVariable("courseId") Long courseId, @Valid @RequestBody CourseRatingDto courseRatingDto) {
+        return ResponseEntity.ok(courseService.rateCourse(courseId, courseRatingDto));
     }
 
     @PutMapping("/{courseId}")

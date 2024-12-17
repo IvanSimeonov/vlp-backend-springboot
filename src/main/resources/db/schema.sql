@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS `course_rating`;
 DROP TABLE IF EXISTS `notification`;
 DROP TABLE IF EXISTS `assignment_solution`;
 DROP TABLE IF EXISTS `user_completed_course`;
@@ -54,6 +55,24 @@ CREATE TABLE `course` (
     CONSTRAINT `FK_course_topic`
                       FOREIGN KEY (`topic_id`)
                       REFERENCES `topic` (`id`)
+);
+
+CREATE TABLE `course_rating` (
+    `id` BIGINT NOT NULL AUTO_INCREMENT,
+    `course_id` BIGINT NOT NULL,
+    `user_id` BIGINT NOT NULL,
+    `rating` INT NOT NULL CHECK ( `rating` >= 1 AND `rating` <= 5 ),
+    `created` DATETIME(6) NULL,
+    PRIMARY KEY (`id`),
+    UNIQUE INDEX `UK_course_rating_unique` (`course_id`, `user_id`),
+    INDEX `FK_course_rating_course` (`course_id` ASC),
+    INDEX `FK_course_rating_user` (`user_id` ASC),
+    CONSTRAINT `FK_course_rating_course`
+                      FOREIGN KEY (`course_id`)
+                      REFERENCES `course` (`id`),
+    CONSTRAINT `FK_course_rating_user`
+                      FOREIGN KEY (`user_id`)
+                      REFERENCES `user` (`id`)
 );
 
 CREATE TABLE `lecture` (

@@ -1,6 +1,7 @@
 package bg.tusofia.vlp.course.domain;
 
 import bg.tusofia.vlp.common.domain.UserCompletedCourse;
+import bg.tusofia.vlp.courserating.domain.CourseRating;
 import bg.tusofia.vlp.lecture.domain.Lecture;
 import bg.tusofia.vlp.topic.domain.Topic;
 import bg.tusofia.vlp.user.domain.User;
@@ -64,6 +65,9 @@ public class Course implements Serializable {
     private User author;
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<CourseRating> ratings = new HashSet<>();
+
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<UserCompletedCourse> completedUsers = new HashSet<>();
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
@@ -78,6 +82,16 @@ public class Course implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Topic topic;
+
+    public void addRating(CourseRating rating) {
+        ratings.add(rating);
+        rating.setCourse(this);
+    }
+
+    public void removeRating(CourseRating rating) {
+        ratings.remove(rating);
+        rating.setCourse(null);
+    }
 
     public void addCompletedUser(User user) {
         UserCompletedCourse uc = new UserCompletedCourse(user, this);

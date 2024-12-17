@@ -59,6 +59,8 @@ public abstract class CourseMapper {
     @Mapping(target = "totalStudents", expression = "java(course.getEnrolledUsers().size())")
     public abstract CourseUserProfileDto courseToCourseUserProfileDto(Course course);
 
+    @Mapping(target = "averageRating", expression = "java(courseOverview.getAverageRating())")
+    @Mapping(target = "totalRatings", expression = "java(courseOverview.getTotalRatings())")
     public abstract CourseOverviewDto courseOverviewToCourseOverviewDto(CourseOverview courseOverview);
 
     @Named("mapTopic")

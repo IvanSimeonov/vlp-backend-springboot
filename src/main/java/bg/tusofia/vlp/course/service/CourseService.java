@@ -1,6 +1,7 @@
 package bg.tusofia.vlp.course.service;
 
 import bg.tusofia.vlp.course.dto.*;
+import bg.tusofia.vlp.courserating.dto.CourseRatingDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -36,6 +37,18 @@ public interface CourseService {
     Page<CourseOverviewDto> getAllCoursesByTopic(Long topicId, Pageable pageable);
 
     void updateCourseById(Long courseId, CourseUpdateDto courseUpdateDto);
+
+    /**
+     * Allows a user to rate a course they have completed
+     * @param courseId The ID of the course to be rated
+     * @param courseRatingDto The dto containing rating information
+     * @return The created CourseRatingDto
+     * @throws IllegalArgumentException If the user has not completed the course or already rated it
+     * @throws bg.tusofia.vlp.exception.CourseNotFoundException if the course is not found
+     * @throws bg.tusofia.vlp.exception.UserNotFoundException if the user is not found
+     */
+    CourseRatingDto rateCourse(Long courseId, CourseRatingDto courseRatingDto);
+
 
     /**
      * Updates the status of a course.

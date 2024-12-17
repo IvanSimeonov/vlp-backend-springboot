@@ -6,6 +6,10 @@ import bg.tusofia.vlp.course.dto.*;
 import bg.tusofia.vlp.course.mapper.CourseMapper;
 import bg.tusofia.vlp.course.repository.CourseRepository;
 import bg.tusofia.vlp.course.repository.CourseSpecification;
+import bg.tusofia.vlp.courserating.domain.CourseRating;
+import bg.tusofia.vlp.courserating.dto.CourseRatingDto;
+import bg.tusofia.vlp.courserating.mapper.CourseRatingMapper;
+import bg.tusofia.vlp.courserating.repository.CourseRatingRepository;
 import bg.tusofia.vlp.exception.CourseNotFoundException;
 import bg.tusofia.vlp.exception.UserNotFoundException;
 import bg.tusofia.vlp.topic.repository.TopicRepository;
@@ -35,9 +39,11 @@ import java.util.List;
 public class CourseServiceImpl implements CourseService {
 
     private final CourseRepository courseRepository;
-    private final CourseMapper courseMapper;
+    private final CourseRatingRepository courseRatingRepository;
     private final UserRepository userRepository;
     private final TopicRepository topicRepository;
+    private final CourseMapper courseMapper;
+    private final CourseRatingMapper courseRatingMapper;
 
     @Override
     public Long createCourse(CourseCreateDto courseCreateDto) {
@@ -81,6 +87,25 @@ public class CourseServiceImpl implements CourseService {
         course.setDifficultyLevel(courseUpdateDto.difficultyLevel());
         course.setTopic(topicRepository.getReferenceById(courseUpdateDto.topicId()));
         courseRepository.save(course);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Transactional
+    public CourseRatingDto rateCourse(Long courseId, CourseRatingDto courseRatingDto) {
+        var course = courseRepository.findById(courseId).orElseThrow(() -> new CourseNotFoundException(courseId));
+        var user = userRepository.findById(courseRatingDto.userId()).orElseThrow(() -> new UserNotFoundException(courseRatingDto.userId()));
+        var hasCompletedCourse = user.getCompletedCourses().stream().anyMatch(c -> c.getCourse().getId().equals(courseId));
+        if (!hasCompletedCourse) {
+            throw new IllegalArgumentException("Only users who have completed the course can rate it!");
+        }
+        if (courseRatingRepository.existsByCourseAndUser(course, user)) {
+            throw new IllegalArgumentException("Course has already been rated!");
+        }
+        CourseRating courseRating = courseRatingMapper.courseRatingDtoToCourseRating(courseRatingDto);
+        return courseRatingMapper.courseRatingToCourseRatingDto(courseRatingRepository.save(courseRating));
     }
 
     @Override

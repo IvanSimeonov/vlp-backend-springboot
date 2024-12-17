@@ -12,5 +12,11 @@ import bg.tusofia.vlp.user.dto.UserOverviewDto;
  * @author Ivan Simeonov
  * @since 0.0.1
  */
-public record CourseOverviewDto(Long id, String title, DifficultyLevel difficultyLevel, UserOverviewDto author) {
+public record CourseOverviewDto(
+        Long id,
+        String title,
+        DifficultyLevel difficultyLevel,
+        UserOverviewDto author,
+        Double averageRating,
+        Integer totalRatings) {
 }

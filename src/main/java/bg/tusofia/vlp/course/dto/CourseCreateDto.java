@@ -1,7 +1,6 @@
 package bg.tusofia.vlp.course.dto;
 
 import bg.tusofia.vlp.course.domain.DifficultyLevel;
-import bg.tusofia.vlp.course.domain.Status;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -21,20 +20,23 @@ public record CourseCreateDto(
         @Size(min = 10, max = 100, message = "Title must be between 10 and 100 characters")
         String title,
 
-        @NotBlank(message = "Description is required")
-        String description,
+        @NotBlank(message = "Short Description is required")
+        String shortDescription,
 
-        @NotNull(message = "Difficulty level is required")
-        DifficultyLevel difficultyLevel,
-
-        @NotNull(message = "Author ID is required")
-        Long authorId,
+        int passingScore,
 
         @NotNull(message = "Topic ID is required")
         Long topicId,
 
-        @NotNull
-        Status status
+        @NotNull(message = "Difficulty level is required")
+        DifficultyLevel difficultyLevel,
+
+        String requirements,
+
+        String fullDescription,
+
+        @NotNull(message = "Author ID is required")
+        Long authorId
 ) {
 
 }
