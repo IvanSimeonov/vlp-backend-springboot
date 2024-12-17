@@ -13,6 +13,9 @@ import bg.tusofia.vlp.lecture.dto.LectureUpdateDto;
 import bg.tusofia.vlp.lecture.service.LectureService;
 import bg.tusofia.vlp.topic.dto.TopicCreateDto;
 import bg.tusofia.vlp.topic.service.TopicService;
+import bg.tusofia.vlp.user.domain.RoleType;
+import bg.tusofia.vlp.user.domain.User;
+import bg.tusofia.vlp.user.domain.UserStatus;
 import bg.tusofia.vlp.user.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +31,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
@@ -48,6 +52,7 @@ public class VlpApplication {
     }
 
     @Bean
+    @Transactional
     CommandLineRunner commandLineRunner(TopicService topicService,
                                         LectureService lectureService,
                                         CourseService courseService,
@@ -57,7 +62,18 @@ public class VlpApplication {
                                         Javers javers) {
         return args -> {
             var mockSecurityContext = new MockSecurityContext(userRepository);
-            mockSecurityContext.loginAsUser("lucas@teacher.com");
+            mockSecurityContext.loginAsUser("root@admin.com");
+            var user = new User();
+            user.setRole(RoleType.ROLE_TEACHER);
+            user.setEnabled(true);
+            user.setPassword("$2a$12$9LHpOsnz2RwbioJqCcBGgOHSx9Tn.FfdswODJF.0UzpCOz6VQ0d4u");
+            user.setFirstName("Michael");
+            user.setLastName("James");
+            user.setStatus(UserStatus.ACTIVE);
+            user.setEmail("michaeljames@iamnewteacher.com");
+            userRepository.save(user);
+
+            mockSecurityContext.loginAsUser("michaeljames@iamnewteacher.com");
 
             var colorTheoryTopic = new TopicCreateDto(
                 "Design Basics",
@@ -78,7 +94,7 @@ public class VlpApplication {
             var colorTheoryCourseId = courseService.createCourse(courseCreateDto);
 
             var colorTheoryIntroLecture = new LectureCreateDto("Color theory introduction",
-                "Very basic description of what a color is and how to combinate different colors",
+                "Very basic description of what a color is and how to combine different colors",
                 "FULL DESCRIPTION NOT AVAILABLE....".repeat(4),
                 "https://www.youtube.com/watch?v=YeI6Wqn4I78",
                 1,

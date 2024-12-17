@@ -62,14 +62,14 @@ user:
 javers:
     newObjectSnapshot: true
     sql:
-        enabled: true
-    redis:
         enabled: false
+    redis:
+        enabled: true
         audit-duration: 2h
         jedis:
             host: localhost
             port: 6379
             database: 0
-#logging:
-#    level:
-#        root: debug
+logging:
+    level:
+      org.javers: DEBUG
