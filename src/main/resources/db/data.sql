@@ -362,3 +362,12 @@ VALUES (1, 12),
        (17, 24),
        (21, 25),
        (17, 26);
+
+INSERT INTO `user_completed_course` (`course_id`, `user_id`, `completed_on`)
+VALUES (1, 12, NOW()),
+       (2, 12, NOW()),
+       (2, 13, NOW());
+
+INSERT INTO `course_rating` (`id`, `course_id`, `user_id`, `rating`, `created`)
+VALUES (1, 1, 12, 4, NOW()),
+       (2, 2, 12, 3, NOW())
