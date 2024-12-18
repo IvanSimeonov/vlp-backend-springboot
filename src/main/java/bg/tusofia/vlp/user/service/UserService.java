@@ -1,5 +1,6 @@
 package bg.tusofia.vlp.user.service;
 
+import bg.tusofia.vlp.user.dto.TeacherOverviewDto;
 import bg.tusofia.vlp.user.dto.UserCreateDto;
 import bg.tusofia.vlp.user.dto.UserOverviewDto;
 import bg.tusofia.vlp.user.dto.UserPublicProfileDto;
@@ -28,4 +29,11 @@ public interface UserService extends UserDetailsService {
      * @return the public profile of the user
      */
     UserPublicProfileDto getUserPublicProfileById(Long userId);
+
+    /**
+     * Retrieves the top 3 teachers with the most students enrolled in their courses.
+     *
+     * @return List of top 3 teachers sorted by total enrolled students in descending order
+     */
+    List<TeacherOverviewDto> getTopTeachersByStudentCount();
 }

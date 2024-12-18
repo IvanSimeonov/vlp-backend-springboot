@@ -126,6 +126,15 @@ public class CourseController {
     }
 
     @Operation(
+            summary = "Get Top Courses By Student Count",
+            description = "Returns the top 10 featured courses with most enrolled and completed students"
+    )
+    @GetMapping(value = "/featured", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<CourseOverviewDto>> getTopCoursesByStudentCount() {
+        return ResponseEntity.ok(courseService.getTopCoursesByStudentCount());
+    }
+
+    @Operation(
             summary = "Create Course",
             description = "Creates a new course"
     )
@@ -185,7 +194,7 @@ public class CourseController {
     @PutMapping(value = "/{courseId}/upload-image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Void> uploadCourseImage(
             @PathVariable Long courseId,
-            @RequestParam @NotNull MultipartFile file) {
+            @RequestPart @NotNull MultipartFile file) {
         courseService.uploadCourseImage(courseId, file);
         return ResponseEntity.noContent().build();
     }

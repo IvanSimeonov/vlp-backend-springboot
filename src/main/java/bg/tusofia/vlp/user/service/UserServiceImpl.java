@@ -3,6 +3,7 @@ package bg.tusofia.vlp.user.service;
 import bg.tusofia.vlp.exception.UserNotFoundException;
 import bg.tusofia.vlp.user.domain.RoleType;
 import bg.tusofia.vlp.user.domain.User;
+import bg.tusofia.vlp.user.dto.TeacherOverviewDto;
 import bg.tusofia.vlp.user.dto.UserCreateDto;
 import bg.tusofia.vlp.user.dto.UserOverviewDto;
 import bg.tusofia.vlp.user.dto.UserPublicProfileDto;
@@ -51,6 +52,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findUserByEmail(username).orElseThrow(() -> new UsernameNotFoundException(username));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<TeacherOverviewDto> getTopTeachersByStudentCount() {
+        return userRepository.findTop3TeachersByEnrolledStudents().stream()
+                .map(userMapper::teacherOverviewToTeacherOverviewDto)
+                .toList();
     }
 
     /**

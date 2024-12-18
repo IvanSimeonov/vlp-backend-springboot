@@ -97,6 +97,15 @@ public class CourseServiceImpl implements CourseService {
      * {@inheritDoc}
      */
     @Override
+    public List<CourseOverviewDto> getTopCoursesByStudentCount() {
+        var courses = courseRepository.findTop10CoursesByStudentCount();
+        return courses.stream().map(courseMapper::courseOverviewToCourseOverviewDto).toList();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void uploadCourseImage(long courseId, MultipartFile image){
         var course = courseRepository.findCourseById(courseId).orElseThrow(() -> new CourseNotFoundException(courseId));
         var imagePath = saveFile(image, courseId);

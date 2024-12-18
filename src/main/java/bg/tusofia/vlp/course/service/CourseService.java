@@ -34,6 +34,12 @@ public interface CourseService {
 
     Page<CourseOverviewDto> getPagedCourseOverviews(CourseSearchCriteriaDto criteria, PageRequest pageRequest);
 
+    /**
+     * Retrieves the top 10 courses with the most students enrolled or completed.
+     * @return List of top 10 courses sorted by total student count in descending order.
+     */
+    List<CourseOverviewDto> getTopCoursesByStudentCount();
+
     void updateCourseById(Long courseId, CourseUpdateDto courseUpdateDto);
 
     /**

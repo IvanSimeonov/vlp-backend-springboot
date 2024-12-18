@@ -1,6 +1,7 @@
 package bg.tusofia.vlp.user.repository;
 
 import bg.tusofia.vlp.user.domain.RoleType;
+import bg.tusofia.vlp.user.domain.TeacherOverview;
 import bg.tusofia.vlp.user.domain.User;
 import bg.tusofia.vlp.user.domain.UserOverview;
 import bg.tusofia.vlp.user.dto.UserTeacherAccessRequestDto;
@@ -35,4 +36,17 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
     @Query("SELECT new bg.tusofia.vlp.user.dto.UserTeacherAccessRequestDto(u.id, u.firstName, u.lastName, u.email) " +
             "FROM User u WHERE u.isTeacherAccessRequested = true AND u.enabled = true")
     Page<UserTeacherAccessRequestDto> findAllUserTeacherAccessRequests(Pageable pageable);
+
+    @Query("SELECT u.id AS id, " +
+            "u.firstName AS firstName, " +
+            "u.lastName AS lastName, " +
+            "u.email AS email, " +
+            "u.profileImagePath AS profileImagePath, " +
+            "(SELECT COUNT(DISTINCT e.id) FROM u.createdCourses c " +
+            " JOIN c.enrolledUsers e) AS totalEnrolledStudents " +
+            "FROM User u " +
+            "WHERE u.role = 'ROLE_TEACHER' " +
+            "ORDER BY totalEnrolledStudents DESC " +
+            "LIMIT 3")
+    List<TeacherOverview> findTop3TeachersByEnrolledStudents();
 }

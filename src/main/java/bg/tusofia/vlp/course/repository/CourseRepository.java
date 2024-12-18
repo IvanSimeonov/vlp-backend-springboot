@@ -32,6 +32,20 @@ public interface CourseRepository extends JpaRepository<Course, Long>, JpaSpecif
     )
     CourseOverview findCourseOverviewById(Long id);
 
+    @Query("SELECT c.id AS id, " +
+            "c.title AS title, " +
+            "c.shortDescription AS shortDescription, " +
+            "c.author AS author, " +
+            "c.topic AS topic, " +
+            "c.difficultyLevel AS difficultyLevel, " +
+            "c.imagePath AS imagePath, " +
+            "(SELECT COALESCE(AVG(cr.rating), 0) FROM CourseRating cr WHERE cr.course.id = c.id) AS averageRating, " +
+            "(SELECT COUNT(cr) FROM CourseRating cr WHERE cr.course.id = c.id) AS totalRatings, " +
+            "(SIZE(c.enrolledUsers) + SIZE(c.completedUsers)) AS totalStudents " +
+            "FROM Course c " +
+            "ORDER BY totalStudents DESC")
+    List<CourseOverview> findTop10CoursesByStudentCount();
+
     @Query("SELECT new bg.tusofia.vlp.course.dto.CourseAnalyticsDto(c.difficultyLevel, COUNT(c)) " +
             "FROM Course c GROUP BY c.difficultyLevel"
     )

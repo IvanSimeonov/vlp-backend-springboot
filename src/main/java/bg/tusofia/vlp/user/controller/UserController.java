@@ -1,5 +1,6 @@
 package bg.tusofia.vlp.user.controller;
 
+import bg.tusofia.vlp.user.dto.TeacherOverviewDto;
 import bg.tusofia.vlp.user.dto.UserCreateDto;
 import bg.tusofia.vlp.user.dto.UserOverviewDto;
 import bg.tusofia.vlp.user.dto.UserPublicProfileDto;
@@ -82,6 +83,15 @@ public class UserController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<List<UserOverviewDto>> getAllUsers() {
         return ResponseEntity.ok(userService.getAllUsers());
+    }
+
+    @Operation(
+            summary = "Get Top Teachers By Student Count",
+            description = "Returns the top 3 featured teachers with most enrolled students"
+    )
+    @GetMapping(value = "/featured", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<TeacherOverviewDto>> getTopTeachersByStudentCount() {
+        return ResponseEntity.ok(userService.getTopTeachersByStudentCount());
     }
 
     @PostMapping
