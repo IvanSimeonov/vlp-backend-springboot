@@ -1,5 +1,6 @@
 package bg.tusofia.vlp.course.domain;
 
+import bg.tusofia.vlp.topic.domain.Topic;
 import bg.tusofia.vlp.user.domain.User;
 
 /**
@@ -13,8 +14,11 @@ import bg.tusofia.vlp.user.domain.User;
 public interface CourseOverview {
     Long getId();
     String getTitle();
-    DifficultyLevel getDifficultyLevel();
+    String getShortDescription();
     User getAuthor();
     Double getAverageRating();
     Integer getTotalRatings();
+    Topic getTopic();
+    DifficultyLevel getDifficultyLevel();
+    String getImagePath();
 }

@@ -47,7 +47,18 @@ public class Course implements Serializable {
     private String title;
 
     @Column(nullable = false, columnDefinition = "TEXT")
-    private String description;
+    private String shortDescription;
+
+    @Column(nullable = false, columnDefinition = "TEXT")
+    private String fullDescription;
+
+    @Column(nullable = false, columnDefinition = "TEXT")
+    private String requirements;
+
+    @Column(nullable = false)
+    private int passingScore;
+
+    private String imagePath;
 
     @CreationTimestamp
     private LocalDateTime created;

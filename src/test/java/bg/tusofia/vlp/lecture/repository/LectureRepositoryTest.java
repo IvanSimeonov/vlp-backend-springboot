@@ -33,7 +33,7 @@ class LectureRepositoryTest {
     void testCourseLectureSync() {
         var course = new Course();
         course.setTitle("Test Course");
-        course.setDescription("Test Description");
+        course.setFullDescription("Test Description");
         var savedCourse = courseRepository.save(course);
 
         var lecture1 = new Lecture();

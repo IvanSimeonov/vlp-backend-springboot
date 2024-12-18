@@ -4,7 +4,7 @@ import bg.tusofia.vlp.course.dto.*;
 import bg.tusofia.vlp.courserating.dto.CourseRatingDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -32,9 +32,7 @@ public interface CourseService {
 
     Page<CourseManagementDto> getCourses(CourseSearchCriteriaDto criteria, PageRequest pageRequest);
 
-    Page<CourseOverviewDto> getAllCourses(Pageable pageable);
-
-    Page<CourseOverviewDto> getAllCoursesByTopic(Long topicId, Pageable pageable);
+    Page<CourseOverviewDto> getPagedCourseOverviews(CourseSearchCriteriaDto criteria, PageRequest pageRequest);
 
     void updateCourseById(Long courseId, CourseUpdateDto courseUpdateDto);
 
@@ -60,5 +58,17 @@ public interface CourseService {
 
     void deleteCourseById(Long courseId);
 
-    void enrollUserToCourse(Long courseId, Long userId);
+    void enrollUserToCourse(Long courseId);
+
+    /**
+     * Updates the course image for a specified course by uploading a new image file.
+     * This method stores the uploaded file, saves the image path in the course,
+     * and updates the course with the new image information.
+     *
+     * @param courseId the unique ID of the course, whose image is being updated
+     * @param image the new image file to be uploaded and set as the courses image
+     * @throws bg.tusofia.vlp.exception.CourseNotFoundException if no course exists with the specified {@code courseId}
+     */
+    void uploadCourseImage(long courseId, MultipartFile image);
+
 }

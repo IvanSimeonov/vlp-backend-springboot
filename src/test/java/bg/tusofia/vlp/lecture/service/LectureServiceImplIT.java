@@ -93,7 +93,8 @@ class LectureServiceImplIT {
     @Order(2)
     @Disabled
     void testDeleteLecture() {
-        var courseCreateDto = new CourseCreateDto("Test Course Title", "Test Course Description", 70, 1L, DifficultyLevel.BEGINNER, "No prior knowledge is required", "Extended description", 1L);        var courseId = courseService.createCourse(courseCreateDto);
+        var courseCreateDto = new CourseCreateDto("Test Course Title", "Test Course Description", 70, 1L, DifficultyLevel.BEGINNER, "No prior knowledge is required", "Extended description", 1L);
+        var courseId = courseService.createCourse(courseCreateDto);
         var lectureCreateDto = new LectureCreateDto("Test Lecture Title", "Short Lecture Description", "Full Lecture Description", "https://test-video-url.com", 1, courseId);
         var lectureId = lectureService.createLecture(lectureCreateDto);
 

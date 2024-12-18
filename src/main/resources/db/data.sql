@@ -106,75 +106,94 @@ VALUES (1, 'Software Development', 'Learn programming languages and tools to bui
        (6, 'Design', 'Learn visual design principles and tools for creating compelling digital content.'),
        (7, 'Health & Wellness', 'Discover practices for improving physical and mental well-being.');
 
-INSERT INTO `course` (`id`, `author_id`, `topic_id`, `created`, `modified`, `title`, `description`, `difficulty_level`,
-                      `status`)
+INSERT INTO `course` (`id`, `author_id`, `topic_id`, `created`, `modified`, `title`, `short_description`,
+                      `full_description`, `requirements`, `passing_score`, `difficulty_level`, `status`)
 VALUES
     -- Software Development Courses
     (1, 5, 1, NOW(), NOW(), 'Introduction to Software Development',
-     'Learn the basics of software development including programming languages and tools.', 'BEGINNER', 'PUBLISHED'),
+     'Learn the basics of software development including programming languages and tools.',
+     'This is the full Description', 'This are the requirements', 60, 'BEGINNER', 'PUBLISHED'),
     (2, 5, 1, NOW(), NOW(), 'SOLID Principles and Design Patterns',
-     'Explore advanced techniques in software development and best practices.', 'ADVANCED', 'PUBLISHED'),
+     'Explore advanced techniques in software development and best practices.', 'This is the full Description',
+     'This are the requirements', 60, 'ADVANCED', 'PUBLISHED'),
     (3, 5, 1, NOW(), NOW(), 'Software Development Methodologies',
-     'Understand different methodologies like Agile and Waterfall in software development.', 'ADVANCED', 'DRAFT'),
+     'Understand different methodologies like Agile and Waterfall in software development.',
+     'This is the full Description', 'This are the requirements', 60, 'ADVANCED', 'DRAFT'),
     (4, 4, 1, NOW(), NOW(), 'Docker and Kubernetes Basics',
-     'Learn the fundamentals of Docker and Kubernetes including Jenkins.', 'BEGINNER', 'PUBLISHED'),
+     'Learn the fundamentals of Docker and Kubernetes including Jenkins.', 'This is the full Description',
+     'This are the requirements', 60, 'BEGINNER', 'PUBLISHED'),
     (5, 4, 1, NOW(), NOW(), 'Become a DevOos Master',
      'Become a DevOps Master learning Jenkins & integrations with powerful tools like Docker, Ansible, AWS, GIT & more!',
-     'INTERMEDIATE', 'PUBLISHED'),
+     'This is the full Description', 'This are the requirements', 60, 'INTERMEDIATE', 'PUBLISHED'),
 
     -- Science Courses
     (6, 6, 2, NOW(), NOW(), 'Fundamentals of Physics',
      'An introductory course covering the basic principles of physics.',
-     'BEGINNER', 'PUBLISHED'),
+     'This is the full Description', 'This are the requirements', 60, 'BEGINNER', 'PUBLISHED'),
     (7, 6, 2, NOW(), NOW(), 'Astrophysics: Exploring the Universe',
-     'Delve into astrophysics and learn about celestial phenomena.', 'INTERMEDIATE', 'PUBLISHED'),
+     'Delve into astrophysics and learn about celestial phenomena.', 'This is the full Description',
+     'This are the requirements', 60, 'INTERMEDIATE', 'PUBLISHED'),
     (8, 6, 2, NOW(), NOW(), 'Quantum Mechanics Basics',
-     'A beginner-friendly introduction to the principles of quantum mechanics.', 'BEGINNER', 'DRAFT'),
+     'A beginner-friendly introduction to the principles of quantum mechanics.', 'This is the full Description',
+     'This are the requirements', 60, 'BEGINNER', 'DRAFT'),
     (9, 6, 2, NOW(), NOW(), 'Chemistry Fundamentals',
-     'An introduction to the basic concepts of chemistry and its applications.', 'BEGINNER', 'DRAFT'),
+     'An introduction to the basic concepts of chemistry and its applications.', 'This is the full Description',
+     'This are the requirements', 60, 'BEGINNER', 'DRAFT'),
 
     -- Business Courses
     (10, 7, 3, NOW(), NOW(), 'Entrepreneurship Essentials',
-     'Learn the key skills needed to start and run a successful business.', 'BEGINNER', 'PUBLISHED'),
+     'Learn the key skills needed to start and run a successful business.', 'This is the full Description',
+     'This are the requirements', 60, 'BEGINNER', 'PUBLISHED'),
     (11, 7, 3, NOW(), NOW(), 'Advanced Marketing Strategies',
      'Explore advanced marketing strategies for business growth.',
-     'ADVANCED', 'PUBLISHED'),
+     'This is the full Description', 'This are the requirements', 60, 'ADVANCED', 'PUBLISHED'),
     (12, 7, 3, NOW(), NOW(), 'Financial Management for Entrepreneurs',
-     'Understand financial management principles essential for entrepreneurs.', 'INTERMEDIATE', 'DRAFT'),
+     'Understand financial management principles essential for entrepreneurs.', 'This is the full Description',
+     'This are the requirements', 60, 'INTERMEDIATE', 'DRAFT'),
     (13, 7, 3, NOW(), NOW(), 'Digital Marketing Strategies',
-     'Learn effective digital marketing strategies to enhance online presence.', 'INTERMEDIATE', 'PUBLISHED'),
+     'Learn effective digital marketing strategies to enhance online presence.', 'This is the full Description',
+     'This are the requirements', 60, 'INTERMEDIATE', 'PUBLISHED'),
 
     -- Engineering Courses
     (14, 8, 4, NOW(), NOW(), 'Electrical Engineering Basics',
      'An introductory course on electrical engineering concepts.',
-     'BEGINNER', 'PUBLISHED'),
+     'This is the full Description', 'This are the requirements', 60, 'BEGINNER', 'PUBLISHED'),
     (15, 8, 4, NOW(), NOW(), 'Advanced Topics in Civil Engineering',
-     'Explore advanced topics in civil engineering and its applications.', 'ADVANCED', 'DRAFT'),
+     'Explore advanced topics in civil engineering and its applications.', 'This is the full Description',
+     'This are the requirements', 60, 'ADVANCED', 'DRAFT'),
     (16, 8, 4, NOW(), NOW(), 'Introduction to Mechanical Engineering',
-     'Learn about the fundamentals of mechanical engineering.', 'BEGINNER', 'DRAFT'),
+     'Learn about the fundamentals of mechanical engineering.', 'This is the full Description',
+     'This are the requirements', 60, 'BEGINNER', 'DRAFT'),
 
     -- Personal Development Courses
     (17, 9, 5, NOW(), NOW(), 'Leadership Skills Development',
-     'Enhance your leadership skills for personal and professional growth.', 'INTERMEDIATE', 'PUBLISHED'),
+     'Enhance your leadership skills for personal and professional growth.', 'This is the full Description',
+     'This are the requirements', 60, 'INTERMEDIATE', 'PUBLISHED'),
     (18, 9, 5, NOW(), NOW(), 'Time Management Techniques',
-     'Learn effective time management techniques to boost productivity.', 'BEGINNER', 'DRAFT'),
+     'Learn effective time management techniques to boost productivity.', 'This is the full Description',
+     'This are the requirements', 60, 'BEGINNER', 'DRAFT'),
     (19, 9, 5, NOW(), NOW(), 'Effective Communication Skills',
-     'Develop communication skills for personal and professional success.', 'INTERMEDIATE', 'DRAFT'),
+     'Develop communication skills for personal and professional success.', 'This is the full Description',
+     'This are the requirements', 60, 'INTERMEDIATE', 'DRAFT'),
     (20, 9, 5, NOW(), NOW(), 'Stress Management Techniques',
-     'Learn techniques to manage stress and improve mental health.', 'BEGINNER', 'DRAFT'),
+     'Learn techniques to manage stress and improve mental health.', 'This is the full Description',
+     'This are the requirements', 60, 'BEGINNER', 'DRAFT'),
 
     -- Design Courses
     (21, 10, 6, NOW(), NOW(), 'Introduction to Graphic Design',
-     'Discover the principles of graphic design and visual communication.', 'BEGINNER', 'PUBLISHED'),
+     'Discover the principles of graphic design and visual communication.', 'This is the full Description',
+     'This are the requirements', 60, 'BEGINNER', 'PUBLISHED'),
     (22, 10, 6, NOW(), NOW(), 'UI/UX Design Fundamentals',
      'Learn the basics of user interface and user experience design.',
-     'INTERMEDIATE', 'PUBLISHED'),
+     'This is the full Description', 'This are the requirements', 60, 'INTERMEDIATE', 'PUBLISHED'),
 
     -- Health & Wellness Courses
     (23, 11, 7, NOW(), NOW(), 'Nutrition Basics for a Healthier Life',
-     'Understand the fundamentals of nutrition for better health.', 'BEGINNER', 'PUBLISHED'),
+     'Understand the fundamentals of nutrition for better health.', 'This is the full Description',
+     'This are the requirements', 60, 'BEGINNER', 'PUBLISHED'),
     (24, 11, 7, NOW(), NOW(), 'Fitness Strategies for Wellness',
-     'Explore effective fitness strategies to improve your well-being.', 'INTERMEDIATE', 'DRAFT');
+     'Explore effective fitness strategies to improve your well-being.', 'This is the full Description',
+     'This are the requirements', 60, 'INTERMEDIATE', 'DRAFT');
 
 INSERT INTO `lecture` (`id`, `course_id`, `sequence_number`, `title`, `short_description`, `full_description`,
                        `video_url`)
@@ -370,4 +389,6 @@ VALUES (1, 12, NOW()),
 
 INSERT INTO `course_rating` (`id`, `course_id`, `user_id`, `rating`, `created`)
 VALUES (1, 1, 12, 4, NOW()),
-       (2, 2, 12, 3, NOW())
+       (2, 2, 12, 5, NOW()),
+       (3, 2, 13, 2, NOW()),
+       (4, 2, 14, 3, NOW())
