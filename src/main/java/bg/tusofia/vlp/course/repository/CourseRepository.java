@@ -43,7 +43,8 @@ public interface CourseRepository extends JpaRepository<Course, Long>, JpaSpecif
             "(SELECT COUNT(cr) FROM CourseRating cr WHERE cr.course.id = c.id) AS totalRatings, " +
             "(SIZE(c.enrolledUsers) + SIZE(c.completedUsers)) AS totalStudents " +
             "FROM Course c " +
-            "ORDER BY totalStudents DESC")
+            "ORDER BY totalStudents DESC " +
+            "LIMIT 10")
     List<CourseOverview> findTop10CoursesByStudentCount();
 
     @Query("SELECT new bg.tusofia.vlp.course.dto.CourseAnalyticsDto(c.difficultyLevel, COUNT(c)) " +
