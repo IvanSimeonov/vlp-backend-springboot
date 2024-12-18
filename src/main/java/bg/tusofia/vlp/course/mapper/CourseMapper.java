@@ -50,6 +50,7 @@ public abstract class CourseMapper {
      */
     @Mapping(target = "modificationDate", source = "modified")
     @Mapping(target = "totalStudents", expression = "java(course.getEnrolledUsers().size())")
+    @Mapping(target = "totalLectures", expression = "java(course.getLectures().size())")
     public abstract CourseManagementDto courseToCourseManagementDto(Course course);
 
     @Mapping(target = "averageRating", expression = "java(calculateAverageRating(course))")

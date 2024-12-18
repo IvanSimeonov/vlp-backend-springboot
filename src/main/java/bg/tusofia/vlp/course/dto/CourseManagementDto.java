@@ -22,6 +22,7 @@ import bg.tusofia.vlp.user.dto.UserOverviewDto;
  * @param status Current status of the course
  * @param modificationDate Date of the most recent course modification
  * @param totalStudents Number of students enrolled in the course
+ * @param totalLectures Number of the lectures in the course
  * @param imagePath File path to the course's representative image
  *
  * @author Ivan Simeonov
@@ -36,5 +37,6 @@ public record CourseManagementDto(
         Status status,
         String modificationDate,
         int totalStudents,
+        int totalLectures,
         String imagePath) {
 }
