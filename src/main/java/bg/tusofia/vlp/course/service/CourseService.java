@@ -86,7 +86,8 @@ public interface CourseService {
      * @param courseId The ID of the course to be rated
      * @param courseRatingDto The dto containing rating information
      * @return The created CourseRatingDto
-     * @throws IllegalArgumentException If the user has not completed the course or already rated it
+     * @throws bg.tusofia.vlp.exception.CourseAlreadyRatedException If the user has already rated the course
+     * @throws bg.tusofia.vlp.exception.CourseNotCompletedException If the user has not completed the course
      * @throws bg.tusofia.vlp.exception.CourseNotFoundException if the course is not found
      * @throws bg.tusofia.vlp.exception.UserNotFoundException if the user is not found
      */

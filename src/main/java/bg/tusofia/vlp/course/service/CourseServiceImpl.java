@@ -11,10 +11,7 @@ import bg.tusofia.vlp.courserating.domain.CourseRating;
 import bg.tusofia.vlp.courserating.dto.CourseRatingDto;
 import bg.tusofia.vlp.courserating.mapper.CourseRatingMapper;
 import bg.tusofia.vlp.courserating.repository.CourseRatingRepository;
-import bg.tusofia.vlp.exception.CannotDeleteCourseException;
-import bg.tusofia.vlp.exception.CourseNotFoundException;
-import bg.tusofia.vlp.exception.FileStorageException;
-import bg.tusofia.vlp.exception.UserNotFoundException;
+import bg.tusofia.vlp.exception.*;
 import bg.tusofia.vlp.topic.repository.TopicRepository;
 import bg.tusofia.vlp.user.domain.User;
 import bg.tusofia.vlp.user.repository.UserRepository;
@@ -193,10 +190,10 @@ public class CourseServiceImpl implements CourseService {
         var user = userRepository.findById(courseRatingDto.userId()).orElseThrow(() -> new UserNotFoundException(courseRatingDto.userId()));
         var hasCompletedCourse = user.getCompletedCourses().stream().anyMatch(c -> c.getCourse().getId().equals(courseId));
         if (!hasCompletedCourse) {
-            throw new IllegalArgumentException("Only users who have completed the course can rate it!");
+            throw new CourseNotCompletedException(courseId);
         }
         if (courseRatingRepository.existsByCourseAndUser(course, user)) {
-            throw new IllegalArgumentException("Course has already been rated!");
+            throw new CourseAlreadyRatedException(courseId);
         }
         CourseRating courseRating = courseRatingMapper.courseRatingDtoToCourseRating(courseRatingDto);
         return courseRatingMapper.courseRatingToCourseRatingDto(courseRatingRepository.save(courseRating));

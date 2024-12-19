@@ -71,4 +71,20 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 .status(HttpStatus.CONFLICT)
                 .body(errorResponse);
     }
+
+    @ExceptionHandler(CourseAlreadyRatedException.class)
+    public ResponseEntity<ErrorResponse> handleCourseAlreadyRatedException(CourseAlreadyRatedException ex) {
+        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.CONFLICT.value(), ex.getMessage());
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(errorResponse);
+    }
+
+    @ExceptionHandler(CourseNotCompletedException.class)
+    public ResponseEntity<ErrorResponse> handleCourseNotCompletedException(CourseNotCompletedException ex) {
+        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.CONFLICT.value(), ex.getMessage());
+        return ResponseEntity
+                .status(HttpStatus.UNPROCESSABLE_ENTITY)
+                .body(errorResponse);
+    }
 }
