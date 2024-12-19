@@ -1,5 +1,6 @@
 package bg.tusofia.vlp.course.service;
 
+import bg.tusofia.vlp.common.domain.UserCompletedCourse;
 import bg.tusofia.vlp.course.domain.Course;
 import bg.tusofia.vlp.course.domain.Status;
 import bg.tusofia.vlp.course.dto.*;
@@ -17,10 +18,15 @@ import bg.tusofia.vlp.topic.repository.TopicRepository;
 import bg.tusofia.vlp.user.domain.User;
 import bg.tusofia.vlp.user.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
+import jakarta.persistence.criteria.Subquery;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -127,6 +133,59 @@ public class CourseServiceImpl implements CourseService {
      * {@inheritDoc}
      */
     @Override
+    public Page<CourseOverviewDto> getUserCreatedCourses(CourseSearchCriteriaDto searchCriteria, PageRequest pageRequest) {
+        var user = getCurrentAuthenticatedUser();
+        Specification<Course> specification = CourseSpecification.getCoursesByCriteria(searchCriteria)
+                .and((root, query, criteriaBuilder) ->
+                        criteriaBuilder.equal(root.get("author"), user));
+        Page<Course> enrolledCourses = courseRepository.findAll(specification, pageRequest);
+        return enrolledCourses.map(courseMapper::courseToCourseOverviewDto);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Page<CourseOverviewDto> getUserEnrolledCourses(CourseSearchCriteriaDto searchCriteria, PageRequest pageRequest) {
+        var user = getCurrentAuthenticatedUser();
+        Specification<Course> specification = CourseSpecification.getCoursesByCriteria(searchCriteria)
+                .and((root, criteriaQuery, criteriaBuilder) ->
+                        criteriaBuilder.isMember(user, root.get("enrolledUsers"))
+                );
+        Page<Course> enrolledCourses = courseRepository.findAll(specification, pageRequest);
+        return enrolledCourses.map(courseMapper::courseToCourseOverviewDto);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Page<CourseOverviewDto> getUserCompletedCourses(CourseSearchCriteriaDto searchCriteria, PageRequest pageRequest) {
+        var user = getCurrentAuthenticatedUser();
+
+        Specification<Course> specification = (root, criteriaQuery, criteriaBuilder) -> {
+            Subquery<Long> subquery = criteriaQuery.subquery(Long.class);
+            Root<Course> subRoot = subquery.from(Course.class);
+
+            Join<Course, UserCompletedCourse> completedUsersJoin = subRoot.join("completedUsers");
+            subquery.select(subRoot.get("id"))
+                    .where(
+                            criteriaBuilder.equal(subRoot.get("id"), root.get("id")),
+                            criteriaBuilder.equal(completedUsersJoin.get("user"), user)
+                    );
+
+            Specification<Course> baseCriteria = CourseSpecification.getCoursesByCriteria(searchCriteria);
+            Predicate basePredicate = baseCriteria.toPredicate(root, criteriaQuery, criteriaBuilder);
+            return criteriaBuilder.exists(subquery);
+        };
+        Page<Course> completedCourses = courseRepository.findAll(specification, pageRequest);
+        return completedCourses.map(courseMapper::courseToCourseOverviewDto);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     @Transactional
     public CourseRatingDto rateCourse(Long courseId, CourseRatingDto courseRatingDto) {
         var course = courseRepository.findById(courseId).orElseThrow(() -> new CourseNotFoundException(courseId));
@@ -183,7 +242,6 @@ public class CourseServiceImpl implements CourseService {
         course.addEnrolledUser(user);
         courseRepository.save(course);
     }
-
 
     private String saveFile(MultipartFile file, Long courseId) {
         try {

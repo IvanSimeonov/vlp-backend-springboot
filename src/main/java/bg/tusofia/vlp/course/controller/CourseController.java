@@ -69,12 +69,7 @@ public class CourseController {
             @RequestParam(defaultValue = "title") String sortBy,
             @RequestParam(defaultValue = "asc") String sortDirection,
             CourseSearchCriteriaDto courseSearchCriteriaDto) {
-        PageRequest pageRequest = PageRequest.of(
-                pageNumber,
-                pageSize,
-                sortDirection.equalsIgnoreCase("desc") ? Sort.by(sortBy).descending() : Sort.by(sortBy).ascending()
-        );
-        return ResponseEntity.ok(courseService.getCourses(courseSearchCriteriaDto, pageRequest));
+        return ResponseEntity.ok(courseService.getCourses(courseSearchCriteriaDto, createPageRequest(pageNumber, pageSize, sortBy, sortDirection)));
     }
 
     @Operation(
@@ -88,19 +83,14 @@ public class CourseController {
             @RequestParam(defaultValue = "title") String sortBy,
             @RequestParam(defaultValue = "asc") String sortDirection,
             CourseSearchCriteriaDto courseSearchCriteriaDto) {
-        PageRequest pageRequest = PageRequest.of(
-                pageNumber,
-                pageSize,
-                sortDirection.equalsIgnoreCase("desc") ? Sort.by(sortBy).descending() : Sort.by(sortBy).ascending()
-        );
-        return ResponseEntity.ok(courseService.getPagedCourseOverviews(courseSearchCriteriaDto, pageRequest));
+        return ResponseEntity.ok(courseService.getPagedCourseOverviews(courseSearchCriteriaDto, createPageRequest(pageNumber, pageSize, sortBy, sortDirection)));
     }
 
     @Operation(
             summary = "Get Course Image",
             description = "Returns the image of a course"
     )
-    @GetMapping(value = "/course-image", produces = { MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_GIF_VALUE })
+    @GetMapping(value = "/course-image", produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_GIF_VALUE})
     public ResponseEntity<Resource> getCourseImage(@RequestParam String filePath) {
         try {
             Path imagePath = Paths.get("").resolve(filePath).normalize();
@@ -133,6 +123,49 @@ public class CourseController {
     public ResponseEntity<List<CourseOverviewDto>> getTopCoursesByStudentCount() {
         return ResponseEntity.ok(courseService.getTopCoursesByStudentCount());
     }
+
+    @Operation(
+            summary = "Get Users Created Courses",
+            description = "Returns the courses that the currently logged user has created with pagination, sorting and filtering."
+    )
+    @GetMapping(value = "/learnings/created", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Page<CourseOverviewDto>> getUsersCreatedCourses(
+            @RequestParam(defaultValue = "0") int pageNumber,
+            @RequestParam(defaultValue = "10") int pageSize,
+            @RequestParam(defaultValue = "title") String sortBy,
+            @RequestParam(defaultValue = "asc") String sortDirection,
+            CourseSearchCriteriaDto courseSearchCriteriaDto) {
+        return ResponseEntity.ok(courseService.getUserCreatedCourses(courseSearchCriteriaDto, createPageRequest(pageNumber, pageSize, sortBy, sortDirection)));
+    }
+
+    @Operation(
+            summary = "Get Users Enrolled Courses",
+            description = "Returns the courses that the currently logged user has enrolled in with pagination, sorting and filtering."
+    )
+    @GetMapping(value = "/learnings/enrolled", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Page<CourseOverviewDto>> getUserEnrolledCourses(
+            @RequestParam(defaultValue = "0") int pageNumber,
+            @RequestParam(defaultValue = "10") int pageSize,
+            @RequestParam(defaultValue = "title") String sortBy,
+            @RequestParam(defaultValue = "asc") String sortDirection,
+            CourseSearchCriteriaDto courseSearchCriteriaDto) {
+        return ResponseEntity.ok(courseService.getUserEnrolledCourses(courseSearchCriteriaDto, createPageRequest(pageNumber, pageSize, sortBy, sortDirection)));
+    }
+
+    @Operation(
+            summary = "Get Users Completed Courses",
+            description = "Returns the courses that the currently logged user has completed with pagination, sorting and filtering."
+    )
+    @GetMapping(value = "/learnings/completed", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Page<CourseOverviewDto>> getUsersCompletedCourses(
+            @RequestParam(defaultValue = "0") int pageNumber,
+            @RequestParam(defaultValue = "10") int pageSize,
+            @RequestParam(defaultValue = "title") String sortBy,
+            @RequestParam(defaultValue = "asc") String sortDirection,
+            CourseSearchCriteriaDto courseSearchCriteriaDto) {
+        return ResponseEntity.ok(courseService.getUserCompletedCourses(courseSearchCriteriaDto, createPageRequest(pageNumber, pageSize, sortBy, sortDirection)));
+    }
+
 
     @Operation(
             summary = "Create Course",
@@ -215,6 +248,13 @@ public class CourseController {
             return fileName.substring(lastDotIndex + 1);
         }
         return "";
+    }
+
+    private PageRequest createPageRequest(int pageNumber, int pageSize, String sortBy, String sortDirection) {
+        Sort sort = sortDirection.equalsIgnoreCase("desc")
+                ? Sort.by(sortBy).descending()
+                : Sort.by(sortBy).ascending();
+        return PageRequest.of(pageNumber, pageSize, sort);
     }
 
 }

@@ -40,6 +40,45 @@ public interface CourseService {
      */
     List<CourseOverviewDto> getTopCoursesByStudentCount();
 
+    /**
+     * Retrieves a paginated list of courses created by the current user.
+     *
+     * @param searchCriteria The search criteria for filtering courses
+     * @param pageRequest Pagination and sorting configuration
+     * @return A page of course overview DTOs matching the search criteria
+     * @throws IllegalArgumentException if search criteria or page request is invalid
+     */
+    Page<CourseOverviewDto> getUserCreatedCourses(
+            CourseSearchCriteriaDto searchCriteria,
+            PageRequest pageRequest
+    );
+
+    /**
+     * Retrieves a paginated list of courses enrolled by the current user.
+     *
+     * @param searchCriteria The search criteria for filtering courses
+     * @param pageRequest Pagination and sorting configuration
+     * @return A page of course overview DTOs matching the search criteria
+     * @throws IllegalArgumentException if search criteria or page request is invalid
+     */
+    Page<CourseOverviewDto> getUserEnrolledCourses(
+            CourseSearchCriteriaDto searchCriteria,
+            PageRequest pageRequest
+    );
+
+    /**
+     * Retrieves a paginated list of courses completed by the current user.
+     *
+     * @param searchCriteria The search criteria for filtering courses
+     * @param pageRequest Pagination and sorting configuration
+     * @return A page of course overview DTOs matching the search criteria
+     * @throws IllegalArgumentException if search criteria or page request is invalid
+     */
+    Page<CourseOverviewDto> getUserCompletedCourses(
+            CourseSearchCriteriaDto searchCriteria,
+            PageRequest pageRequest
+    );
+
     void updateCourseById(Long courseId, CourseUpdateDto courseUpdateDto);
 
     /**
