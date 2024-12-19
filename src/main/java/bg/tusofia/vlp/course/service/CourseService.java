@@ -79,6 +79,14 @@ public interface CourseService {
             PageRequest pageRequest
     );
 
+    /**
+     * Retrieves detailed information for a course by its id
+     * @param courseId The ID of a course to be retrieved
+     * @return The detailed information about the course
+     * @throws bg.tusofia.vlp.exception.CourseNotFoundException if the course is not found
+     */
+    CourseDetailsDto getCourseDetailsById(Long courseId);
+
     void updateCourseById(Long courseId, CourseUpdateDto courseUpdateDto);
 
     /**

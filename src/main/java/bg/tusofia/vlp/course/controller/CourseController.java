@@ -166,6 +166,15 @@ public class CourseController {
         return ResponseEntity.ok(courseService.getUserCompletedCourses(courseSearchCriteriaDto, createPageRequest(pageNumber, pageSize, sortBy, sortDirection)));
     }
 
+    @Operation(
+            summary = "Get Course Details By Id",
+            description = "Returns detailed information about course by id"
+    )
+    @GetMapping(value = "/{courseId}/details", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<CourseDetailsDto> getCourseDetailsById(@PathVariable Long courseId) {
+        return ResponseEntity.ok(courseService.getCourseDetailsById(courseId));
+    }
+
 
     @Operation(
             summary = "Create Course",

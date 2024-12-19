@@ -199,6 +199,16 @@ public class CourseServiceImpl implements CourseService {
         return courseRatingMapper.courseRatingToCourseRatingDto(courseRatingRepository.save(courseRating));
     }
 
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public CourseDetailsDto getCourseDetailsById(Long courseId) {
+        var course = courseRepository.findById(courseId).orElseThrow(() -> new CourseNotFoundException(courseId));
+        return courseMapper.courseToCourseDetailsDto(course);
+    }
+
     @Override
     public void updateCourseStatus(Long courseId, CourseStatusUpdateDto courseStatusUpdateDto) {
         var course = courseRepository.findCourseById(courseId)

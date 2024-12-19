@@ -2,6 +2,8 @@ package bg.tusofia.vlp.user.dto;
 
 import bg.tusofia.vlp.user.domain.RoleType;
 
+import java.util.List;
+
 /**
  * Record: UserOverviewDto
  * <p>
@@ -10,5 +12,15 @@ import bg.tusofia.vlp.user.domain.RoleType;
  * @author Ivan Simeonov
  * @since 0.0.1
  */
-public record UserOverviewDto(Long id, String firstName, String lastName, String email, RoleType role, boolean enabled, String created) {
+public record UserOverviewDto(
+        Long id,
+        String firstName,
+        String lastName,
+        String email,
+        RoleType role,
+        boolean enabled,
+        String created,
+        List<Long> enrolledCoursesIds,
+        List<Long> completedCoursesIds,
+        List<Long> createdCoursesIds) {
 }
