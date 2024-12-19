@@ -1,6 +1,6 @@
 package bg.tusofia.vlp.user.dto;
 
-import bg.tusofia.vlp.course.dto.CourseUserProfileDto;
+import bg.tusofia.vlp.course.dto.CourseOverviewDto;
 import bg.tusofia.vlp.user.domain.RoleType;
 
 import java.util.List;
@@ -21,6 +21,7 @@ public record UserPublicProfileDto(
         String profileImagePath,
         RoleType role,
         boolean isTeacherAccessRequested,
-        List<CourseUserProfileDto> createdCourses,
-        List<CourseUserProfileDto> enrolledCourses) {
+        List<CourseOverviewDto> createdCourses,
+        List<CourseOverviewDto> enrolledCourses,
+        List<CourseOverviewDto> completedCourses) {
 }
