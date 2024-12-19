@@ -14,6 +14,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.javers.core.metamodel.annotation.DiffIgnore;
 import org.javers.core.metamodel.annotation.ShallowReference;
+import org.javers.core.metamodel.annotation.Value;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -63,9 +64,11 @@ public class Course implements Serializable {
     private String imagePath;
 
     @CreationTimestamp
+    @DiffIgnore
     private LocalDateTime created;
 
     @UpdateTimestamp
+    @DiffIgnore
     private LocalDateTime modified;
 
     @Enumerated(EnumType.STRING)

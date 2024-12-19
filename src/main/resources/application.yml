@@ -61,6 +61,7 @@ user:
                 upload-dir: userAssignments
 javers:
     newObjectSnapshot: true
+    objectAccessHook: org.javers.hibernate.integration.HibernateUnproxyObjectAccessHook
     sql:
         enabled: false
     redis:
@@ -70,6 +71,3 @@ javers:
             host: localhost
             port: 6379
             database: 0
-logging:
-    level:
-      org.javers: DEBUG

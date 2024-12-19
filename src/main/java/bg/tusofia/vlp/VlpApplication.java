@@ -2,6 +2,7 @@ package bg.tusofia.vlp;
 
 import bg.tusofia.vlp.assignment.dto.AssignmentSolutionCreateDto;
 import bg.tusofia.vlp.assignment.service.AssignmentSolutionService;
+import bg.tusofia.vlp.course.domain.Course;
 import bg.tusofia.vlp.course.domain.DifficultyLevel;
 import bg.tusofia.vlp.course.domain.Status;
 import bg.tusofia.vlp.course.dto.CourseCreateDto;
@@ -11,6 +12,7 @@ import bg.tusofia.vlp.lecture.domain.Lecture;
 import bg.tusofia.vlp.lecture.dto.LectureCreateDto;
 import bg.tusofia.vlp.lecture.dto.LectureUpdateDto;
 import bg.tusofia.vlp.lecture.service.LectureService;
+import bg.tusofia.vlp.topic.domain.Topic;
 import bg.tusofia.vlp.topic.dto.TopicCreateDto;
 import bg.tusofia.vlp.topic.service.TopicService;
 import bg.tusofia.vlp.user.domain.RoleType;
@@ -18,19 +20,41 @@ import bg.tusofia.vlp.user.domain.User;
 import bg.tusofia.vlp.user.domain.UserStatus;
 import bg.tusofia.vlp.user.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.validation.constraints.Max;
 import lombok.extern.slf4j.Slf4j;
 import org.javers.core.Javers;
+import org.javers.core.JaversBuilder;
+import org.javers.core.JaversBuilderPlugin;
+import org.javers.hibernate.integration.HibernateUnproxyObjectAccessHook;
 import org.javers.repository.jql.QueryBuilder;
+import org.javers.repository.redis.JaversRedisRepository;
+import org.javers.repository.sql.ConnectionProvider;
+import org.javers.spring.JaversSpringProperties;
+import org.javers.spring.auditable.AuthorProvider;
+import org.javers.spring.auditable.CommitPropertiesProvider;
+import org.javers.spring.auditable.aspect.springdatajpa.JaversSpringDataJpaAuditableRepositoryAspect;
+import org.javers.spring.boot.redis.JaversTransactionalRedisDecorator;
+import org.javers.spring.jpa.JpaHibernateConnectionProvider;
+import org.javers.spring.jpa.TransactionalJpaJaversBuilder;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Primary;
+import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionManager;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -39,6 +63,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
+import java.util.Random;
 
 import static bg.tusofia.vlp.course.domain.Status.PUBLISHED;
 
@@ -46,10 +72,10 @@ import static bg.tusofia.vlp.course.domain.Status.PUBLISHED;
 @ConfigurationPropertiesScan
 @Slf4j
 public class VlpApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(VlpApplication.class, args);
     }
+
 
     @Bean
     @Transactional
@@ -59,8 +85,10 @@ public class VlpApplication {
                                         UserRepository userRepository,
                                         AssignmentSolutionService assignmentSolutionService,
                                         ObjectMapper objectMapper,
+                                        PlatformTransactionManager transactionManager,
                                         Javers javers) {
         return args -> {
+            var random = new Random();
             var mockSecurityContext = new MockSecurityContext(userRepository);
             mockSecurityContext.loginAsUser("root@admin.com");
             var user = new User();
@@ -75,84 +103,131 @@ public class VlpApplication {
 
             mockSecurityContext.loginAsUser("michaeljames@iamnewteacher.com");
 
-            var colorTheoryTopic = new TopicCreateDto(
-                "Design Basics",
-                "This topic will mark all courses for beginners that are related somehow to graphic design"
-            );
-
-            var colorTheoryTopicId = topicService.createTopic(colorTheoryTopic);
+            var csTopic  = topicService.getTopicOverviewById(1L);
 
             var courseCreateDto = new CourseCreateDto(
-                "Color theory",
-                "Learn theoretical basics of colors and how to combine them to create beautiful images",
-                DifficultyLevel.BEGINNER,
+                "Spring Security",
+                "Spring Security 6, Spring Boot 3, OAUTH2, OpenID Connect, Keycloak...",
+                DifficultyLevel.INTERMEDIATE,
                 mockSecurityContext.getLoggedInUserId(),
-                colorTheoryTopicId,
+                csTopic.id(),
                 Status.DRAFT
             );
 
-            var colorTheoryCourseId = courseService.createCourse(courseCreateDto);
+            var springSecurityCourseId = courseService.createCourse(courseCreateDto);
 
-            var colorTheoryIntroLecture = new LectureCreateDto("Color theory introduction",
-                "Very basic description of what a color is and how to combine different colors",
-                "FULL DESCRIPTION NOT AVAILABLE....".repeat(4),
+            var lecture1intro = new LectureCreateDto("Getting Started",
+                "Welcome to this course! Let me explain what is the agenda of this course. Also demonstrate what will we build.",
+                """
+                    Creating a simple Spring Boot app without security.
+                    Securing the basic app using static credentials.
+                    Funny memes on security.
+                    What is security and why it is important.
+                    Quick introduction to servlets and filters.
+                    """,
                 "https://www.youtube.com/watch?v=YeI6Wqn4I78",
                 1,
-                colorTheoryCourseId
+                springSecurityCourseId
             );
 
-            var colorTheoryAdvanced = new LectureCreateDto("Advanced color theory",
-                "Advanced strategies to create stunning color combinations",
-                ".......".repeat(10),
+            var lecture2securityConfig = new LectureCreateDto("Security Configuration I",
+                "Changing the default security configurations",
+                """
+                    Understanding about UI part of the EazyBank application.
+                    Checking the default configuration inside the spring security framework.
+                    How to disable formLogin and httpBasic authentication.""",
                 "https://www.youtube.com/watch?v=XNkV6m4fosw",
-                2, colorTheoryCourseId
+                2, springSecurityCourseId
             );
 
-            var colorTheoryMaster = new LectureCreateDto("Masterclass color theory",
-                "Only for masters",
-                "....".repeat(20),
-                "https://www.youtube.com/watch?v=XNkV6m4fosw", 3, colorTheoryCourseId);
+            var lecture3inMemory = new LectureCreateDto("InMemoryUserDetailsManager",
+                "Defining and Managing Users using InMemoryUserDetailsManager",
+                """
+                    Configuring users using InMemoryUserDetailsManager.
+                    Configuring PasswordEncoder using PasswordEncoderFactories.
+                    Deep Dive of UserDetailsService & UserDetailsManager Interfaces.
+                    Deep Dive of UserDetails & Authentication interfaces.
+                    """,
+                "https://www.youtube.com/watch?v=XNkV6m4fosw", 3, springSecurityCourseId);
 
-            var colorTheoryIntoId = lectureService.createLecture(colorTheoryIntroLecture);
+            var lecture4manageUsersInDb = new LectureCreateDto("Database User Management",
+                "Defining & Managing Users using a database",
+                """
+                    Understanding JdbcUserDetailsManager & creating Users inside the DB.
+                    Using JdbcUserDetailsManager to perform authentication.
+                    Creating our own custom tables for Authentication.
+                    """,  "https://www.youtube.com/watch?v=d7ZmZFbE_qY", 4, springSecurityCourseId
+                );
 
-            lectureService.updateLecture(colorTheoryIntoId, new LectureUpdateDto(
-                colorTheoryIntroLecture.title(),
-                "SHORT DESCRIPTION CHANGED!!!",
-                colorTheoryIntroLecture.fullDescription(),
-                colorTheoryIntroLecture.videoUrl(),
-                colorTheoryIntroLecture.sequenceNumber()
-            ));
-
-            var colorTheoryAdvancedId = lectureService.createLecture(colorTheoryAdvanced);
-
-            lectureService.createLecture(colorTheoryMaster);
-
-            // PUBLISH THE LECTURE!!!
-            courseService.updateCourseStatus(colorTheoryCourseId, new CourseStatusUpdateDto(PUBLISHED));
-
-
-            // Simulate User login - Hans Hofer (student)
-            mockSecurityContext.loginAsUser("hans@hofer.com");
-            courseService.enrollUserToCourse(colorTheoryCourseId, mockSecurityContext.getLoggedInUserId());
-
-            var colorTheoryBasicsAssignment1 = new AssignmentSolutionCreateDto(
-                colorTheoryIntoId,
-                new DemoMultipartFile("color_theory_intro.txt", "Solution 1")
+            var lecture5passwordEncoders = new LectureCreateDto("Password Encoders",
+                "Password Management with Password Encoders",
+                """
+                    How our passwords validated with out PasswordEncoders.
+                    What is Encoding, Decoding & why it is not suitable for passwords management.
+                    Introduction to Hashing. Drawbacks of Hashing & what are Brute force attacks.
+                    """,  "https://www.youtube.com/watch?v=d7ZmZFbE_qY", 5, springSecurityCourseId
             );
 
-            var colorTheoryBasicsAssignment2 = new AssignmentSolutionCreateDto(
-                colorTheoryIntoId,
-                new DemoMultipartFile("color_theory_intro.txt", "Solution 2")
+            var lecture6authenticationProvider = new LectureCreateDto("Authentication Provider",
+                "Understanding Authentication Provider and implementing it",
+                """
+                    Why should we consider creating our own AuthenticationProvider
+                   Understanding AuthenticationProvider methods.
+                   Implementing and Customizing the AuthenticationProvider inside our application.
+                   Environment specific Security configurations using Profiles.
+                    """,  "https://www.youtube.com/watch?v=d7ZmZFbE_qY", 6, springSecurityCourseId
             );
 
-            assignmentSolutionService.uploadAssignmentSolution(colorTheoryBasicsAssignment1);
-            assignmentSolutionService.uploadAssignmentSolution(colorTheoryBasicsAssignment2);
 
-            var shadows = javers.findShadows(QueryBuilder.byInstanceId(colorTheoryIntoId, Lecture.class).build());
-            log.info(shadows.toString());
+            var lecture1introId = lectureService.createLecture(lecture1intro);
+            var lecture2securityConfigId = lectureService.createLecture(lecture2securityConfig);
+            var lecture3inMemoryId = lectureService.createLecture(lecture3inMemory);
+            var lecture4manageUsersInDbId = lectureService.createLecture(lecture4manageUsersInDb);
+            var lecture5passwordEncodersId = lectureService.createLecture(lecture5passwordEncoders);
+            var lecture6authenticationProviderId = lectureService.createLecture(lecture6authenticationProvider);
 
-            var authorShadows = javers.findShadows(QueryBuilder.byInstanceId(colorTheoryIntoId, "bg.tusofia.vlp.lecture.domain.Lecture").byAuthorLikeIgnoreCase("lucas").build());
-            log.info(authorShadows.toString());
+            // PUBLISH THE COURSE!!!
+            courseService.updateCourseStatus(springSecurityCourseId, new CourseStatusUpdateDto(PUBLISHED));
+
+            
+            
+            var usersToBeEnrolled = new String[] {
+                "hans@hofer.com", "sabine@mayer.com",
+            "lukas@wagner.com", "julia@bauer.com", "markus@gruber.com", "sophia@huber.com",
+            "felix@steiner.com", "emma@berger.com", "paul@maier.com", "laura@wolf.com",
+                "simon@weber.com", "anna@schmid.com", "david@schwarz.com", "sarah@koch.com",
+                "max@binder.com", "lisa@fuchs.com", "thomas@auer.com", "nina@winkler.com", "christian@moser.com",
+            "marie@reiter.com"
+            };
+
+            var lectureIdsForAssignments = new Long[] {
+                lecture1introId, lecture2securityConfigId, lecture3inMemoryId, lecture4manageUsersInDbId,
+                lecture5passwordEncodersId, lecture6authenticationProviderId
+            };
+
+            // Enroll users to the course
+            for (String username: usersToBeEnrolled) {
+                mockSecurityContext.loginAsUser(username);
+                courseService.enrollUserToCourse(springSecurityCourseId, mockSecurityContext.getLoggedInUserId());
+            }
+
+
+            // Create random assignments for each user
+            for (String username: usersToBeEnrolled) {
+                mockSecurityContext.loginAsUser(username);
+
+                for (Long lId : lectureIdsForAssignments) {
+                    for (var i = 0; i < random.nextInt(6); i++) {
+                        var solution = new AssignmentSolutionCreateDto(
+                          lId, new DemoMultipartFile(
+                              String.format("%s_lecture_%d_solution_%d", username, lId, i),
+                            String.format("LECTURE %d, SOLUTION %d", lId, i))
+                        );
+                        assignmentSolutionService.uploadAssignmentSolution(solution);
+                    }
+                }
+
+            }
         };
     }
 
