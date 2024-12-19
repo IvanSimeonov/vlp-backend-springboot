@@ -11,6 +11,7 @@ import bg.tusofia.vlp.courserating.domain.CourseRating;
 import bg.tusofia.vlp.courserating.dto.CourseRatingDto;
 import bg.tusofia.vlp.courserating.mapper.CourseRatingMapper;
 import bg.tusofia.vlp.courserating.repository.CourseRatingRepository;
+import bg.tusofia.vlp.exception.CannotDeleteCourseException;
 import bg.tusofia.vlp.exception.CourseNotFoundException;
 import bg.tusofia.vlp.exception.FileStorageException;
 import bg.tusofia.vlp.exception.UserNotFoundException;
@@ -176,7 +177,7 @@ public class CourseServiceImpl implements CourseService {
 
             Specification<Course> baseCriteria = CourseSpecification.getCoursesByCriteria(searchCriteria);
             Predicate basePredicate = baseCriteria.toPredicate(root, criteriaQuery, criteriaBuilder);
-            return criteriaBuilder.exists(subquery);
+            return criteriaBuilder.and(basePredicate, criteriaBuilder.exists(subquery));
         };
         Page<Course> completedCourses = courseRepository.findAll(specification, pageRequest);
         return completedCourses.map(courseMapper::courseToCourseOverviewDto);
@@ -216,8 +217,8 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public void deleteCourseById(Long courseId) {
         var course = courseRepository.getReferenceById(courseId);
-        if (course.getEnrolledUsers().isEmpty() || course.getCompletedUsers().isEmpty()) {
-            throw new IllegalStateException("Cannot delete course with users that are enrolled or have completed the course.");
+        if (!course.getEnrolledUsers().isEmpty() || !course.getCompletedUsers().isEmpty()) {
+            throw new CannotDeleteCourseException(courseId);
         }
         courseRepository.deleteById(courseId);
     }
