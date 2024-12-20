@@ -35,13 +35,18 @@ public class TopicServiceImpl implements TopicService {
     }
 
     @Override
+    public List<TopicOverviewDto> getAllTopics() {
+        return topicRepository.findAll()
+                .stream()
+                .map(topicMapper::topicToTopicOverviewDto)
+                .toList();
+    }
+
+    @Override
     public Page<TopicOverviewDto> getAllTopicOverviews(String searchTerm, PageRequest pageRequest) {
         return topicRepository.findByTitleContainingIgnoreCase(searchTerm, pageRequest)
                 .map(topicMapper::topicToTopicOverviewDto);
-//        return topicRepository.findAll()
-//                .stream()
-//                .map(topicMapper::topicToTopicOverviewDto)
-//                .toList();
+
     }
 
     /**

@@ -36,6 +36,11 @@ public class TopicController {
         return ResponseEntity.ok(topicService.getTopicOverviewById(topicId));
     }
 
+    @GetMapping("/all")
+    public ResponseEntity<List<TopicOverviewDto>> getTopics() {
+        return ResponseEntity.ok(topicService.getAllTopics());
+    }
+
     @GetMapping
     public ResponseEntity<Page<TopicOverviewDto>> getAllTopics(
             @RequestParam(defaultValue = "0") int pageNumber,

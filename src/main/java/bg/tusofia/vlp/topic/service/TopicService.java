@@ -18,6 +18,8 @@ import java.util.List;
 public interface TopicService {
     TopicOverviewDto getTopicOverviewById(Long topicId);
 
+    List<TopicOverviewDto> getAllTopics();
+
     Page<TopicOverviewDto> getAllTopicOverviews(String searchTerm, PageRequest pageRequest);
 
     /**

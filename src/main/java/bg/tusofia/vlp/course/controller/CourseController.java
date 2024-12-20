@@ -17,10 +17,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.MalformedURLException;
-import java.net.URI;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
@@ -180,14 +178,9 @@ public class CourseController {
             summary = "Create Course",
             description = "Creates a new course"
     )
-    @PostMapping
-    public ResponseEntity<Void> createCourse(@RequestBody @Valid CourseCreateDto courseCreateDto) {
-        URI location = ServletUriComponentsBuilder
-                .fromCurrentRequestUri()
-                .path("/{id}")
-                .buildAndExpand(courseService.createCourse(courseCreateDto))
-                .toUri();
-        return ResponseEntity.created(location).build();
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Long> createCourse(@RequestBody @Valid CourseCreateDto courseCreateDto) {
+        return ResponseEntity.ok(courseService.createCourse(courseCreateDto));
     }
 
     @Operation(
