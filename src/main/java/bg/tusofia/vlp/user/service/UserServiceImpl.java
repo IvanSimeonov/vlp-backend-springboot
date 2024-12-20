@@ -46,7 +46,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserOverviewDto getUserOverviewById(Long id) {
-        return this.userMapper.userOverviewToUserOverviewDto(this.userRepository.findUserOverviewById(id));
+        return this.userMapper.userToUserOverviewDto(this.userRepository.findUserById(id).orElseThrow(() -> new UserNotFoundException(id)));
     }
 
     @Override
