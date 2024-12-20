@@ -7,6 +7,7 @@ import bg.tusofia.vlp.lecture.dto.LectureUpdateDto;
 import bg.tusofia.vlp.lecture.service.LectureService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -21,7 +22,7 @@ import java.util.List;
  * @since 0.0.1
  */
 @RestController
-@RequestMapping("/api/v1/lecture")
+@RequestMapping(value = "/api/v1/lecture", produces = MediaType.APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
 public class LectureController {
     private final LectureService lectureService;
