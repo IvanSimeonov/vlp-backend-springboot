@@ -11,7 +11,8 @@ package bg.tusofia.vlp.lecture.domain;
 public interface LectureDetail {
     Long getId();
     String getTitle();
-    String getFullDescription();
+    String getDescription();
     String getVideoUrl();
+    String getAssignmentTask();
     int getSequenceNumber();
 }

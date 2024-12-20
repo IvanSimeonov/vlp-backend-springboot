@@ -11,5 +11,5 @@ package bg.tusofia.vlp.lecture.domain;
 public interface LectureOverview {
     Long getId();
     String getTitle();
-    String getShortDescription();
+    String getDescription();
 }

@@ -195,7 +195,7 @@ VALUES
      'Explore effective fitness strategies to improve your well-being.', 'This is the full Description',
      'This are the requirements', 60, 'INTERMEDIATE', 'DRAFT');
 
-INSERT INTO `lecture` (`id`, `course_id`, `sequence_number`, `title`, `short_description`, `full_description`,
+INSERT INTO `lecture` (`id`, `course_id`, `sequence_number`, `title`, `description`, `assignment_task`,
                        `video_url`)
 VALUES
     -- Lectures for Published Software Development Courses

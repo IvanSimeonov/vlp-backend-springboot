@@ -33,9 +33,9 @@ public class Lecture implements Serializable {
     private Long id;
 
     private String title;
-    private String shortDescription;
-    private String fullDescription;
+    private String description;
     private String videoUrl;
+    private String assignmentTask;
     private int sequenceNumber;
 
     @ManyToOne(fetch = FetchType.LAZY)

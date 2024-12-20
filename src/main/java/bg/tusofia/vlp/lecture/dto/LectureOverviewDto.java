@@ -6,5 +6,9 @@ package bg.tusofia.vlp.lecture.dto;
  * @author Ivan Simeonov
  * @since 0.0.1
  */
-public record LectureOverviewDto(Long id, String title, String shortDescription) {
+public record LectureOverviewDto(
+        Long id,
+        String title,
+        String shortDescription
+) {
 }

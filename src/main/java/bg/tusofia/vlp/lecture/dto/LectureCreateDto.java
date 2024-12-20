@@ -13,17 +13,17 @@ public record LectureCreateDto(
         @Size(min = 10, max = 100, message = "Title must be in range between 10 and 100 characters")
         String title,
 
-        @NotBlank(message = "Short description is required")
-        @Size(min = 10, max = 100, message = "Short Description must be in range between 10 and 100 characters")
-        String shortDescription,
-
         @NotBlank(message = "Full description is required")
-        @Size(min = 100, max = 300, message = "Short description must be in range between 100 and 300 characters")
-        String fullDescription,
+        @Size(min = 100, max = 500, message = "Description must be in range between 100 and 300 characters")
+        String description,
 
         @NotBlank(message = "Video URL is required")
         @Pattern(regexp = "^https?://.*", message = "Video URL must be a valid URL")
         String videoUrl,
+
+        @NotBlank(message = "Full description is required")
+        @Size(min = 100, max = 500, message = "Description must be in range between 100 and 300 characters")
+        String assignmentTask,
 
         @Positive(message = "Sequence number must be positive")
         int sequenceNumber,

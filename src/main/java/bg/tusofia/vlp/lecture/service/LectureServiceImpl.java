@@ -1,17 +1,20 @@
 package bg.tusofia.vlp.lecture.service;
 
 import bg.tusofia.vlp.course.repository.CourseRepository;
+import bg.tusofia.vlp.exception.CourseNotFoundException;
 import bg.tusofia.vlp.exception.LectureNotFoundException;
-import bg.tusofia.vlp.lecture.dto.LectureCreateDto;
+import bg.tusofia.vlp.lecture.domain.Lecture;
 import bg.tusofia.vlp.lecture.dto.LectureDetailDto;
+import bg.tusofia.vlp.lecture.dto.LectureDto;
 import bg.tusofia.vlp.lecture.dto.LectureOverviewDto;
-import bg.tusofia.vlp.lecture.dto.LectureUpdateDto;
 import bg.tusofia.vlp.lecture.mapper.LectureMapper;
 import bg.tusofia.vlp.lecture.repository.LectureRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -29,7 +32,7 @@ public class LectureServiceImpl implements LectureService {
     private final CourseRepository courseRepository;
 
     @Override
-    public LectureDetailDto getLectureDetailById(Long lectureId) {
+    public LectureDetailDto getLectureDetailsById(Long lectureId) {
         return this.lectureMapper.lectureDetailToLectureDetailDto(
                 this.lectureRepository.findLectureDetailById(lectureId)
                         .orElseThrow(() -> new LectureNotFoundException(lectureId))
@@ -53,26 +56,65 @@ public class LectureServiceImpl implements LectureService {
     }
 
     @Override
-    public Long createLecture(LectureCreateDto lectureCreateDto) {
-        var lecture = lectureMapper.lectureCreateDtoToLecture(lectureCreateDto);
-        courseRepository.getReferenceById(lectureCreateDto.courseId()).addLecture(lecture);
-        return this.lectureRepository.save(lecture).getId();
+    public LectureDto createUpdateLecture(LectureDto lectureDto) {
+        var lecture = lectureDto.id() != null
+                ? lectureRepository.findLectureById(lectureDto.id()).orElseThrow(() -> new LectureNotFoundException((lectureDto.id())))
+                : new Lecture();
+        lecture.setTitle(lectureDto.title());
+        lecture.setDescription(lectureDto.description());
+        lecture.setVideoUrl(lectureDto.videoUrl());
+        lecture.setAssignmentTask(lectureDto.assignmentTask());
+        lecture.setSequenceNumber(lectureDto.sequenceNumber());
+        var course = courseRepository.getReferenceById(lectureDto.courseId());
+        lecture.setCourse(course);
+        return lectureMapper.lectureToLectureDto(lectureRepository.save(lecture));
     }
 
     @Override
-    public void updateLecture(Long lectureId, LectureUpdateDto lectureUpdateDto) {
-        var lecture = lectureRepository.findById(lectureId)
-                .orElseThrow(() -> new LectureNotFoundException(lectureId));
-        lecture.setTitle(lectureUpdateDto.title());
-        lecture.setShortDescription(lectureUpdateDto.shortDescription());
-        lecture.setFullDescription(lectureUpdateDto.fullDescription());
-        lecture.setVideoUrl(lectureUpdateDto.videoUrl());
-        lecture.setSequenceNumber(lectureUpdateDto.sequenceNumber());
-        lectureRepository.save(lecture);
+    public List<LectureDto> createUpdateLectures(Long courseId, List<LectureDto> lectureDtos) {
+        var course = courseRepository.findById(courseId).orElseThrow(() -> new CourseNotFoundException(courseId));
+        var existingLectures = new HashSet<>(lectureRepository.findAllByCourseId(courseId));
+        var lecturesToUpdate = new HashSet<Long>();
+        var incomingLectures = new HashSet<Lecture>();
+
+        for (LectureDto lectureDto : lectureDtos) {
+            if (lectureDto.id() != null) {
+                var lecture = existingLectures.stream()
+                        .filter(lec -> lec.getId().equals(lectureDto.id()))
+                        .findFirst()
+                        .orElseThrow(() -> new LectureNotFoundException(lectureDto.id()));
+                lecture.setTitle(lectureDto.title());
+                lecture.setDescription(lectureDto.description());
+                lecture.setVideoUrl(lectureDto.videoUrl());
+                lecture.setAssignmentTask(lectureDto.assignmentTask());
+                lecture.setSequenceNumber(lectureDto.sequenceNumber());
+                incomingLectures.add(lecture);
+                lecturesToUpdate.add(lecture.getId());
+            } else {
+                var newLecture = Lecture.builder()
+                        .title(lectureDto.title())
+                        .description(lectureDto.description())
+                        .videoUrl(lectureDto.videoUrl())
+                        .assignmentTask(lectureDto.assignmentTask())
+                        .sequenceNumber(lectureDto.sequenceNumber())
+                        .course(course)
+                        .build();
+                incomingLectures.add(newLecture);
+            }
+        }
+        var lecturesToDelete = existingLectures.stream()
+                .filter(lecture -> !lecturesToUpdate.contains(lecture.getId()))
+                .toList();
+        lectureRepository.deleteAll(lecturesToDelete);
+        var savedLectures = lectureRepository.saveAll(incomingLectures);
+        return savedLectures.stream()
+                .map(lectureMapper::lectureToLectureDto)
+                .sorted(Comparator.comparingInt(LectureDto::sequenceNumber))
+                .toList();
     }
 
     @Override
     public void deleteLecture(Long lectureId) {
-       lectureRepository.deleteById(lectureId);
+        lectureRepository.deleteById(lectureId);
     }
 }

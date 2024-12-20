@@ -3,10 +3,7 @@ package bg.tusofia.vlp.lecture.mapper;
 import bg.tusofia.vlp.lecture.domain.Lecture;
 import bg.tusofia.vlp.lecture.domain.LectureDetail;
 import bg.tusofia.vlp.lecture.domain.LectureOverview;
-import bg.tusofia.vlp.lecture.dto.LectureCreateDto;
-import bg.tusofia.vlp.lecture.dto.LectureDetailDto;
-import bg.tusofia.vlp.lecture.dto.LectureOverviewDto;
-import bg.tusofia.vlp.lecture.dto.LectureUpdateDto;
+import bg.tusofia.vlp.lecture.dto.*;
 import org.mapstruct.Mapper;
 
 /**
@@ -17,8 +14,9 @@ import org.mapstruct.Mapper;
  */
 @Mapper
 public interface LectureMapper {
-    Lecture lectureCreateDtoToLecture(LectureCreateDto lectureCreateDto);
-    Lecture lectureUpdateDtoToLecture(LectureUpdateDto lectureUpdateDto);
+//    Lecture lectureCreateDtoToLecture(LectureCreateDto lectureCreateDto);
+//    Lecture lectureUpdateDtoToLecture(LectureUpdateDto lectureUpdateDto);
     LectureDetailDto lectureDetailToLectureDetailDto(LectureDetail lectureDetail);
     LectureOverviewDto lectureOverviewToLectureOverviewDto(LectureOverview lectureOverview);
+    LectureDto lectureToLectureDto(Lecture lecture);
 }
