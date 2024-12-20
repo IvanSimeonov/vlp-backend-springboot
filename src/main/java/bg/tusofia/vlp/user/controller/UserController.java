@@ -37,7 +37,7 @@ public class UserController {
 
     private final UserService userService;
 
-    @GetMapping("/{id}")
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserOverviewDto> getUserOverviewById(@PathVariable("id") Long id) {
         return ResponseEntity.ok(userService.getUserOverviewById(id));
     }

@@ -43,9 +43,9 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
             "u.email AS email, " +
             "u.profileImagePath AS profileImagePath, " +
             "(SELECT COUNT(DISTINCT e.id) FROM u.createdCourses c " +
-            " JOIN c.enrolledUsers e) AS totalEnrolledStudents " +
+            "JOIN c.enrolledUsers e) AS totalEnrolledStudents " +
             "FROM User u " +
-            "WHERE u.role = 'ROLE_TEACHER' " +
+            "WHERE u.role = 'ROLE_TEACHER' AND u.enabled = true " +
             "ORDER BY totalEnrolledStudents DESC " +
             "LIMIT 3")
     List<TeacherOverview> findTop3TeachersByEnrolledStudents();
