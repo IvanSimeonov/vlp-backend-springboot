@@ -21,4 +21,5 @@ public interface CourseOverview {
     Topic getTopic();
     DifficultyLevel getDifficultyLevel();
     String getImagePath();
+    Status getStatus();
 }

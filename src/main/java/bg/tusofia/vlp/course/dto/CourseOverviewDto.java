@@ -1,6 +1,7 @@
 package bg.tusofia.vlp.course.dto;
 
 import bg.tusofia.vlp.course.domain.DifficultyLevel;
+import bg.tusofia.vlp.course.domain.Status;
 import bg.tusofia.vlp.topic.dto.TopicOverviewDto;
 import bg.tusofia.vlp.user.dto.UserOverviewDto;
 
@@ -17,16 +18,15 @@ import bg.tusofia.vlp.user.dto.UserOverviewDto;
  *   <li>Course listings and preview sections</li>
  * </ul>
  *
- * @param id Unique identifier of the course
- * @param title The title of the course
+ * @param id               Unique identifier of the course
+ * @param title            The title of the course
  * @param shortDescription A brief overview of the course content
- * @param author Condensed information about the course creator
- * @param averageRating The aggregate rating of the course
- * @param totalRatings Total number of ratings received
- * @param topic Overview of the course's primary topic
- * @param difficultyLevel Difficulty classification of the course
- * @param imagePath File path to the course's representative image
- *
+ * @param author           Condensed information about the course creator
+ * @param averageRating    The aggregate rating of the course
+ * @param totalRatings     Total number of ratings received
+ * @param topic            Overview of the course's primary topic
+ * @param difficultyLevel  Difficulty classification of the course
+ * @param imagePath        File path to the course's representative image
  * @author Ivan Simeonov
  * @since 0.0.1
  */
@@ -39,6 +39,7 @@ public record CourseOverviewDto(
         Integer totalRatings,
         TopicOverviewDto topic,
         DifficultyLevel difficultyLevel,
-        String imagePath
+        String imagePath,
+        Status status
 ) {
 }
