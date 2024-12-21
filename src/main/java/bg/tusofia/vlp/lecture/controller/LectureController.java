@@ -45,7 +45,7 @@ public class LectureController {
     }
 
     @PutMapping("/{courseId}/batch")
-    public ResponseEntity<List<LectureDto>> updateLectures(@PathVariable Long courseId, @RequestBody @Valid List<LectureDto> lectureDtos) {
+    public ResponseEntity<List<LectureDto>> updateLectures(@PathVariable Long courseId, @RequestBody List<LectureDto> lectureDtos) {
         return ResponseEntity.ok(lectureService.createUpdateLectures(courseId, lectureDtos));
     }
 

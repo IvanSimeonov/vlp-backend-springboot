@@ -121,9 +121,12 @@ public class CourseServiceImpl implements CourseService {
     public void updateCourseById(Long courseId, CourseUpdateDto courseUpdateDto) {
         var course = this.courseRepository.findCourseById(courseId).orElseThrow(() -> new CourseNotFoundException(courseId));
         course.setTitle(courseUpdateDto.title());
-        course.setFullDescription(courseUpdateDto.fullDescription());
-        course.setDifficultyLevel(courseUpdateDto.difficultyLevel());
+        course.setShortDescription(courseUpdateDto.shortDescription());
+        course.setPassingScore(courseUpdateDto.passingScore());
         course.setTopic(topicRepository.getReferenceById(courseUpdateDto.topicId()));
+        course.setDifficultyLevel(courseUpdateDto.difficultyLevel());
+        course.setRequirements(courseUpdateDto.requirements());
+        course.setFullDescription(courseUpdateDto.fullDescription());
         courseRepository.save(course);
     }
 
