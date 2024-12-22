@@ -2,6 +2,7 @@ package bg.tusofia.vlp.assignment.service;
 
 import bg.tusofia.vlp.assignment.domain.SubmissionStatus;
 import bg.tusofia.vlp.assignment.dto.AssignmentSolutionCreateDto;
+import bg.tusofia.vlp.assignment.dto.AssignmentSolutionDto;
 import bg.tusofia.vlp.assignment.mapper.AssignmentSolutionMapper;
 import bg.tusofia.vlp.assignment.repository.AssignmentSolutionRepository;
 import bg.tusofia.vlp.exception.AssignmentSolutionNotFoundException;
@@ -26,6 +27,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.MessageFormat;
+import java.util.List;
 
 /**
  * Class: AssignmentSolutionServiceImpl
@@ -44,6 +46,23 @@ public class AssignmentSolutionServiceImpl implements AssignmentSolutionService 
 
     @Value("${user.course.lecture.assignment.upload-dir}")
     private String uploadDir;
+
+    @Override
+    public AssignmentSolutionDto getSolutionByLectureAndUser(Long lectureId, Long userId) {
+        return assignmentSolutionRepository
+                .findByLecture_IdAndStudent_Id(lectureId, userId)
+                .map(assignmentSolutionMapper::assignmentSolutionToAssignmentSolutionDto)
+                .orElse(null);
+    }
+
+    @Override
+    public List<AssignmentSolutionDto> getAllSolutionsByCourseAndUser(Long courseId, Long userId) {
+        return assignmentSolutionRepository
+                .findAllByLecture_Course_IdAndStudent_Id(courseId, userId)
+                .stream()
+                .map(assignmentSolutionMapper::assignmentSolutionToAssignmentSolutionDto)
+                .toList();
+    }
 
     @Override
     public Resource getAssignmentSolutionFile(Long assignmentSolutionId) {

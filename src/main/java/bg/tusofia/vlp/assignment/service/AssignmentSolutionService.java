@@ -1,7 +1,10 @@
 package bg.tusofia.vlp.assignment.service;
 
 import bg.tusofia.vlp.assignment.dto.AssignmentSolutionCreateDto;
+import bg.tusofia.vlp.assignment.dto.AssignmentSolutionDto;
 import org.springframework.core.io.Resource;
+
+import java.util.List;
 
 /**
  * Interface: AssignmentSolutionService
@@ -10,6 +13,8 @@ import org.springframework.core.io.Resource;
  * @since 0.0.1
  */
 public interface AssignmentSolutionService {
+    AssignmentSolutionDto getSolutionByLectureAndUser(Long lectureId, Long userId);
+    List<AssignmentSolutionDto> getAllSolutionsByCourseAndUser(Long courseId, Long userId);
     Resource getAssignmentSolutionFile(Long assignmentSolutionId);
     void uploadAssignmentSolution(AssignmentSolutionCreateDto assignmentSolutionCreateDto);
     void deleteAssignmentSolution(Long assignmentSolutionId);
