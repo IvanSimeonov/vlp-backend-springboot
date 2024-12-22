@@ -30,9 +30,9 @@ public interface UserMapper {
 
     User userCreateDtoToUser(UserCreateDto userCreateDto);
 
-    @Mapping(target = "enrolledCoursesIds", expression = "java(user.getEnrolledCourses().stream().map(Course::getId).toList())")
-    @Mapping(target = "completedCoursesIds", expression = "java(user.getCompletedCourses().stream().map(UserCompletedCourse::getCourse).map(Course::getId).toList())")
-    @Mapping(target = "createdCoursesIds", expression = "java(user.getCreatedCourses().stream().map(Course::getId).toList())")
+    @Mapping(target = "enrolledCoursesIds", expression = "java(user.getEnrolledCourses() == null ? new ArrayList<>() : user.getEnrolledCourses().stream().map(Course::getId).toList())")
+    @Mapping(target = "completedCoursesIds", expression = "java(user.getCompletedCourses() == null ? new ArrayList<>() : user.getCompletedCourses().stream().map(UserCompletedCourse::getCourse).map(Course::getId).toList())")
+    @Mapping(target = "createdCoursesIds", expression = "java(user.getCreatedCourses() == null ? new ArrayList<>() : user.getCreatedCourses().stream().map(Course::getId).toList())")
     @Mapping(source = "created", target = "created", dateFormat = "yyyy-MM-dd HH:mm:ss")
     UserOverviewDto userToUserOverviewDto(User user);
 

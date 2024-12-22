@@ -48,6 +48,15 @@ public class AssignmentSolutionServiceImpl implements AssignmentSolutionService 
     private String uploadDir;
 
     @Override
+    public List<AssignmentSolutionDto> getAllSolutionsByCourseId(Long courseId) {
+        return assignmentSolutionRepository
+                .findAllByLecture_Course_Id(courseId)
+                .stream()
+                .map(assignmentSolutionMapper::assignmentSolutionToAssignmentSolutionDto)
+                .toList();
+    }
+
+    @Override
     public AssignmentSolutionDto getSolutionByLectureAndUser(Long lectureId, Long userId) {
         return assignmentSolutionRepository
                 .findByLecture_IdAndStudent_Id(lectureId, userId)

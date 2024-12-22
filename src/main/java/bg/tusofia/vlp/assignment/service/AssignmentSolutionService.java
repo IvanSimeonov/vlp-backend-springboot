@@ -13,6 +13,7 @@ import java.util.List;
  * @since 0.0.1
  */
 public interface AssignmentSolutionService {
+    List<AssignmentSolutionDto> getAllSolutionsByCourseId(Long courseId);
     AssignmentSolutionDto getSolutionByLectureAndUser(Long lectureId, Long userId);
     List<AssignmentSolutionDto> getAllSolutionsByCourseAndUser(Long courseId, Long userId);
     Resource getAssignmentSolutionFile(Long assignmentSolutionId);
