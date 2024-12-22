@@ -81,7 +81,7 @@ public class AssignmentSolutionServiceImpl implements AssignmentSolutionService 
     }
 
     @Override
-    public void uploadAssignmentSolution(AssignmentSolutionCreateDto assignmentSolutionCreateDto) {
+    public AssignmentSolutionDto uploadAssignmentSolution(AssignmentSolutionCreateDto assignmentSolutionCreateDto) {
         var userId = getCurrentAuthenticatedUser().getId();
         var user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException(userId));
         var lecture = lectureRepository
@@ -97,7 +97,8 @@ public class AssignmentSolutionServiceImpl implements AssignmentSolutionService 
 
         lecture.addAssignmentSolution(assignmentSolution);
         user.addAssignmentSolution(assignmentSolution);
-        assignmentSolutionRepository.save(assignmentSolution);
+        var savedSolution = assignmentSolutionRepository.save(assignmentSolution);
+        return this.assignmentSolutionMapper.assignmentSolutionToAssignmentSolutionDto(savedSolution);
     }
 
     @Override

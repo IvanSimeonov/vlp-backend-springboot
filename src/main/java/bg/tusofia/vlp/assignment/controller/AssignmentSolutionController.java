@@ -52,10 +52,9 @@ public class AssignmentSolutionController {
             description = "Uploads an assignment solution for a lecture by its id"
     )
     @PostMapping(value = "/{lectureId}/assignments", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> uploadAssignmentSolution(@PathVariable Long lectureId, @RequestPart @NotNull MultipartFile file) {
+    public ResponseEntity<AssignmentSolutionDto> uploadAssignmentSolution(@PathVariable Long lectureId, @RequestPart @NotNull MultipartFile file) {
         AssignmentSolutionCreateDto assignmentSolutionCreateDto = new AssignmentSolutionCreateDto(lectureId, file);
-        assignmentSolutionService.uploadAssignmentSolution(assignmentSolutionCreateDto);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(assignmentSolutionService.uploadAssignmentSolution(assignmentSolutionCreateDto));
     }
 
     @PutMapping("/{lectureId}/assignments/{assignmentSolutionId}")

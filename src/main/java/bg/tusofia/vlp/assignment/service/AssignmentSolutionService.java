@@ -16,7 +16,7 @@ public interface AssignmentSolutionService {
     AssignmentSolutionDto getSolutionByLectureAndUser(Long lectureId, Long userId);
     List<AssignmentSolutionDto> getAllSolutionsByCourseAndUser(Long courseId, Long userId);
     Resource getAssignmentSolutionFile(Long assignmentSolutionId);
-    void uploadAssignmentSolution(AssignmentSolutionCreateDto assignmentSolutionCreateDto);
+    AssignmentSolutionDto uploadAssignmentSolution(AssignmentSolutionCreateDto assignmentSolutionCreateDto);
     void deleteAssignmentSolution(Long assignmentSolutionId);
     void gradeAssignmentSolution(Long assignmentSolutionId, Integer grade);
 }
