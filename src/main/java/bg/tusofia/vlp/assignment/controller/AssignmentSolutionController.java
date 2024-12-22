@@ -26,12 +26,12 @@ public class AssignmentSolutionController {
 
     private final AssignmentSolutionService assignmentSolutionService;
 
-    @GetMapping("/lecture/{lectureId}/user/{userId}")
+    @GetMapping(value = "/lecture/{lectureId}/user/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<AssignmentSolutionDto> getSolutionByLectureAndUser(@PathVariable Long lectureId, @PathVariable Long userId) {
         return ResponseEntity.ok(assignmentSolutionService.getSolutionByLectureAndUser(lectureId, userId));
     }
 
-    @GetMapping("/course/{courseId}/user/{userId}")
+    @GetMapping(value = "/course/{courseId}/user/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<AssignmentSolutionDto>> getAllSolutionsByCourseAndUser(@PathVariable Long courseId, @PathVariable Long userId) {
         return ResponseEntity.ok(assignmentSolutionService.getAllSolutionsByCourseAndUser(courseId, userId));
     }
