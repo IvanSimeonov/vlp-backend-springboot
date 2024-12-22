@@ -3,6 +3,8 @@ package bg.tusofia.vlp.assignment.controller;
 import bg.tusofia.vlp.assignment.dto.AssignmentSolutionCreateDto;
 import bg.tusofia.vlp.assignment.dto.AssignmentSolutionDto;
 import bg.tusofia.vlp.assignment.service.AssignmentSolutionService;
+import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -45,8 +47,12 @@ public class AssignmentSolutionController {
                 .body(fileResource);
     }
 
-    @PostMapping("/{lectureId}/assignments")
-    public ResponseEntity<Void> uploadAssignmentSolution(@PathVariable Long lectureId, @RequestParam MultipartFile file) {
+    @Operation(
+            summary = "Upload an assignment solution",
+            description = "Uploads an assignment solution for a lecture by its id"
+    )
+    @PostMapping(value = "/{lectureId}/assignments", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> uploadAssignmentSolution(@PathVariable Long lectureId, @RequestPart @NotNull MultipartFile file) {
         AssignmentSolutionCreateDto assignmentSolutionCreateDto = new AssignmentSolutionCreateDto(lectureId, file);
         assignmentSolutionService.uploadAssignmentSolution(assignmentSolutionCreateDto);
         return ResponseEntity.ok().build();
