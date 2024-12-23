@@ -2,59 +2,31 @@ package bg.tusofia.vlp;
 
 import bg.tusofia.vlp.assignment.dto.AssignmentSolutionCreateDto;
 import bg.tusofia.vlp.assignment.service.AssignmentSolutionService;
-import bg.tusofia.vlp.course.domain.Course;
 import bg.tusofia.vlp.course.domain.DifficultyLevel;
-import bg.tusofia.vlp.course.domain.Status;
 import bg.tusofia.vlp.course.dto.CourseCreateDto;
 import bg.tusofia.vlp.course.dto.CourseStatusUpdateDto;
 import bg.tusofia.vlp.course.service.CourseService;
-import bg.tusofia.vlp.lecture.domain.Lecture;
 import bg.tusofia.vlp.lecture.dto.LectureCreateDto;
-import bg.tusofia.vlp.lecture.dto.LectureUpdateDto;
 import bg.tusofia.vlp.lecture.service.LectureService;
-import bg.tusofia.vlp.topic.domain.Topic;
-import bg.tusofia.vlp.topic.dto.TopicCreateDto;
 import bg.tusofia.vlp.topic.service.TopicService;
 import bg.tusofia.vlp.user.domain.RoleType;
 import bg.tusofia.vlp.user.domain.User;
 import bg.tusofia.vlp.user.domain.UserStatus;
 import bg.tusofia.vlp.user.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.validation.constraints.Max;
 import lombok.extern.slf4j.Slf4j;
 import org.javers.core.Javers;
-import org.javers.core.JaversBuilder;
-import org.javers.core.JaversBuilderPlugin;
-import org.javers.hibernate.integration.HibernateUnproxyObjectAccessHook;
-import org.javers.repository.jql.QueryBuilder;
-import org.javers.repository.redis.JaversRedisRepository;
-import org.javers.repository.sql.ConnectionProvider;
-import org.javers.spring.JaversSpringProperties;
-import org.javers.spring.auditable.AuthorProvider;
-import org.javers.spring.auditable.CommitPropertiesProvider;
-import org.javers.spring.auditable.aspect.springdatajpa.JaversSpringDataJpaAuditableRepositoryAspect;
-import org.javers.spring.boot.redis.JaversTransactionalRedisDecorator;
-import org.javers.spring.jpa.JpaHibernateConnectionProvider;
-import org.javers.spring.jpa.TransactionalJpaJaversBuilder;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Primary;
-import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.TransactionManager;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -63,7 +35,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import java.util.List;
 import java.util.Random;
 
 import static bg.tusofia.vlp.course.domain.Status.PUBLISHED;
@@ -108,10 +79,18 @@ public class VlpApplication {
             var courseCreateDto = new CourseCreateDto(
                 "Spring Security",
                 "Spring Security 6, Spring Boot 3, OAUTH2, OpenID Connect, Keycloak...",
-                DifficultyLevel.INTERMEDIATE,
-                mockSecurityContext.getLoggedInUserId(),
+                75,
                 csTopic.id(),
-                Status.DRAFT
+                DifficultyLevel.INTERMEDIATE,
+                "Basic Java and Spring Framework and Spring Boot basic knowledge",
+                """
+                    Spring Security framework details and it features.
+                    How to adapt security for a Java web application using Spring Security
+                    What is CSRF, CORS, JWT, OAUTH2
+                    Applying authorization rules using roles, authorities inside a web application using Spring Security
+                    Method level security in web/non-web applications
+                    """,
+                mockSecurityContext.getLoggedInUserId()
             );
 
             var springSecurityCourseId = courseService.createCourse(courseCreateDto);
@@ -208,7 +187,7 @@ public class VlpApplication {
             // Enroll users to the course
             for (String username: usersToBeEnrolled) {
                 mockSecurityContext.loginAsUser(username);
-                courseService.enrollUserToCourse(springSecurityCourseId, mockSecurityContext.getLoggedInUserId());
+                courseService.enrollUserToCourse(springSecurityCourseId);
             }
 
 
