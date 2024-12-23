@@ -5,6 +5,8 @@ import bg.tusofia.vlp.assignment.dto.AssignmentSolutionCreateDto;
 import bg.tusofia.vlp.assignment.dto.AssignmentSolutionDto;
 import bg.tusofia.vlp.assignment.mapper.AssignmentSolutionMapper;
 import bg.tusofia.vlp.assignment.repository.AssignmentSolutionRepository;
+import bg.tusofia.vlp.course.repository.CourseRepository;
+import bg.tusofia.vlp.course.service.CourseCompletionService;
 import bg.tusofia.vlp.exception.AssignmentSolutionNotFoundException;
 import bg.tusofia.vlp.exception.FileStorageException;
 import bg.tusofia.vlp.exception.LectureNotFoundException;
@@ -36,17 +38,19 @@ import java.util.List;
  * @since 0.0.1
  */
 @Service
-@Transactional
 @RequiredArgsConstructor
 public class AssignmentSolutionServiceImpl implements AssignmentSolutionService {
     private final AssignmentSolutionRepository assignmentSolutionRepository;
     private final AssignmentSolutionMapper assignmentSolutionMapper;
     private final LectureRepository lectureRepository;
     private final UserRepository userRepository;
+    private final CourseRepository courseRepository;
+    private final CourseCompletionService courseCompletionService;
 
     @Value("${user.course.lecture.assignment.upload-dir}")
     private String uploadDir;
 
+    @Transactional
     @Override
     public List<AssignmentSolutionDto> getAllSolutionsByCourseId(Long courseId) {
         return assignmentSolutionRepository
@@ -56,6 +60,7 @@ public class AssignmentSolutionServiceImpl implements AssignmentSolutionService 
                 .toList();
     }
 
+    @Transactional
     @Override
     public AssignmentSolutionDto getSolutionByLectureAndUser(Long lectureId, Long userId) {
         return assignmentSolutionRepository
@@ -64,6 +69,7 @@ public class AssignmentSolutionServiceImpl implements AssignmentSolutionService 
                 .orElse(null);
     }
 
+    @Transactional
     @Override
     public List<AssignmentSolutionDto> getAllSolutionsByCourseAndUser(Long courseId, Long userId) {
         return assignmentSolutionRepository
@@ -73,6 +79,7 @@ public class AssignmentSolutionServiceImpl implements AssignmentSolutionService 
                 .toList();
     }
 
+    @Transactional
     @Override
     public Resource getAssignmentSolutionFile(Long assignmentSolutionId) {
         var assignmentSolution = assignmentSolutionRepository
@@ -89,6 +96,7 @@ public class AssignmentSolutionServiceImpl implements AssignmentSolutionService 
         }
     }
 
+    @Transactional
     @Override
     public AssignmentSolutionDto uploadAssignmentSolution(AssignmentSolutionCreateDto assignmentSolutionCreateDto) {
         var userId = getCurrentAuthenticatedUser().getId();
@@ -110,6 +118,7 @@ public class AssignmentSolutionServiceImpl implements AssignmentSolutionService 
         return this.assignmentSolutionMapper.assignmentSolutionToAssignmentSolutionDto(savedSolution);
     }
 
+    @Transactional
     @Override
     public void deleteAssignmentSolution(Long assignmentSolutionId) {
         var user = getCurrentAuthenticatedUser();
@@ -132,11 +141,8 @@ public class AssignmentSolutionServiceImpl implements AssignmentSolutionService 
 
     @Override
     public void gradeAssignmentSolution(Long assignmentSolutionId, Integer grade) {
-        var assignmentSolution = assignmentSolutionRepository.findById(assignmentSolutionId)
-                .orElseThrow(() -> new AssignmentSolutionNotFoundException(assignmentSolutionId));
-        assignmentSolution.setGrade(grade);
-        assignmentSolution.setSubmissionStatus(SubmissionStatus.GRADED);
-        assignmentSolutionRepository.save(assignmentSolution);
+        courseCompletionService.gradeSolution(assignmentSolutionId, grade);
+        courseCompletionService.gradeAndCompleteCourse(assignmentSolutionId);
     }
 
     private String saveAssignmentFile(MultipartFile file) {
