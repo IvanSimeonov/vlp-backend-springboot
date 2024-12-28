@@ -20,6 +20,7 @@ public record UserOverviewDto(
         RoleType role,
         boolean enabled,
         String created,
+        String profileImagePath,
         List<Long> enrolledCoursesIds,
         List<Long> completedCoursesIds,
         List<Long> createdCoursesIds) {
