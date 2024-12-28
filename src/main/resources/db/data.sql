@@ -1,101 +1,172 @@
 INSERT INTO `user` (`id`, `enabled`, `created`, `modified`, `bio`, `email`, `first_name`, `last_name`, `password`,
-                    `role`, `is_teacher_access_requested`)
+                    `role`, `is_teacher_access_requested`, `linked_in_profile_url`, `profile_image_path`)
 VALUES
     -- Root Admin Users
-    (1, 1, NOW(), NOW(), 'The Root Admin', 'root@admin.com', 'Root', 'Admin',
-     '$2a$12$9LHpOsnz2RwbioJqCcBGgOHSx9Tn.FfdswODJF.0UzpCOz6VQ0d4u', 'ROLE_ROOT_ADMIN', 0),
+    (1, 1, '2024-01-31 02:00:50.000000', '2024-01-31 02:00:50.000000', '<p>The cornerstone
+of the Virtual Learning Platform, the Root Admin oversees the entire ecosystem, ensuring smooth operation and seamless
+user experiences. With unparalleled authority, they manage admin roles, monitor user activities, and uphold platform
+integrity. </p> <p>Driven by innovation and excellence, the Root Admin ensures that teachers, students, and admins
+collaborate effectively. Their leadership ensures the platform evolves to meet modern learning demands. </p><p><em>A
+visionary role shaping the future of online education.</em></p>', 'root@admin.com', 'Ivan', 'Simeonov',
+     '$2a$12$9LHpOsnz2RwbioJqCcBGgOHSx9Tn.FfdswODJF.0UzpCOz6VQ0d4u', 'ROLE_ROOT_ADMIN', 0,
+     'https://www.linkedin.com/in/ivannicksimeonov/', 'usersProfileImages/1/user_1_root_admin.png'),
 
     -- Regular Admin Users
-    (2, 1, NOW(), NOW(), 'A Regular Admin', 'max@admin.com', 'Max', 'Mustermann',
-     '$2a$12$9LHpOsnz2RwbioJqCcBGgOHSx9Tn.FfdswODJF.0UzpCOz6VQ0d4u', 'ROLE_ADMIN', 0),
-    (3, 1, NOW(), NOW(), 'A Regular Admin', 'erika@admin.com', 'Erika', 'Mustermann',
-     '$2a$12$9LHpOsnz2RwbioJqCcBGgOHSx9Tn.FfdswODJF.0UzpCOz6VQ0d4u', 'ROLE_ADMIN', 0),
+    (2, 1, '2024-02-11 02:00:50.000000', '2024-02-11 02:00:50.000000', '<p>Driven by innovation and excellence, the Admin
+ensures that teachers and students collaborate effectively. Their leadership ensures the platform evolves to meet modern
+learning demands. </p><p><em>A visionary role shaping the future of online education.</em></p>', 'max@admin.com', 'Max',
+     'Mustermann', '$2a$12$9LHpOsnz2RwbioJqCcBGgOHSx9Tn.FfdswODJF.0UzpCOz6VQ0d4u', 'ROLE_ADMIN', 0, NULL,
+     'usersProfileImages/2/user_2_max_mustermann.png'),
+    (3, 1, '2024-02-11 02:00:50.000000', '2024-02-11 02:00:50.000000', '<p>Driven by innovation and excellence, the Admin
+ensures that teachers and students collaborate effectively. Their leadership ensures the platform evolves to meet modern
+learning demands. </p><p><em>A visionary role shaping the future of online education.</em></p>', 'erika@admin.com',
+     'Erika', 'Mustermann', '$2a$12$9LHpOsnz2RwbioJqCcBGgOHSx9Tn.FfdswODJF.0UzpCOz6VQ0d4u', 'ROLE_ADMIN', 0, NULL,
+     'usersProfileImages/3/user_3_erika_mustermann.png'),
 
     -- Teacher Users
-    (4, 1, NOW(), NOW(), 'A DevOps engineer/teacher.', 'thomas@teacher.com', 'Thomas', 'Müller',
-     '$2a$12$9LHpOsnz2RwbioJqCcBGgOHSx9Tn.FfdswODJF.0UzpCOz6VQ0d4u', 'ROLE_TEACHER', 0),
-    (5, 1, NOW(), NOW(), 'A software development teacher.', 'lina@teacher.com', 'Lina', 'Fischer',
-     '$2a$12$9LHpOsnz2RwbioJqCcBGgOHSx9Tn.FfdswODJF.0UzpCOz6VQ0d4u', 'ROLE_TEACHER', 0),
-    (6, 1, NOW(), NOW(), 'A science teacher focused on physics and astronomy', 'james@teacher.com', 'James',
-     'Wilson', '$2a$12$9LHpOsnz2RwbioJqCcBGgOHSx9Tn.FfdswODJF.0UzpCOz6VQ0d4u', 'ROLE_TEACHER', 0),
-    (7, 1, NOW(), NOW(), 'A business teacher with expertise in entrepreneurship and marketing', 'david@teacher.com',
-     'David', 'Brown', '$2a$12$9LHpOsnz2RwbioJqCcBGgOHSx9Tn.FfdswODJF.0UzpCOz6VQ0d4u', 'ROLE_TEACHER', 0),
-    (8, 1, NOW(), NOW(), 'An engineering teacher focused on mechanical and electrical engineering',
-     'michael@teacher.com', 'Michael', 'Johnson', '$2a$12$9LHpOsnz2RwbioJqCcBGgOHSx9Tn.FfdswODJF.0UzpCOz6VQ0d4u',
-     'ROLE_TEACHER', 0),
-    (9, 1, NOW(), NOW(), 'A personal development teacher specializing in leadership and communication',
-     'anna@teacher.com', 'Anna', 'Taylor', '$2a$12$9LHpOsnz2RwbioJqCcBGgOHSx9Tn.FfdswODJF.0UzpCOz6VQ0d4u',
-     'ROLE_TEACHER', 0),
-    (10, 1, NOW(), NOW(), 'A design teacher focused on UI/UX and graphic design', 'lucas@teacher.com', 'Lucas',
-     'Kim', '$2a$12$9LHpOsnz2RwbioJqCcBGgOHSx9Tn.FfdswODJF.0UzpCOz6VQ0d4u', 'ROLE_TEACHER', 0),
-    (11, 1, NOW(), NOW(), 'A health & wellness teacher specializing in nutrition and fitness', 'marcus@teacher.com',
-     'Marcus', 'Anderson', '$2a$12$9LHpOsnz2RwbioJqCcBGgOHSx9Tn.FfdswODJF.0UzpCOz6VQ0d4u', 'ROLE_TEACHER', 0),
+    (4, 1, '2024-03-15 02:00:50.000000', '2024-03-15 02:00:50.000000', '<p>An experienced professional bridging the gap
+between development and operations, this teacher is dedicated to sharing expertise in automation, CI/CD pipelines, and
+cloud infrastructure. With a passion for innovation, they simplify complex DevOps concepts for students.</p>
+<p>From mastering tools like Docker, Kubernetes, and Jenkins to adopting agile methodologies, this teacher equips learners
+with practical skills for real-world applications.</p><p><em>Empowering the next generation of DevOps professionals.</em></p>',
+     'thomas@teacher.com', 'Thomas', 'Müller', '$2a$12$9LHpOsnz2RwbioJqCcBGgOHSx9Tn.FfdswODJF.0UzpCOz6VQ0d4u', 'ROLE_TEACHER',
+     0, NULL, 'usersProfileImages/4/user_4_thomas_mueller.png'),
+    (5, 1, '2024-02-11 02:00:50.000000', '2024-02-11 02:00:50.000000', '<p>A seasoned software developer and mentor, this
+teacher excels at breaking down complex programming concepts into manageable steps. With expertise in coding, design
+patterns, and system architecture, they guide students from beginner to advanced levels.</p><p>Specializing in hands-on
+projects, they foster problem-solving and critical thinking skills that prepare students for real-world challenges in
+software development.</p><p><em>Turning code into innovation, one student at a time.</em></p>', 'lina@teacher.com',
+     'Lina', 'Fischer', '$2a$12$9LHpOsnz2RwbioJqCcBGgOHSx9Tn.FfdswODJF.0UzpCOz6VQ0d4u', 'ROLE_TEACHER', 0, NULL,
+     'usersProfileImages/5/user_5_lina_fischer.png'),
+    (6, 1, '2024-02-11 02:00:50.000000', '2024-02-11 02:00:50.000000', '<p>A passionate science teacher with a knack for
+making complex concepts simple and engaging. Specializing in fostering curiosity and critical thinking, they aim to
+inspire the next generation of scientists and innovators through hands-on experiments and real-world applications.</p><p>
+From the fundamentals of physics and chemistry to the wonders of biology, this teacher covers a wide range of topics
+designed to ignite a love for discovery and learning.</p><p><em>Creating a bridge between scientific knowledge and everyday
+life.</em></p>', 'james@teacher.com', 'James', 'Wilson', '$2a$12$9LHpOsnz2RwbioJqCcBGgOHSx9Tn.FfdswODJF.0UzpCOz6VQ0d4u',
+     'ROLE_TEACHER', 0, NULL, 'usersProfileImages/6/user_6_james_wilson.png'),
+    (7, 1, '2024-02-11 02:00:50.000000', '2024-02-11 02:00:50.000000', '<p>An accomplished business professional and
+educator with a strong background in entrepreneurship, marketing, and financial management. This teacher combines
+practical experience with academic knowledge to deliver impactful lessons.</p><p>Through interactive sessions, students
+learn the art of strategic thinking, business planning, and market analysis, equipping them for success in competitive
+industries.</p><p><em>Empowering learners to turn their ideas into reality.</em></p>', 'david@teacher.com', 'David',
+     'Brown', '$2a$12$9LHpOsnz2RwbioJqCcBGgOHSx9Tn.FfdswODJF.0UzpCOz6VQ0d4u', 'ROLE_TEACHER', 0, NULL,
+     'usersProfileImages/7/user_7_david_brown.png'),
+    (8, 1, '2024-02-11 02:00:50.000000', '2024-02-11 02:00:50.000000', '<p>Dedicated to teaching the fundamentals and
+advanced concepts of electrical engineering, this teacher combines theoretical knowledge with practical applications.
+Their goal is to nurture problem-solving skills and a deep understanding of circuits, systems, and technology.</p><p>
+From power systems to electronics, they provide students with the tools to excel in both academic and professional
+environments.</p><p><em>Lighting up minds with the power of engineering knowledge.</em></p>', 'michael@teacher.com',
+     'Michael', 'Johnson', '$2a$12$9LHpOsnz2RwbioJqCcBGgOHSx9Tn.FfdswODJF.0UzpCOz6VQ0d4u', 'ROLE_TEACHER', 0, NULL,
+     'usersProfileImages/8/user_8_michael_johnson.png'),
+    (9, 1, '2024-02-11 02:00:50.000000', '2024-02-11 02:00:50.000000', '<p>A dedicated personal development mentor,
+this teacher is passionate about helping individuals unlock their full potential. With expertise in leadership,
+time management, and emotional intelligence, they guide students toward achieving both personal and professional growth.
+</p><p>Through interactive workshops and practical exercises, students learn strategies to build confidence, set
+meaningful goals, and overcome challenges.</p><p><em>Empowering individuals to create a path to success and fulfillment.
+</em></p>', 'anna@teacher.com', 'Anna', 'Taylor', '$2a$12$9LHpOsnz2RwbioJqCcBGgOHSx9Tn.FfdswODJF.0UzpCOz6VQ0d4u',
+     'ROLE_TEACHER', 0, NULL, 'usersProfileImages/9/user_9_anna_taylor.png'),
+    (10, 1, '2024-02-11 02:00:50.000000', '2024-02-11 02:00:50.000000', '<p>A creative and detail-oriented UI/UX designer
+and educator, this teacher is passionate about crafting intuitive and visually appealing digital experiences. They
+specialize in teaching the principles of user-centric design, wireframing, and prototyping.</p><p>Through engaging
+lessons, students learn how to merge creativity with functionality to build user-friendly websites and applications.</p>
+<p><em>Designing the future, one user experience at a time.</em></p>', 'lucas@teacher.com', 'Lucas', 'Kim',
+     '$2a$12$9LHpOsnz2RwbioJqCcBGgOHSx9Tn.FfdswODJF.0UzpCOz6VQ0d4u', 'ROLE_TEACHER', 0, NULL,
+     'usersProfileImages/10/user_10_lucas_kim.png'),
+    (11, 1, '2024-02-11 02:00:50.000000', '2024-02-11 02:00:50.000000', '<p>An advocate for healthy living, this teacher
+inspires students to prioritize fitness, nutrition, and mental well-being. With a holistic approach, they provide
+practical strategies for achieving a balanced and sustainable lifestyle.</p><p>From fitness planning to understanding
+nutritional needs, their lessons are designed to empower students to make informed health choices.</p><p><em>Transforming
+lives through the power of wellness education.</em></p>', 'marcus@teacher.com', 'Marcus', 'Anderson',
+     '$2a$12$9LHpOsnz2RwbioJqCcBGgOHSx9Tn.FfdswODJF.0UzpCOz6VQ0d4u', 'ROLE_TEACHER', 0, NULL,
+     'usersProfileImages/11/user_11_marcus_anderson.png'),
 
     -- Student Users
     (12, 1, NOW(), NOW(), NULL, 'hans@hofer.com', 'Hans', 'Hofer',
-     '$2a$12$9LHpOsnz2RwbioJqCcBGgOHSx9Tn.FfdswODJF.0UzpCOz6VQ0d4u', 'ROLE_STUDENT', 0),
+     '$2a$12$9LHpOsnz2RwbioJqCcBGgOHSx9Tn.FfdswODJF.0UzpCOz6VQ0d4u', 'ROLE_STUDENT', 0, NULL,
+     'usersProfileImages/12/user_12_hans_hofer.png'),
     (13, 1, NOW(), NOW(), NULL, 'sabine@mayer.com', 'Sabine', 'Mayer',
-     '$2a$12$9LHpOsnz2RwbioJqCcBGgOHSx9Tn.FfdswODJF.0UzpCOz6VQ0d4u', 'ROLE_STUDENT', 0),
+     '$2a$12$9LHpOsnz2RwbioJqCcBGgOHSx9Tn.FfdswODJF.0UzpCOz6VQ0d4u', 'ROLE_STUDENT', 0, NULL,
+     'usersProfileImages/13/user_13_sabine_mayer.png'),
     (14, 1, NOW(0), NOW(), NULL, 'lukas@wagner.com', 'Lukas', 'Wagner',
-     '$2a$12$9LHpOsnz2RwbioJqCcBGgOHSx9Tn.FfdswODJF.0UzpCOz6VQ0d4u', 'ROLE_STUDENT', 0),
+     '$2a$12$9LHpOsnz2RwbioJqCcBGgOHSx9Tn.FfdswODJF.0UzpCOz6VQ0d4u', 'ROLE_STUDENT', 0, NULL,
+     'usersProfileImages/14/user_14_lukas_wagner.png'),
     (15, 1, NOW(), NOW(), NULL, 'julia@bauer.com', 'Julia', 'Bauer',
-     '$2a$12$9LHpOsnz2RwbioJqCcBGgOHSx9Tn.FfdswODJF.0UzpCOz6VQ0d4u', 'ROLE_STUDENT', 0),
+     '$2a$12$9LHpOsnz2RwbioJqCcBGgOHSx9Tn.FfdswODJF.0UzpCOz6VQ0d4u', 'ROLE_STUDENT', 0, NULL,
+     'usersProfileImages/15/user_15_julia_bauer.png'),
     (16, 1, NOW(), NOW(), NULL, 'markus@gruber.com', 'Markus', 'Gruber',
-     '$2a$12$9LHpOsnz2RwbioJqCcBGgOHSx9Tn.FfdswODJF.0UzpCOz6VQ0d4u', 'ROLE_STUDENT', 1),
+     '$2a$12$9LHpOsnz2RwbioJqCcBGgOHSx9Tn.FfdswODJF.0UzpCOz6VQ0d4u', 'ROLE_STUDENT', 1, NULL,
+     'usersProfileImages/16/user_16_markus_gruber.png'),
     (17, 1, NOW(), NOW(), NULL, 'sophia@huber.com', 'Sophia', 'Huber',
-     '$2a$12$9LHpOsnz2RwbioJqCcBGgOHSx9Tn.FfdswODJF.0UzpCOz6VQ0d4u', 'ROLE_STUDENT', 1),
+     '$2a$12$9LHpOsnz2RwbioJqCcBGgOHSx9Tn.FfdswODJF.0UzpCOz6VQ0d4u', 'ROLE_STUDENT', 1, NULL,
+     'usersProfileImages/17/user_17_sophia_huber.png'),
     (18, 1, NOW(), NOW(), NULL, 'felix@steiner.com', 'Felix', 'Steiner',
-     '$2a$12$9LHpOsnz2RwbioJqCcBGgOHSx9Tn.FfdswODJF.0UzpCOz6VQ0d4u', 'ROLE_STUDENT', 1),
+     '$2a$12$9LHpOsnz2RwbioJqCcBGgOHSx9Tn.FfdswODJF.0UzpCOz6VQ0d4u', 'ROLE_STUDENT', 1, NULL,
+     'usersProfileImages/18/user_18_felix_steiner.png'),
     (19, 1, NOW(), NOW(), NULL, 'emma@berger.com', 'Emma', 'Berger',
-     '$2a$12$9LHpOsnz2RwbioJqCcBGgOHSx9Tn.FfdswODJF.0UzpCOz6VQ0d4u', 'ROLE_STUDENT', 0),
+     '$2a$12$9LHpOsnz2RwbioJqCcBGgOHSx9Tn.FfdswODJF.0UzpCOz6VQ0d4u', 'ROLE_STUDENT', 0, NULL,
+     'usersProfileImages/19/user_19_emma_berger.png'),
     (20, 1, NOW(), NOW(), NULL, 'paul@maier.com', 'Paul', 'Maier',
-     '$2a$12$9LHpOsnz2RwbioJqCcBGgOHSx9Tn.FfdswODJF.0UzpCOz6VQ0d4u', 'ROLE_STUDENT', 0),
+     '$2a$12$9LHpOsnz2RwbioJqCcBGgOHSx9Tn.FfdswODJF.0UzpCOz6VQ0d4u', 'ROLE_STUDENT', 0, NULL,
+     'usersProfileImages/20/user_20_paul_maier.png'),
     (21, 1, NOW(), NOW(), NULL, 'laura@wolf.com', 'Laura', 'Wolf',
-     '$2a$12$9LHpOsnz2RwbioJqCcBGgOHSx9Tn.FfdswODJF.0UzpCOz6VQ0d4u', 'ROLE_STUDENT', 0),
+     '$2a$12$9LHpOsnz2RwbioJqCcBGgOHSx9Tn.FfdswODJF.0UzpCOz6VQ0d4u', 'ROLE_STUDENT', 0, NULL,
+     'usersProfileImages/21/user_21_laura_wolf.png'),
     (22, 1, NOW(), NOW(), NULL, 'simon@weber.com', 'Simon', 'Weber',
-     '$2a$12$9LHpOsnz2RwbioJqCcBGgOHSx9Tn.FfdswODJF.0UzpCOz6VQ0d4u', 'ROLE_STUDENT', 0),
+     '$2a$12$9LHpOsnz2RwbioJqCcBGgOHSx9Tn.FfdswODJF.0UzpCOz6VQ0d4u', 'ROLE_STUDENT', 0, NULL,
+     'usersProfileImages/22/user_22_simon_weber.png'),
     (23, 1, NOW(), NOW(), NULL, 'anna@schmid.com', 'Anna', 'Schmid',
-     '$2a$12$9LHpOsnz2RwbioJqCcBGgOHSx9Tn.FfdswODJF.0UzpCOz6VQ0d4u', 'ROLE_STUDENT', 0),
+     '$2a$12$9LHpOsnz2RwbioJqCcBGgOHSx9Tn.FfdswODJF.0UzpCOz6VQ0d4u', 'ROLE_STUDENT', 0, NULL,
+     'usersProfileImages/23/user_23_anna_schmid.png'),
     (24, 1, NOW(), NOW(), NULL, 'david@schwarz.com', 'David', 'Schwarz',
-     '$2a$12$9LHpOsnz2RwbioJqCcBGgOHSx9Tn.FfdswODJF.0UzpCOz6VQ0d4u', 'ROLE_STUDENT', 0),
+     '$2a$12$9LHpOsnz2RwbioJqCcBGgOHSx9Tn.FfdswODJF.0UzpCOz6VQ0d4u', 'ROLE_STUDENT', 0, NULL,
+     'usersProfileImages/24/user_24_david_schwarz.png'),
     (25, 1, NOW(), NOW(), NULL, 'sarah@koch.com', 'Sarah', 'Koch',
-     '$2a$12$9LHpOsnz2RwbioJqCcBGgOHSx9Tn.FfdswODJF.0UzpCOz6VQ0d4u', 'ROLE_STUDENT', 0),
+     '$2a$12$9LHpOsnz2RwbioJqCcBGgOHSx9Tn.FfdswODJF.0UzpCOz6VQ0d4u', 'ROLE_STUDENT', 0, NULL,
+     'usersProfileImages/25/user_25_sarah_koch.png'),
     (26, 1, NOW(), NOW(), NULL, 'max@binder.com', 'Max', 'Binder',
-     '$2a$12$9LHpOsnz2RwbioJqCcBGgOHSx9Tn.FfdswODJF.0UzpCOz6VQ0d4u', 'ROLE_STUDENT', 0),
+     '$2a$12$9LHpOsnz2RwbioJqCcBGgOHSx9Tn.FfdswODJF.0UzpCOz6VQ0d4u', 'ROLE_STUDENT', 0, NULL,
+     'usersProfileImages/26/user_26_max_binder.png'),
     (27, 1, NOW(), NOW(), NULL, 'lisa@fuchs.com', 'Lisa', 'Fuchs',
-     '$2a$12$9LHpOsnz2RwbioJqCcBGgOHSx9Tn.FfdswODJF.0UzpCOz6VQ0d4u', 'ROLE_STUDENT', 0),
+     '$2a$12$9LHpOsnz2RwbioJqCcBGgOHSx9Tn.FfdswODJF.0UzpCOz6VQ0d4u', 'ROLE_STUDENT', 0, NULL,
+     'usersProfileImages/27/user_27_lisa_fuchs.png'),
     (28, 1, NOW(), NOW(), NULL, 'thomas@auer.com', 'Thomas', 'Auer',
-     '$2a$12$9LHpOsnz2RwbioJqCcBGgOHSx9Tn.FfdswODJF.0UzpCOz6VQ0d4u', 'ROLE_STUDENT', 1),
+     '$2a$12$9LHpOsnz2RwbioJqCcBGgOHSx9Tn.FfdswODJF.0UzpCOz6VQ0d4u', 'ROLE_STUDENT', 1, NULL,
+     'usersProfileImages/28/user_28_thomas_auer.png'),
     (29, 1, NOW(), NOW(), NULL, 'nina@winkler.com', 'Nina', 'Winkler',
-     '$2a$12$9LHpOsnz2RwbioJqCcBGgOHSx9Tn.FfdswODJF.0UzpCOz6VQ0d4u', 'ROLE_STUDENT', 1),
+     '$2a$12$9LHpOsnz2RwbioJqCcBGgOHSx9Tn.FfdswODJF.0UzpCOz6VQ0d4u', 'ROLE_STUDENT', 1, NULL,
+     'usersProfileImages/29/user_29_nina_winkler.png'),
     (30, 1, NOW(), NOW(), NULL, 'christian@moser.com', 'Christian', 'Moser',
-     '$2a$12$9LHpOsnz2RwbioJqCcBGgOHSx9Tn.FfdswODJF.0UzpCOz6VQ0d4u', 'ROLE_STUDENT', 1),
-    (31, 1, NOW(), NOW(), NULL, 'marie@reiter.com', 'Marie', 'Reiter',
-     '$2a$12$9LHpOsnz2RwbioJqCcBGgOHSx9Tn.FfdswODJF.0UzpCOz6VQ0d4u', 'ROLE_STUDENT', 0),
+     '$2a$12$9LHpOsnz2RwbioJqCcBGgOHSx9Tn.FfdswODJF.0UzpCOz6VQ0d4u', 'ROLE_STUDENT', 1, NULL,
+     'usersProfileImages/30/user_30_christian_moser.png'),
+    (31, 0, NOW(), NOW(), NULL, 'philipp@schneider.com', 'Philipp', 'Schneider',
+     '$2a$12$9LHpOsnz2RwbioJqCcBGgOHSx9Tn.FfdswODJF.0UzpCOz6VQ0d4u', 'ROLE_STUDENT', 1, NULL,
+     'usersProfileImages/31/user_31_philipp_schneider.png'),
+
 
     -- Disabled Student Users
     (32, 0, NOW(), NOW(), NULL, 'katarina@berg.com', 'Katarina', 'Berg',
-     '$2a$12$9LHpOsnz2RwbioJqCcBGgOHSx9Tn.FfdswODJF.0UzpCOz6VQ0d4u', 'ROLE_STUDENT', 1),
-    (33, 0, NOW(), NOW(), NULL, 'philipp@schneider.com', 'Philipp', 'Schneider',
-     '$2a$12$9LHpOsnz2RwbioJqCcBGgOHSx9Tn.FfdswODJF.0UzpCOz6VQ0d4u', 'ROLE_STUDENT', 1),
+     '$2a$12$9LHpOsnz2RwbioJqCcBGgOHSx9Tn.FfdswODJF.0UzpCOz6VQ0d4u', 'ROLE_STUDENT', 0, NULL, NULL),
+    (33, 1, NOW(), NOW(), NULL, 'marie@reiter.com', 'Marie', 'Reiter',
+     '$2a$12$9LHpOsnz2RwbioJqCcBGgOHSx9Tn.FfdswODJF.0UzpCOz6VQ0d4u', 'ROLE_STUDENT', 0, NULL, NULL),
     (34, 0, NOW(), NOW(), NULL, 'sebastian@lang.com', 'Sebastian', 'Lang',
-     '$2a$12$9LHpOsnz2RwbioJqCcBGgOHSx9Tn.FfdswODJF.0UzpCOz6VQ0d4u', 'ROLE_STUDENT', 0),
+     '$2a$12$9LHpOsnz2RwbioJqCcBGgOHSx9Tn.FfdswODJF.0UzpCOz6VQ0d4u', 'ROLE_STUDENT', 0, NULL, NULL),
     (35, 0, NOW(), NOW(), NULL, 'victoria@keller.com', 'Victoria', 'Keller',
-     '$2a$12$9LHpOsnz2RwbioJqCcBGgOHSx9Tn.FfdswODJF.0UzpCOz6VQ0d4u', 'ROLE_STUDENT', 0),
+     '$2a$12$9LHpOsnz2RwbioJqCcBGgOHSx9Tn.FfdswODJF.0UzpCOz6VQ0d4u', 'ROLE_STUDENT', 0, NULL, NULL),
 
     -- Disabled Teacher Users
     (36, 0, NOW(), NOW(), 'A Mathematics Teacher', 'robert@teacher.com', 'Robert', 'Wagner',
-     '$2a$12$9LHpOsnz2RwbioJqCcBGgOHSx9Tn.FfdswODJF.0UzpCOz6VQ0d4u', 'ROLE_TEACHER', 0),
+     '$2a$12$9LHpOsnz2RwbioJqCcBGgOHSx9Tn.FfdswODJF.0UzpCOz6VQ0d4u', 'ROLE_TEACHER', 0, NULL, NULL),
     (37, 0, NOW(), NOW(), 'A Literature Teacher', 'isabel@teacher.com', 'Isabel', 'Hoffmann',
-     '$2a$12$9LHpOsnz2RwbioJqCcBGgOHSx9Tn.FfdswODJF.0UzpCOz6VQ0d4u', 'ROLE_TEACHER', 0),
+     '$2a$12$9LHpOsnz2RwbioJqCcBGgOHSx9Tn.FfdswODJF.0UzpCOz6VQ0d4u', 'ROLE_TEACHER', 0, NULL, NULL),
     (38, 0, NOW(), NOW(), 'A Physics Teacher', 'klaus@teacher.com', 'Klaus', 'Schmidt',
-     '$2a$12$9LHpOsnz2RwbioJqCcBGgOHSx9Tn.FfdswODJF.0UzpCOz6VQ0d4u', 'ROLE_TEACHER', 0),
+     '$2a$12$9LHpOsnz2RwbioJqCcBGgOHSx9Tn.FfdswODJF.0UzpCOz6VQ0d4u', 'ROLE_TEACHER', 0, NULL, NULL),
 
     -- Disabled Admin Users
     (39, 0, NOW(), NOW(), 'A Regular Admin', 'stefan@admin.com', 'Stefan', 'Bauer',
-     '$2a$12$9LHpOsnz2RwbioJqCcBGgOHSx9Tn.FfdswODJF.0UzpCOz6VQ0d4u', 'ROLE_ADMIN', 0),
+     '$2a$12$9LHpOsnz2RwbioJqCcBGgOHSx9Tn.FfdswODJF.0UzpCOz6VQ0d4u', 'ROLE_ADMIN', 0, NULL, NULL),
     (40, 0, NOW(), NOW(), 'A Regular Admin', 'hannah@admin.com', 'Hannah', 'Weber',
-     '$2a$12$9LHpOsnz2RwbioJqCcBGgOHSx9Tn.FfdswODJF.0UzpCOz6VQ0d4u', 'ROLE_ADMIN', 0);
+     '$2a$12$9LHpOsnz2RwbioJqCcBGgOHSx9Tn.FfdswODJF.0UzpCOz6VQ0d4u', 'ROLE_ADMIN', 0, NULL, NULL);
 
 INSERT INTO `topic` (`id`, `title`, `description`)
 VALUES (1, 'Software Development', 'Learn programming languages and tools to build efficient software solutions.'),
