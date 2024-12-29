@@ -29,7 +29,8 @@ between development and operations, this teacher is dedicated to sharing experti
 cloud infrastructure. With a passion for innovation, they simplify complex DevOps concepts for students.</p>
 <p>From mastering tools like Docker, Kubernetes, and Jenkins to adopting agile methodologies, this teacher equips learners
 with practical skills for real-world applications.</p><p><em>Empowering the next generation of DevOps professionals.</em></p>',
-     'thomas@teacher.com', 'Thomas', 'Müller', '$2a$12$9LHpOsnz2RwbioJqCcBGgOHSx9Tn.FfdswODJF.0UzpCOz6VQ0d4u', 'ROLE_TEACHER',
+     'thomas@teacher.com', 'Thomas', 'Müller', '$2a$12$9LHpOsnz2RwbioJqCcBGgOHSx9Tn.FfdswODJF.0UzpCOz6VQ0d4u',
+     'ROLE_TEACHER',
      0, NULL, 'usersProfileImages/4/user_4_thomas_mueller.png'),
     (5, 1, '2024-02-11 02:00:50.000000', '2024-02-11 02:00:50.000000', '<p>A seasoned software developer and mentor, this
 teacher excels at breaking down complex programming concepts into manageable steps. With expertise in coding, design
@@ -753,242 +754,305 @@ INSERT INTO `lecture` (`id`, `course_id`, `sequence_number`, `title`, `descripti
                        `video_url`)
 VALUES
     -- Lectures for Software Development Introduction course
-    (1, 1, 1, 'Introduction to Programming', 'Basics of programming languages.',
-     'This lecture covers the fundamentals of programming languages such as Python and Java. You will learn about syntax, variables, and control structures.',
-     'https://www.youtube.com/watch?v=zOjov-2OZ0E'),
-    (2, 1, 2, 'Software Development Life Cycle', 'Overview of SDLC phases.',
-     'Learn about the different phases of the Software Development Life Cycle (SDLC) and how they contribute to successful project completion.',
-     'https://www.youtube.com/watch?v=Fi3_BjVzpqk'),
-    (3, 1, 3, 'Debugging Techniques', 'Effective debugging strategies.',
-     'In this lecture, we will explore various debugging techniques that can help you identify and fix errors in your code efficiently.',
-     'https://www.youtube.com/watch?v=Kmx_NL4_2Fk'),
-    (4, 1, 4, 'Version Control with Git', 'Learn Git basics.',
-     'Understand how to use Git for version control in software development. This lecture will cover repositories, commits, and branching.',
-     'https://www.youtube.com/watch?v=8JJ101D3knE'),
+    (1, 1, 1, 'Introduction to Programming', '<p>Explore the basics of programming, including key concepts like
+variables, data types, and control structures.This foundational lecture will set the stage for your journey into the
+world of software development.</p>', '<ul><li>Research and define key programming concepts: variables, data types, and
+control structures.</li><li>Create a simple program in your chosen language to print "Hello, World!" to the console.</li>
+<li>Submit a brief explanation of your code and its purpose.</li></ul>', 'https://www.youtube.com/watch?v=zOjov-2OZ0E'),
+    (2, 1, 2, 'Software Development Life Cycle', '<p>Dive into the phases of the Software Development Life Cycle (SDLC),
+from requirements analysis to maintenance, and understand its role in delivering successful software projects.</p>',
+     '<ul><li>List the key phases of the SDLC and provide a brief description of each.</li><li>Identify examples of tasks
+performed during the design and implementation phases.</li><li>Create a diagram illustrating the SDLC phases and their
+sequence.</li></ul>', 'https://www.youtube.com/watch?v=Fi3_BjVzpqk'),
+    (3, 1, 3, 'Debugging Techniques', '<p>Learn essential debugging techniques to identify, isolate, and resolve code
+issues effectively. Gain practical skills to streamline troubleshooting in your programming journey.</p>', '<ul><li>
+Describe three common debugging methods and when to use them.</li><li>Debug a provided faulty code snippet and submit
+the corrected version.</li><li>Write a brief reflection on the challenges faced during debugging and how you overcame
+them.</li></ul>', 'https://www.youtube.com/watch?v=Kmx_NL4_2Fk'),
+    (4, 1, 4, 'Version Control with Git', '<p>Understand the fundamentals of version control with Git, including
+repositories, branches, and commits. Master collaboration techniques for effective teamwork in software projects.</p>',
+     '<ul><li>Install Git and set up a local repository on your computer.</li><li>Create a branch, make changes, and
+commit your updates with clear messages.</li><li>Push your changes to a remote repository (if available) and document
+the process.</li></ul>', 'https://www.youtube.com/watch?v=8JJ101D3knE'),
 
     -- Lectures for SOLID Principles course
-    (5, 2, 1, 'Single Responsibility Principle', 'Common design patterns in software.',
-     'Explore common design patterns such as Singleton, Factory, and Observer that can improve your software architecture.',
+    (5, 2, 1, 'Single Responsibility Principle', '<p>Discover the Single Responsibility Principle, a core concept in
+clean code design. Learn how to ensure each class or module has a single, well-defined responsibility.</p>', '<ul><li>
+Define the Single Responsibility Principle in your own words.</li><li>Identify and fix a provided code snippet that
+violates this principle.</li><li>Submit your revised code along with an explanation of the changes.</li></ul>',
      'https://www.youtube.com/watch?v=5RwhyZnVRS8'),
-    (6, 2, 2, 'Open Closed Principle', 'How to refactor code effectively.',
-     'Learn effective refactoring techniques that enhance code readability and maintainability without changing its behavior.',
-     'https://www.youtube.com/watch?v=VFlk43QGEgc'),
-    (7, 2, 3, 'Liskov Substitution Principle', 'Importance of testing in development.',
-     'Understand various testing strategies including unit testing and integration testing to ensure software quality.',
+    (6, 2, 2, 'Open Closed Principle', '<p>Learn about the Open Closed Principle, which promotes creating software
+entities that are open for extension but closed for modification.</p>', '<ul><li>Explain the Open Closed Principle with
+a real-world example.</li><li>Modify a provided code snippet to adhere to this principle.</li><li>Submit your updated
+code and a brief explanation of your approach.</li></ul>', 'https://www.youtube.com/watch?v=VFlk43QGEgc'),
+    (7, 2, 3, 'Liskov Substitution Principle', '<p>Explore the Liskov Substitution Principle, which ensures that derived
+classes can seamlessly replace base classes without altering the program\'s behavior.</p>', '<ul><li>Define the Liskov
+Substitution Principle and its significance in object-oriented programming.</li><li>Analyze a provided code example to
+determine if it adheres to this principle.</li><li>Rewrite the code if needed and explain your modifications.</li></ul>',
      'https://www.youtube.com/watch?v=-3UXq2krhyw'),
-    (8, 2, 4, 'Interface Segregation Principle', 'Importance of testing in development.',
-     'Understand various testing strategies including unit testing and integration testing to ensure software quality.',
+    (8, 2, 4, 'Interface Segregation Principle', '<p>Understand the Interface Segregation Principle, which advocates for
+creating specific and minimal interfaces to avoid implementing unnecessary methods.</p>', '<ul><li>Describe the Interface
+Segregation Principle and its importance in reducing code complexity.</li><li>Refactor a provided code snippet to comply
+with this principle.</li><li>Submit the refactored code and a short summary of your changes.</li></ul>',
      'https://www.youtube.com/watch?v=y1JiMGP51NE'),
-    (9, 2, 5, 'Dependency Inversion Principle', 'Importance of testing in development.',
-     'Understand various testing strategies including unit testing and integration testing to ensure software quality.',
+    (9, 2, 5, 'Dependency Inversion Principle', '<p>Master the Dependency Inversion Principle, which emphasizes relying
+on abstractions rather than concrete implementations for flexible and maintainable code.</p>', '<ul><li>Explain the
+Dependency Inversion Principle using a practical scenario.</li><li>Refactor a provided code example to align with this
+principle.</li><li>Submit the updated code along with a description of your approach.</li></ul>',
      'https://www.youtube.com/watch?v=NnZZMkwI6KI'),
 
     -- Lectures for Software Development Methodologies course DRAFT
-    (10, 3, 1, 'What is Agile?', 'The need for docker and containerisation explained.',
-     'This lecture introduces you to why and what for Docker and Containerization are used, using simple examples.',
-     'https://www.youtube.com/watch?v=Z9QbYZh1YXY'),
-    (11, 3, 2, 'What is SCRUM?',
-     'The building blocks for Docker are Images and Containers.',
-     'Explore the most important building blocks of Docker - Images and Containers. Here you will see real examples of how images are build and how containers are created on top of the images.',
-     'https://www.youtube.com/watch?v=m5u0P1WPfvs'),
-    (12, 3, 3, 'What is Kanban?',
-     'The idea behind orchestration explained.',
-     'Learn what orchestration is and deep dive into orchestrating your first application.',
-     'https://www.youtube.com/watch?v=hCj1PPV9O10'),
-    (13, 3, 4, 'What is Waterfall?',
-     'The idea behind orchestration explained.',
-     'Learn what orchestration is and deep dive into orchestrating your first application.',
-     'https://www.youtube.com/watch?v=noE3pnRzQGI'),
-    (14, 3, 5, 'Agile vs Waterfall: Choosing your methodology',
-     'The idea behind orchestration explained.',
-     'Learn what orchestration is and deep dive into orchestrating your first application.',
-     'https://www.youtube.com/watch?v=5RocT_OdQcA'),
+    (10, 3, 1, 'What is Agile?', '<p>Understand Agile methodology, its core values, and principles that promote adaptive
+planning, iterative development, and early delivery of high-quality software.</p>', '<ul><li>Explain Agile in your own
+words and list its core values.</li><li>Identify scenarios where Agile would be an ideal methodology.</li><li>Create a
+visual timeline of an Agile sprint.</li></ul>', 'https://www.youtube.com/watch?v=Z9QbYZh1YXY'),
+    (11, 3, 2, 'What is SCRUM?', '<p>Explore SCRUM, a popular Agile framework that emphasizes teamwork, accountability,
+and iterative progress toward a well-defined goal.</p>', '<ul><li>Describe the key roles in SCRUM: Product Owner, SCRUM
+Master, and Development Team.</li><li>Create a mock SCRUM board with tasks for a sample project.</li><li>Write a short
+summary of a typical sprint cycle.</li></ul>', 'https://www.youtube.com/watch?v=m5u0P1WPfvs'),
+    (12, 3, 3, 'What is Kanban?', '<p>Learn Kanban, a workflow management method that visualizes work, limits
+work-in-progress, and improves efficiency in delivering tasks.</p>', '<ul><li>Define Kanban and its primary elements,
+such as boards, columns, and cards.</li><li>Create a Kanban board for a hypothetical project.</li><li>List the benefits
+of using Kanban in software development.</li></ul>', 'https://www.youtube.com/watch?v=hCj1PPV9O10'),
+    (13, 3, 4, 'What is Waterfall?', '<p>Understand the Waterfall model, a traditional linear approach to software
+development with distinct sequential phases.</p>', '<ul><li>Outline the stages of the Waterfall model.</li><li>Discuss
+the advantages and limitations of using Waterfall.</li><li>Analyze a case study where Waterfall would be an appropriate
+methodology.</li></ul>', 'https://www.youtube.com/watch?v=bNLcRdrSQAU'),
+    (14, 3, 5, 'Agile vs Waterfall: Choosing your methodology', '<p>Compare Agile and Waterfall methodologies,
+highlighting their differences and guiding principles to help you choose the right approach for your project.</p>',
+     '<ul><li>Create a comparison table of Agile vs Waterfall, focusing on phases, flexibility, and team involvement.
+</li><li>Analyze a project scenario and justify your chosen methodology.</li><li>Write a short essay on the pros and
+cons of Agile and Waterfall.</li></ul>', 'https://www.youtube.com/watch?v=5RocT_OdQcA'),
 
     -- Lectures for Docker and Kubernetes Basics course
-    (15, 4, 1, 'What are Virtual Machines?',
-     'Version control is a system that records changes to a file or set of files over time.',
-     'We will begin by explaining some background on version control tools, then move on to how to get Git running on your system and finally how to get it set up to start working with.',
-     'https://www.youtube.com/watch?v=wX75Z-4MEoM'),
-    (16, 4, 2, 'Docker - Complete Tutorial',
-     'The leading open source automation server - Jenkins. Support building, deploying and automating any project.',
-     'This chapter contains topics for typical Jenkins users (of all skill levels) about Jenkins usage which is outside the scope of the core Jenkins features: Pipeline and Blue Ocean.',
+    (15, 4, 1, 'What are Virtual Machines?', '<p>Discover Virtual Machines (VMs), software-based environments that
+emulate physical computers, enabling multiple OS instances on a single machine.</p>', '<ul><li>Define Virtual Machines
+and explain their benefits.</li><li>Set up a simple VM using a provided tutorial or tool.</li><li>Submit a screenshot of
+your VM setup and a brief description of its configuration.</li></ul>', 'https://www.youtube.com/watch?v=wX75Z-4MEoM'),
+    (16, 4, 2, 'Docker - Complete Tutorial', '<p>Master Docker, a platform for developing, shipping, and running
+applications in isolated containers, ensuring consistency across environments.</p>', '<ul><li>Install Docker and set
+up a sample container using a provided image.</li><li>Write and run a Dockerfile to build your custom container.</li>
+<li>Submit a short report on your experience with Docker.</li></ul>',
      'https://www.youtube.com/watch?v=d-PPOS-VsC8&t=1438s'),
-    (17, 4, 3, 'Kubernetes - Zero to Hero',
-     'Cloud computing is the on-demand availability of computer system resources, especially data storage (cloud storage) and computing power.',
-     'Simply put, cloud computing is the delivery of computing services—including servers, storage, databases, networking, software, analytics, and intelligence—over the internet.',
+    (17, 4, 3, 'Kubernetes - Zero to Hero', '<p>Learn Kubernetes, a powerful container orchestration tool, from the
+basics of clusters to advanced deployment and scaling techniques.</p>', '<ul><li>Define Kubernetes and its key
+components: pods, nodes, and services.</li><li>Deploy a simple Kubernetes cluster using a provided tutorial.</li>
+<li>Submit a diagram of your cluster and a summary of your deployment steps.</li></ul>',
      'https://www.youtube.com/watch?v=X48VuDVv0do'),
 
     -- Lectures for Become a DevOps Master course
-    (18, 5, 1, 'Git Tutorial',
-     'Agile is a mindset informed by the Agile Manifesto’s values and principles',
-     'Agile is the ability to create and respond to change. It is a way of dealing with, and ultimately succeeding in, an uncertain and turbulent environment.',
-     'https://www.youtube.com/watch?v=8JJ101D3knE'),
-    (19, 5, 2, 'Docker - Complete Tutorial',
-     'Agile is a mindset informed by the Agile Manifesto’s values and principles',
-     'Agile is the ability to create and respond to change. It is a way of dealing with, and ultimately succeeding in, an uncertain and turbulent environment.',
-     'https://www.youtube.com/watch?v=fqMOX6JJhGo'),
-    (20, 5, 3, 'Jenkins Masterclass',
-     'Agile is a mindset informed by the Agile Manifesto’s values and principles',
-     'Agile is the ability to create and respond to change. It is a way of dealing with, and ultimately succeeding in, an uncertain and turbulent environment.',
-     'https://www.youtube.com/watch?v=FX322RVNGj4&t=1s'),
-    (21, 5, 4, 'Ansible - Zero to Hero',
-     'Agile is a mindset informed by the Agile Manifesto’s values and principles',
-     'Agile is the ability to create and respond to change. It is a way of dealing with, and ultimately succeeding in, an uncertain and turbulent environment.',
-     'https://www.youtube.com/watch?v=BS0GLQaSGPo'),
-    (22, 5, 5, 'Master AWS',
-     'Agile is a mindset informed by the Agile Manifesto’s values and principles',
-     'Agile is the ability to create and respond to change. It is a way of dealing with, and ultimately succeeding in, an uncertain and turbulent environment.',
-     'https://www.youtube.com/watch?v=HK_q1lH5x5M'),
+    (18, 5, 1, 'Git Tutorial', '<p>Understand the basics of Git, a distributed version control system, and learn how to
+manage code changes effectively in software development projects.</p>', '<ul><li>Set up Git and create a local repository.
+</li><li>Practice common Git commands: add, commit, push, pull, and merge.</li><li>Submit a log of your Git activities
+with brief explanations.</li></ul>', 'https://www.youtube.com/watch?v=8JJ101D3knE'),
+    (19, 5, 2, 'Docker - Complete Tutorial', '<p>Master Docker, a platform for developing, shipping, and running
+applications in isolated containers, ensuring consistency across environments.</p>', '<ul><li>Install Docker and set up
+a sample container using a provided image.</li><li>Write and run a Dockerfile to build your custom container.</li><li>
+Submit a short report on your experience with Docker.</li></ul>', 'https://www.youtube.com/watch?v=fqMOX6JJhGo'),
+    (20, 5, 3, 'Jenkins Masterclass', '<p>Explore Jenkins, a leading automation server, to set up, build, and deploy
+CI/CD pipelines for efficient and reliable software delivery.</p>', '<ul><li>Install Jenkins and configure a simple build
+pipeline.</li><li>Integrate Jenkins with a version control system like Git.</li><li>Submit a report detailing your
+pipeline configuration and outcomes.</li></ul>', 'https://www.youtube.com/watch?v=FX322RVNGj4&t=1s'),
+    (21, 5, 4, 'Ansible - Zero to Hero', '<p>Learn Ansible, a powerful automation tool, to manage IT infrastructure,
+streamline deployments, and simplify configuration management.</p>', '<ul><li>Install Ansible and create a basic playbook.
+</li><li>Automate the deployment of a web server using Ansible.</li><li>Submit your playbook code and screenshots of the
+deployment process.</li></ul>', 'https://www.youtube.com/watch?v=BS0GLQaSGPo'),
+    (22, 5, 5, 'Master AWS', '<p>Master the core services of Amazon Web Services (AWS), from EC2 and S3 to advanced cloud
+computing solutions for scalable applications.</p>', '<ul><li>Set up an AWS account and create an EC2 instance.</li><li>
+Configure and launch a simple web application using S3 and EC2.</li><li>Submit a summary of your setup and screenshots of
+your running application.</li></ul>', 'https://www.youtube.com/watch?v=HK_q1lH5x5M'),
 
     -- Lectures for Fundamentals of Physics course
-    (23, 6, 1, 'Introduction to Physics', 'Basic concepts of physics.',
-     'This lecture covers fundamental concepts in physics including motion and forces. Perfect for beginners!',
-     'https://www.youtube.com/watch?v=b1t41Q3xRM8'),
-    (24, 6, 2, 'Newton’s Laws of Motion',
-     'Understanding Newtons laws.',
-     'Dive deep into Newtons three laws of motion and their applications in real-world scenarios.',
-     'https://www.youtube.com/watch?v=g550H4e5FCY'),
-    (25, 6, 3, 'Energy Conservation', 'Principles of energy conservation.',
-     'Learn about the principle of conservation of energy and its significance in physics.',
-     'https://www.youtube.com/watch?v=OTK9JrKC6EY'),
-    (26, 6, 4, 'Thermodynamics Basics', 'Introduction to thermodynamics.',
-     'Explore the basic principles of thermodynamics and their applications in various scientific fields.',
-     'https://www.youtube.com/watch?v=8N1BxHgsoOw'),
-    (27, 6, 5, 'Waves and Sound', 'Understanding waves in physics.',
-     'This lecture covers the properties of waves and sound including frequency and amplitude.',
-     'https://www.youtube.com/watch?v=s9wZkP64rAc'),
+    (23, 6, 1, 'Introduction to Physics', '<p>Delve into the foundational concepts of physics, including motion, forces,
+and energy, to understand the principles that govern the natural world.</p>', '<ul><li>Write a brief explanation of
+Newton’s three laws of motion.</li><li>Solve a set of basic physics problems provided in the lecture material.</li><li>
+Submit your solutions and reasoning.</li></ul>', 'https://www.youtube.com/watch?v=b1t41Q3xRM8'),
+    (24, 6, 2, 'Newton’s Laws of Motion', '<p>Learn Newton’s three laws of motion, which form the basis for understanding
+the relationship between forces and the motion of objects.</p>', '<ul><li>Explain each of Newton’s laws with a real-world
+example.</li><li>Analyze a scenario and identify which of Newton’s laws apply.</li><li>Submit a brief reflection on how
+these laws relate to daily life.</li></ul>', 'https://www.youtube.com/watch?v=g550H4e5FCY'),
+    (25, 6, 3, 'Energy Conservation', '<p>Understand the law of energy conservation, which states that energy cannot be
+created or destroyed, only transferred or transformed.</p>', '<ul><li>Define energy conservation with practical examples.
+</li><li>Calculate the energy transfer in a given physics problem.</li><li>Submit your calculations and explanations.
+</li></ul>', 'https://www.youtube.com/watch?v=OTK9JrKC6EY'),
+    (26, 6, 4, 'Thermodynamics Basics', '<p>Explore the fundamentals of thermodynamics, including concepts like heat,
+work, and the laws governing energy transfer.</p>', '<ul><li>Write a summary of the first and second laws of thermodynamics.
+</li><li>Solve a provided problem involving heat and work transfer.</li><li>Submit your answers with detailed steps.</li>
+</ul>', 'https://www.youtube.com/watch?v=8N1BxHgsoOw'),
+    (27, 6, 5, 'Waves and Sound', '<p>Learn about the properties of waves, including sound waves, and how they propagate
+through different mediums.</p>', '<ul><li>Define the key properties of waves: wavelength, frequency, and amplitude.</li>
+<li>Explain how sound travels through solids, liquids, and gases.</li><li>Submit a diagram illustrating wave propagation
+and its components.</li></ul>', 'https://www.youtube.com/watch?v=s9wZkP64rAc'),
 
     -- Lectures for Astrophysics: Exploring the Universe course
-    (28, 7, 1, 'Astrophysics Overview', 'Basics of astrophysics.',
-     'Get an overview of astrophysics including stars and galaxies. A fascinating introduction!',
-     'https://www.youtube.com/watch?v=TCrRs_OBN0E'),
-    (29, 7, 2, 'Tidal Forces', 'Understanding black holes.',
-     'This lecture explores black holes: their formation and significance in astrophysics.',
-     'https://www.youtube.com/watch?v=N9Le2TavtX8'),
-    (30, 7, 3, 'Black Holes', 'Understanding black holes.',
-     'This lecture explores black holes: their formation and significance in astrophysics.',
-     'https://www.youtube.com/watch?v=r5pGFSEpBbQ'),
+    (28, 7, 1, 'Astrophysics Overview', '<p>Explore the field of astrophysics, focusing on the study of celestial bodies,
+cosmic phenomena, and the universe’s fundamental properties.</p>', '<ul><li>Write a brief summary of key topics in
+astrophysics.</li><li>Identify and describe a recent discovery in astrophysics.</li><li>Submit a short essay discussing
+the significance of this discovery.</li></ul>', 'https://www.youtube.com/watch?v=TCrRs_OBN0E'),
+    (29, 7, 2, 'Tidal Forces', '<p>Understand tidal forces, their impact on celestial bodies, and how they influence
+phenomena like ocean tides and orbital interactions.</p>', '<ul><li>Explain the concept of tidal forces and their
+effects.</li><li>Calculate the gravitational force in a given tidal scenario.</li><li>Submit your calculations and a
+diagram illustrating tidal effects.</li></ul>', 'https://www.youtube.com/watch?v=N9Le2TavtX8'),
+    (30, 7, 3, 'Black Holes', '<p>Dive into the mysteries of black holes, exploring their formation, properties, and the
+role they play in the fabric of space-time.</p>', '<ul><li>Describe how black holes are formed.</li><li>Explain the
+concept of event horizons and singularities.</li><li>Submit a diagram illustrating a black hole and its components.
+</li></ul>', 'https://www.youtube.com/watch?v=r5pGFSEpBbQ'),
 
     -- Lectures for Quantum Mechanics Basics course DRAFT
-    (31, 8, 1, 'What Is Quantum Mechanics?', 'Understanding the quantum mechanics basics and how it is different from
-classical mechanics.', 'Understanding the quantum mechanics basics and how it is different from classical mechanics.',
-     'https://www.youtube.com/watch?v=7RmBH96QNyQ'),
+    (31, 8, 1, 'What Is Quantum Mechanics?', '<p>Explore the fascinating world of quantum mechanics, focusing on its
+fundamental principles and implications for understanding the universe.</p>', '<ul><li>Define quantum mechanics and list
+its key principles.</li><li>Explain the concept of superposition with an example.</li><li>Submit a reflection on how
+quantum mechanics differs from classical physics.</li></ul>', 'https://www.youtube.com/watch?v=7RmBH96QNyQ'),
 
     -- Lectures for Chemistry Fundamentals course DRAFT
-    (32, 9, 1, 'General Chemistry explained', 'Understanding the chemistry basics',
-     'Understanding the chemistry basics', 'https://www.youtube.com/watch?v=5iTOphGnCtg'),
+    (32, 9, 1, 'General Chemistry explained', '<p>Understand the basics of general chemistry, including atomic structure,
+chemical bonding, and reactions, to build a strong scientific foundation.</p>', '<ul><li>Write a summary of the periodic
+table’s structure and significance.</li><li>Balance a set of provided chemical equations.</li><li>Submit your solutions
+and a brief explanation of each step.</li></ul>', 'https://www.youtube.com/watch?v=5iTOphGnCtg'),
 
     -- Lectures for Entrepreneurship Essentials course
-    (33, 10, 1, 'Starting Your Business', 'Key steps to start a business.',
-     'Learn the essential steps needed to start your own business successfully from idea generation to execution.',
-     'https://www.youtube.com/watch?v=bXLZ8I7s8tw'),
-    (34, 10, 2, 'Market Research Techniques', 'Understanding market research.',
-     'Explore effective market research techniques that can help you understand your target audience better.',
+    (33, 10, 1, 'Starting Your Business', '<p>Learn the essential steps to starting a business, from idea validation to
+registering your company and creating a strong foundation for success.</p>', '<ul><li>Define your business idea and target
+audience.</li><li>Create a checklist of steps to register a business in your region.</li><li>Submit a draft of your
+business mission statement.</li></ul>', 'https://www.youtube.com/watch?v=bXLZ8I7s8tw'),
+    (34, 10, 2, 'Market Research Techniques', '<p>Discover market research techniques to identify customer needs, analyze
+competition, and make data-driven business decisions.</p>', '<ul><li>List and explain three market research methods.</li>
+<li>Conduct a brief survey for a hypothetical product idea.</li><li>Submit your survey results and insights.</li></ul>',
      'https://www.youtube.com/watch?v=mUlYuYooV5Y'),
-    (35, 10, 3, 'Business Planning Essentials', 'Creating a solid business plan.',
-     'In this lecture we will cover how to create a comprehensive business plan that outlines your business goals and strategies.',
-     'https://www.youtube.com/watch?v=cqnsfLjeXtQ'),
+    (35, 10, 3, 'Business Planning Essentials', '<p>Understand the key components of a business plan, including executive
+summaries, marketing strategies, and financial forecasts.</p>', '<ul><li>Create an outline of a business plan for a fictional
+company.</li><li>Describe the purpose of each section in a business plan.</li><li>Submit a draft of your company’s goals
+and objectives.</li></ul>', 'https://www.youtube.com/watch?v=cqnsfLjeXtQ'),
 
     -- Lectures for Advanced Marketing Strategies course
-    (36, 11, 1, 'Digital Marketing Fundamentals', 'Basics of digital marketing.',
-     'Understand the fundamentals of digital marketing including SEO and social media strategies.',
-     'https://www.youtube.com/watch?v=h95cQkEWBx0'),
-    (37, 11, 2, 'Email Marketing Strategies', 'Effective email marketing tips.',
-     'Learn how to create effective email marketing campaigns that engage your audience effectively.',
-     'https://www.youtube.com/watch?v=PsC5IUiXMUs'),
-    (38, 11, 3, 'Analyzing Marketing Metrics', 'Importance of metrics in marketing.',
-     'Explore key marketing metrics that can help you measure campaign success effectively.',
-     'https://www.youtube.com/watch?v=eg4I-RU_vKU'),
+    (36, 11, 1, 'Digital Marketing Fundamentals', '<p>Learn the basics of digital marketing, including SEO, social media,
+and email campaigns, to grow your brand in the online world.</p>', '<ul><li>Define SEO and its importance in digital
+marketing.</li><li>Create a basic social media marketing plan for a product.</li><li>Submit a short report on the benefits
+of digital marketing.</li></ul>', 'https://www.youtube.com/watch?v=h95cQkEWBx0'),
+    (37, 11, 2, 'Email Marketing Strategies', '<p>Explore effective email marketing strategies to build connections,
+nurture leads, and drive conversions for your business.</p>', '<ul><li>Design an email marketing campaign for a product
+or service.</li><li>Write a draft for a promotional email with a call-to-action.</li><li>Submit your email draft and a
+strategy outline.</li></ul>', 'https://www.youtube.com/watch?v=PsC5IUiXMUs'),
+    (38, 11, 3, 'Analyzing Marketing Metrics', '<p>Learn how to analyze key marketing metrics, such as conversion rates
+and engagement levels, to optimize your campaigns.</p>', '<ul><li>List five important marketing metrics and their
+significance.</li><li>Analyze a sample dataset to calculate a conversion rate.</li><li>Submit a report on your findings
+and recommendations.</li></ul>', 'https://www.youtube.com/watch?v=eg4I-RU_vKU'),
 
     -- Lectures for Financial Management for Entrepreneurs course DRAFT
-    (39, 12, 1, 'Digital Marketing Fundamentals', 'Basics of digital marketing.',
-     'Understand the fundamentals of digital marketing including SEO and social media strategies.',
-     'https://www.youtube.com/watch?v=e8wJBq6vOAI'),
+    (39, 12, 1, 'Digital Marketing Fundamentals', '<p>Learn the basics of digital marketing, including SEO, social media,
+and email campaigns, to grow your brand in the online world.</p>', '<ul><li>Define SEO and its importance in digital
+marketing.</li><li>Create a basic social media marketing plan for a product.</li><li>Submit a short report on the benefits
+of digital marketing.</li></ul>', 'https://www.youtube.com/watch?v=e8wJBq6vOAI'),
 
     -- Lectures for Digital Marketing Strategies course
-    (40, 13, 1, 'Effective Marketing Strategies', 'Basics of digital marketing.',
-     'Understand the fundamentals of digital marketing including SEO and social media strategies.',
-     'https://www.youtube.com/watch?v=4ajmfzj9G1g'),
-    (41, 13, 2, 'Psychological Marketing Triggers', 'Basics of digital marketing.',
-     'Understand the fundamentals of digital marketing including SEO and social media strategies.',
-     'https://www.youtube.com/watch?v=hYZG8qnS2T4'),
-    (42, 13, 3, 'Facebook Ads Tutorial', 'Basics of digital marketing.',
-     'Understand the fundamentals of digital marketing including SEO and social media strategies.',
-     'https://www.youtube.com/watch?v=PRlzOTVM87Y'),
+    (40, 13, 1, 'Effective Marketing Strategies', '<p>Discover effective marketing strategies to reach your audience,
+build brand awareness, and drive sales for your business.</p>', '<ul><li>Define your target audience and outline a campaign
+to reach them.</li><li>List three successful marketing campaigns and analyze their key elements.</li><li>Submit a
+report on the strategy you would adopt for a given product.</li></ul>', 'https://www.youtube.com/watch?v=4ajmfzj9G1g'),
+    (41, 13, 2, 'Psychological Marketing Triggers', '<p>Learn about psychological triggers in marketing that influence
+consumer behavior and drive decision-making.</p>', '<ul><li>Identify and explain three psychological triggers in
+marketing.</li><li>Create a mock advertisement using one of these triggers.</li><li>Submit your ad and a brief
+explanation of the trigger used.</li></ul>', 'https://www.youtube.com/watch?v=hYZG8qnS2T4'),
+    (42, 13, 3, 'Facebook Ads Tutorial', '<p>Master Facebook Ads to create and run effective ad campaigns that target
+the right audience and achieve measurable results.</p>', '<ul><li>Set up a Facebook Ads account and create a basic
+campaign.</li><li>Write an engaging ad copy for a sample product.</li><li>Submit your campaign setup and expected
+outcomes.</li></ul>', 'https://www.youtube.com/watch?v=PRlzOTVM87Y'),
 
     -- Lectures for Electrical Engineering Basics course
-    (43, 14, 1, 'Basics of Electrical Circuits', 'Understanding electrical circuits.',
-     'This lecture introduces basic concepts related to electrical circuits including voltage and current.',
-     'https://www.youtube.com/watch?v=_asax7PmhcE'),
-    (44, 14, 2, 'AC vs DC Current', 'Differences between AC and DC.',
-     'Learn about alternating current (AC) and direct current (DC) along with their applications.',
-     'https://www.youtube.com/watch?v=vN9aR2wKv0U'),
-    (45, 14, 3, 'Ohms Law', 'Understanding Ohms Law.',
-     'Explore Ohms Law and its significance in electrical engineering.', 'https://www.youtube.com/watch?v=HsLLq6Rm5tU'),
+    (43, 14, 1, 'Basics of Electrical Circuits', '<p>Understand the basics of electrical circuits, including components
+like resistors, capacitors, and the principles of current and voltage.</p>', '<ul><li>Draw a simple electrical circuit
+diagram with labeled components.</li><li>Calculate the resistance in a given circuit using Ohm’s Law.</li><li>Submit
+your diagram and calculations.</li></ul>', 'https://www.youtube.com/watch?v=_asax7PmhcE'),
+    (44, 14, 2, 'AC vs DC Current', '<p>Learn the difference between alternating current (AC) and direct current (DC),
+their applications, and advantages in electrical systems.</p>', '<ul><li>Describe the key differences between AC and DC
+current.</li><li>List three practical applications of AC and DC power.</li><li>Submit a comparison table of their
+characteristics.</li></ul>', 'https://www.youtube.com/watch?v=vN9aR2wKv0U'),
+    (45, 14, 3, 'Ohms Law', '<p>Explore Ohm’s Law, a fundamental principle in electronics, to understand the relationship
+between voltage, current, and resistance.</p>', '<ul><li>Define Ohm’s Law and its formula.</li><li>Solve a set of problems
+involving voltage, current, and resistance.</li><li>Submit your solutions with detailed steps.</li></ul>',
+     'https://www.youtube.com/watch?v=HsLLq6Rm5tU'),
 
     -- Lectures for Advanced Topics in Civil Engineering course DRAFT
-    (46, 15, 1, 'What is civil engineering?', 'Understanding Ohms Law.',
-     'Explore Ohms Law and its significance in electrical engineering.', 'https://www.youtube.com/watch?v=bFljMHTQ1QY'),
+    (46, 15, 1, 'What is civil engineering?', '<p>Discover the field of civil engineering, focusing on designing,
+constructing, and maintaining infrastructure like buildings, bridges, and roads.</p>', '<ul><li>Define civil
+engineering and list its main disciplines.</li><li>Research and describe a famous civil engineering project.</li>
+<li>Submit a short report on the project’s significance and challenges.</li></ul>',
+     'https://www.youtube.com/watch?v=bFljMHTQ1QY'),
 
     -- Lectures for Introduction to Mechanical Engineering course DRAFT
 
     -- Lectures for Leadership Skills Development course
-    (47, 17, 1, 'Goal Setting Techniques', 'Effective goal setting strategies.',
-     'Learn effective techniques for setting personal goals that lead to success.',
-     'https://www.youtube.com/watch?v=L4N1q4RNi9I'),
-    (48, 17, 2, 'Building Confidence', 'Strategies to build self-confidence.',
-     'This lecture covers practical strategies to enhance self-confidence in personal and professional settings.',
-     'https://www.youtube.com/watch?v=IitIl2C3Iy8'),
-    (49, 17, 3, 'Guide to Leadership', 'Guide to Leadership',
-     'This lecture covers practical strategies to enhance self-confidence in personal and professional settings.',
-     'https://www.youtube.com/watch?v=eXDNkwIeOqA'),
+    (47, 17, 1, 'Goal Setting Techniques', '<p>Learn effective goal-setting techniques, including SMART goals, to
+achieve personal and professional aspirations efficiently.</p>', '<ul><li>Create three SMART goals for yourself.</li>
+<li>Outline the steps you will take to achieve one of the goals.</li><li>Submit a timeline for tracking your progress.
+</li></ul>', 'https://www.youtube.com/watch?v=L4N1q4RNi9I'),
+    (48, 17, 2, 'Building Confidence', '<p>Explore strategies to build self-confidence, including positive affirmations,
+overcoming self-doubt, and practicing self-care.</p>', '<ul><li>Write down three areas where you want to build confidence.
+</li><li>Create a daily routine to practice confidence-building activities.</li><li>Submit a reflection on how these
+strategies impact your mindset.</li></ul>', 'https://www.youtube.com/watch?v=IitIl2C3Iy8'),
+    (49, 17, 3, 'Guide to Leadership', '<p>Develop essential leadership skills, such as effective communication,
+decision-making, and team management, to lead with confidence.</p>', '<ul><li>Identify three qualities of a successful
+leader and explain why they are important.</li><li>Create a plan for developing one leadership skill.</li><li>Submit a
+summary of your plan and progress.</li></ul>', 'https://www.youtube.com/watch?v=eXDNkwIeOqA'),
 
     -- Lectures for Time Management Techniques course DRAFT
-    (50, 18, 1, 'Building Time Efficiency Habits', 'Strategies to build time efficiency habits.',
-     'This lecture covers practical strategies to enhance your time management.',
-     'https://www.youtube.com/watch?v=iONDebHX9qk'),
+    (50, 18, 1, 'Building Time Efficiency Habits', '<p>Learn how to build time-efficient habits, prioritize tasks, and
+eliminate procrastination for better productivity and work-life balance.</p>', '<ul><li>Track your daily activities
+for one week and identify time wasters.</li><li>Create a schedule to optimize your time management.</li><li>Submit a
+before-and-after analysis of your productivity.</li></ul>', 'https://www.youtube.com/watch?v=iONDebHX9qk'),
 
     -- Lectures for Effective Communication Skills course DRAFT
-    (51, 19, 1, 'The art of effective communication', 'How to communicate more effective',
-     'This lecture covers practical strategies to enhance your time management.',
+    (51, 19, 1, 'The art of effective communication', '<p>Master the art of effective communication, including active
+listening, clear articulation, and adapting messages for different audiences.</p>', '<ul><li>Describe three key
+components of effective communication.</li><li>Practice active listening in a conversation and reflect on the
+experience.</li><li>Submit your insights and strategies for improvement.</li></ul>',
      'https://www.youtube.com/watch?v=2Yw6dFQBklA'),
 
     -- Lectures for Stress Management Techniques course DRAFT
 
     -- Lectures for Introduction to Graphic Design course
-    (52, 21, 1, 'Introduction to Graphic Design', 'Fundamentals of typography.',
-     'Learn about typography principles essential for effective design communication.',
-     'https://www.youtube.com/watch?v=GQS7wPujL2k'),
-    (53, 21, 2, 'Introduction to Color Theory', 'Understanding color theory basics.',
-     'Explore the basics of color theory and its application in graphic design.',
-     'https://www.youtube.com/watch?v=2QTHs7QSR9o'),
-    (54, 21, 3, 'Typography Basics', 'Fundamentals of typography.',
-     'Learn about typography principles essential for effective design communication.',
-     'https://www.youtube.com/watch?v=yAuUDyUC-GM'),
+    (52, 21, 1, 'Introduction to Graphic Design', '<p>Explore the fundamentals of graphic design, including principles
+like balance, contrast, and hierarchy, to create visually appealing designs.</p>', '<ul><li>Design a simple poster using
+a free graphic design tool.</li><li>Apply at least three design principles learned in this lecture.</li><li>Submit your
+poster and a brief explanation of your design choices.</li></ul>', 'https://www.youtube.com/watch?v=GQS7wPujL2k'),
+    (53, 21, 2, 'Introduction to Color Theory', '<p>Learn the basics of color theory, including the color wheel, harmony,
+and psychological effects, to create compelling visual designs.</p>', '<ul><li>Design a color palette for a hypothetical
+project.</li><li>Explain the mood and message conveyed by your chosen colors.</li><li>Submit your palette and a
+description of its use case.</li></ul>', 'https://www.youtube.com/watch?v=2QTHs7QSR9o'),
+    (54, 21, 3, 'Typography Basics', '<p>Understand typography basics, including font types, hierarchy, and spacing,
+to create readable and aesthetically pleasing designs.</p>', '<ul><li>Select three fonts and describe their appropriate
+use cases.</li><li>Create a mock design using these fonts with clear hierarchy.</li><li>Submit your design and a brief
+explanation of your choices.</li></ul>', 'https://www.youtube.com/watch?v=yAuUDyUC-GM'),
 
     -- Lectures for UI/UX Design Fundamentals course
-    (55, 22, 1, 'Introduction to UI/UX', 'Understanding the UI/UX theory basics.',
-     'Explore the basics of user interface and user experience theory and its application.',
-     'https://www.youtube.com/watch?v=55NvZjUZIO8'),
-    (56, 22, 2, 'Deep dive into UI/UX', 'Fundamentals of UI/UX.',
-     'Learn about UI/UX principles essential for effective design and user interaction.',
+    (55, 22, 1, 'Introduction to UI/UX', '<p>Learn the basics of UI/UX design, focusing on user-centric principles and
+practices to create intuitive and engaging interfaces.</p>', '<ul><li>Define UI and UX and explain their differences.</li>
+<li>Analyze a popular app and identify three good UI/UX practices.</li><li>Submit a brief report on your analysis and
+insights.</li></ul>', 'https://www.youtube.com/watch?v=55NvZjUZIO8'),
+    (56, 22, 2, 'Deep dive into UI/UX', '<p>Explore advanced UI/UX concepts, including user research, wireframing, and
+usability testing, for enhanced design strategies.</p>', '<ul><li>Create a wireframe for a simple application.</li><li>
+Conduct usability testing with at least two participants.</li><li>Submit your wireframe and testing results.</li></ul>',
      'https://www.youtube.com/watch?v=cGQPMNilEQg'),
-    (57, 22, 3, 'Top 10 UI/UX Tools', 'Top 10 UI/UX Tools',
-     'Learn about UI/UX principles essential for effective design and user interaction.',
+    (57, 22, 3, 'Top 10 UI/UX Tools', '<p>Discover the top tools for UI/UX design, such as Figma and Sketch, to
+streamline your design process and collaboration.</p>', '<ul><li>Choose one UI/UX tool and explore its features.</li>
+<li>Create a simple design using this tool.</li><li>Submit your design and a brief review of the tool.</li></ul>',
      'https://www.youtube.com/watch?v=dcPp_U-v3bI'),
 
     -- Lectures for Nutrition Basics for a Healthier Life course
-    (58, 23, 1, 'Nutrition Fundamentals', 'Basics of nutrition science.',
-     'Understand fundamental concepts related to nutrition science that promote health.',
-     'https://www.youtube.com/watch?v=uaFXMdTGV30'),
-    (59, 23, 2, 'Healthy Eating Habits', 'Importance of healthy eating.',
-     'Learn about healthy eating habits that can improve overall well-being.',
+    (58, 23, 1, 'Nutrition Fundamentals', '<p>Learn the basics of nutrition, including macronutrients and micronutrients,
+to make informed dietary choices for a healthy lifestyle.</p>', '<ul><li>List the main macronutrients and their functions.
+</li><li>Track your food intake for one day and categorize it into macronutrients.</li><li>Submit your food log and
+analysis.</li></ul>', 'https://www.youtube.com/watch?v=uaFXMdTGV30'),
+    (59, 23, 2, 'Healthy Eating Habits', '<p>Develop healthy eating habits by understanding portion control, balanced
+diets, and mindful eating practices.</p>', '<ul><li>Plan a balanced meal for one day, including all food groups.</li>
+<li>Research and share three tips for mindful eating.</li><li>Submit your meal plan and tips.</li></ul>',
      'https://www.youtube.com/watch?v=yTNN_0j5S2Q'),
-    (60, 23, 3, 'How to track calories', 'Importance of calories counting.',
-    'Learn about healthy eating habits that can improve overall well-being.',
-    'https://www.youtube.com/watch?v=YwYa9UuEhqg');
+    (60, 23, 3, 'How to track calories', '<p>Learn how to track your calorie intake using simple tools and techniques to
+meet your dietary and fitness goals effectively.</p>', '<ul><li>Track your calorie intake for two days using an app or
+manual log.</li><li>Compare your intake to your daily calorie requirements.</li><li>Submit your log and a reflection on
+your findings.</li></ul>', 'https://www.youtube.com/watch?v=YwYa9UuEhqg');
 
-    -- Lectures for Fitness Strategies for Wellness course DRAFT
+-- Lectures for Fitness Strategies for Wellness course DRAFT
 
 INSERT INTO `user_enrolled_course` (`course_id`, `user_id`)
 VALUES (1, 12),

@@ -33,9 +33,15 @@ public class Lecture implements Serializable {
     private Long id;
 
     private String title;
+
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String description;
+
     private String videoUrl;
+
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String assignmentTask;
+
     private int sequenceNumber;
 
     @ManyToOne(fetch = FetchType.LAZY)

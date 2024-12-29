@@ -84,9 +84,9 @@ CREATE TABLE `lecture` (
     `course_id` BIGINT NOT NULL,
     `sequence_number` INT NOT NULL,
     `title` VARCHAR(255) NULL DEFAULT NULL,
-    `description` VARCHAR(255) NULL DEFAULT NULL,
+    `description`  TEXT NOT NULL,
     `video_url` VARCHAR(255) NULL DEFAULT NULL,
-    `assignment_task` VARCHAR(255) NULL DEFAULT NULL,
+    `assignment_task`  TEXT NOT NULL,
     PRIMARY KEY (`id`),
     INDEX `FK_lecture_course` (`course_id` ASC),
     CONSTRAINT `FK_lecture_course`
