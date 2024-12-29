@@ -257,7 +257,7 @@ industry!</p>',
      '<ul><li>Familiarity with Agile or Scrum</li><li>Experience working on software projects</li></ul>', 55,
      'ADVANCED', 'DRAFT', 'userCourseImages/3/course_3_methodologies.png'),
     (4, 4, 1, '2024-02-21 22:17:04.000000', '2024-02-21 22:17:04.000000', 'Docker and Kubernetes Basics',
-     'Learn the fundamentals of Docker and Kubernetes including Jenkins.', '<p>Unlock the power of containerization and
+     'Learn the fundamentals of Docker and Kubernetes incl. Virtual Machines.', '<p>Unlock the power of containerization and
 orchestration with this beginner-friendly course on Docker and Kubernetes. Learn how these cutting-edge technologies
 revolutionize software development and deployment, making applications scalable, portable, and resilient. Whether you’re
 a developer, DevOps engineer, or IT enthusiast, this course provides a solid foundation in modern infrastructure
@@ -752,166 +752,243 @@ today. Enroll now and take the first step toward a healthier, fitter you!</p>',
 INSERT INTO `lecture` (`id`, `course_id`, `sequence_number`, `title`, `description`, `assignment_task`,
                        `video_url`)
 VALUES
-    -- Lectures for Published Software Development Courses
+    -- Lectures for Software Development Introduction course
     (1, 1, 1, 'Introduction to Programming', 'Basics of programming languages.',
      'This lecture covers the fundamentals of programming languages such as Python and Java. You will learn about syntax, variables, and control structures.',
-     'https://www.youtube.com/watch?v=xyz123'),
-    (2, 1, 2, 'Version Control with Git', 'Learn Git basics.',
-     'Understand how to use Git for version control in software development. This lecture will cover repositories, commits, and branching.',
-     'https://www.youtube.com/watch?v=abc456'),
+     'https://www.youtube.com/watch?v=zOjov-2OZ0E'),
+    (2, 1, 2, 'Software Development Life Cycle', 'Overview of SDLC phases.',
+     'Learn about the different phases of the Software Development Life Cycle (SDLC) and how they contribute to successful project completion.',
+     'https://www.youtube.com/watch?v=Fi3_BjVzpqk'),
     (3, 1, 3, 'Debugging Techniques', 'Effective debugging strategies.',
      'In this lecture, we will explore various debugging techniques that can help you identify and fix errors in your code efficiently.',
-     'https://www.youtube.com/watch?v=def789'),
-    (4, 1, 4, 'Software Development Life Cycle', 'Overview of SDLC phases.',
-     'Learn about the different phases of the Software Development Life Cycle (SDLC) and how they contribute to successful project completion.',
-     'https://www.youtube.com/watch?v=ghi012'),
+     'https://www.youtube.com/watch?v=Kmx_NL4_2Fk'),
+    (4, 1, 4, 'Version Control with Git', 'Learn Git basics.',
+     'Understand how to use Git for version control in software development. This lecture will cover repositories, commits, and branching.',
+     'https://www.youtube.com/watch?v=8JJ101D3knE'),
 
-    (5, 2, 1, 'Understanding SOLID Principles', 'Key SOLID principles explained.',
-     'This lecture introduces you to the SOLID principles of object-oriented design that help create maintainable software systems.',
-     'https://www.youtube.com/watch?v=jkl345'),
-    (6, 2, 2, 'Design Patterns Overview', 'Common design patterns in software.',
+    -- Lectures for SOLID Principles course
+    (5, 2, 1, 'Single Responsibility Principle', 'Common design patterns in software.',
      'Explore common design patterns such as Singleton, Factory, and Observer that can improve your software architecture.',
-     'https://www.youtube.com/watch?v=mno678'),
-    (7, 2, 3, 'Refactoring Techniques', 'How to refactor code effectively.',
+     'https://www.youtube.com/watch?v=5RwhyZnVRS8'),
+    (6, 2, 2, 'Open Closed Principle', 'How to refactor code effectively.',
      'Learn effective refactoring techniques that enhance code readability and maintainability without changing its behavior.',
-     'https://www.youtube.com/watch?v=pqr901'),
-    (8, 2, 4, 'Testing Strategies', 'Importance of testing in development.',
+     'https://www.youtube.com/watch?v=VFlk43QGEgc'),
+    (7, 2, 3, 'Liskov Substitution Principle', 'Importance of testing in development.',
      'Understand various testing strategies including unit testing and integration testing to ensure software quality.',
-     'https://www.youtube.com/watch?v=stu234'),
+     'https://www.youtube.com/watch?v=-3UXq2krhyw'),
+    (8, 2, 4, 'Interface Segregation Principle', 'Importance of testing in development.',
+     'Understand various testing strategies including unit testing and integration testing to ensure software quality.',
+     'https://www.youtube.com/watch?v=y1JiMGP51NE'),
+    (9, 2, 5, 'Dependency Inversion Principle', 'Importance of testing in development.',
+     'Understand various testing strategies including unit testing and integration testing to ensure software quality.',
+     'https://www.youtube.com/watch?v=NnZZMkwI6KI'),
 
-    (9, 4, 1, 'Why Docker and Containers?', 'The need for docker and containerisation explained.',
+    -- Lectures for Software Development Methodologies course DRAFT
+    (10, 3, 1, 'What is Agile?', 'The need for docker and containerisation explained.',
      'This lecture introduces you to why and what for Docker and Containerization are used, using simple examples.',
-     'https://www.youtube.com/watch?v=jkl345'),
-    (10, 4, 2, 'Docker Building Blocks - Images & Containers',
+     'https://www.youtube.com/watch?v=Z9QbYZh1YXY'),
+    (11, 3, 2, 'What is SCRUM?',
      'The building blocks for Docker are Images and Containers.',
      'Explore the most important building blocks of Docker - Images and Containers. Here you will see real examples of how images are build and how containers are created on top of the images.',
-     'https://www.youtube.com/watch?v=mno678'),
-    (11, 4, 3, 'Getting started with Kubernetes',
+     'https://www.youtube.com/watch?v=m5u0P1WPfvs'),
+    (12, 3, 3, 'What is Kanban?',
      'The idea behind orchestration explained.',
      'Learn what orchestration is and deep dive into orchestrating your first application.',
-     'https://www.youtube.com/watch?v=pqr901'),
+     'https://www.youtube.com/watch?v=hCj1PPV9O10'),
+    (13, 3, 4, 'What is Waterfall?',
+     'The idea behind orchestration explained.',
+     'Learn what orchestration is and deep dive into orchestrating your first application.',
+     'https://www.youtube.com/watch?v=noE3pnRzQGI'),
+    (14, 3, 5, 'Agile vs Waterfall: Choosing your methodology',
+     'The idea behind orchestration explained.',
+     'Learn what orchestration is and deep dive into orchestrating your first application.',
+     'https://www.youtube.com/watch?v=5RocT_OdQcA'),
 
-    (12, 5, 1, 'GIT - Version Control',
+    -- Lectures for Docker and Kubernetes Basics course
+    (15, 4, 1, 'What are Virtual Machines?',
      'Version control is a system that records changes to a file or set of files over time.',
      'We will begin by explaining some background on version control tools, then move on to how to get Git running on your system and finally how to get it set up to start working with.',
-     'https://www.youtube.com/watch?v=stu234'),
-    (13, 5, 2, 'Build great things at any scale - Jenkins',
+     'https://www.youtube.com/watch?v=wX75Z-4MEoM'),
+    (16, 4, 2, 'Docker - Complete Tutorial',
      'The leading open source automation server - Jenkins. Support building, deploying and automating any project.',
      'This chapter contains topics for typical Jenkins users (of all skill levels) about Jenkins usage which is outside the scope of the core Jenkins features: Pipeline and Blue Ocean.',
-     'https://www.youtube.com/watch?v=jkl345'),
-    (14, 5, 3, 'Introduction to the Cloud',
+     'https://www.youtube.com/watch?v=d-PPOS-VsC8&t=1438s'),
+    (17, 4, 3, 'Kubernetes - Zero to Hero',
      'Cloud computing is the on-demand availability of computer system resources, especially data storage (cloud storage) and computing power.',
      'Simply put, cloud computing is the delivery of computing services—including servers, storage, databases, networking, software, analytics, and intelligence—over the internet.',
-     'https://www.youtube.com/watch?v=mno678'),
+     'https://www.youtube.com/watch?v=X48VuDVv0do'),
 
-    -- Lectures for Drafted Software Development Courses
-    (15, 3, 1, 'What is Agile?',
+    -- Lectures for Become a DevOps Master course
+    (18, 5, 1, 'Git Tutorial',
      'Agile is a mindset informed by the Agile Manifesto’s values and principles',
      'Agile is the ability to create and respond to change. It is a way of dealing with, and ultimately succeeding in, an uncertain and turbulent environment.',
-     'https://www.youtube.com/watch?v=stu234'),
+     'https://www.youtube.com/watch?v=8JJ101D3knE'),
+    (19, 5, 2, 'Docker - Complete Tutorial',
+     'Agile is a mindset informed by the Agile Manifesto’s values and principles',
+     'Agile is the ability to create and respond to change. It is a way of dealing with, and ultimately succeeding in, an uncertain and turbulent environment.',
+     'https://www.youtube.com/watch?v=fqMOX6JJhGo'),
+    (20, 5, 3, 'Jenkins Masterclass',
+     'Agile is a mindset informed by the Agile Manifesto’s values and principles',
+     'Agile is the ability to create and respond to change. It is a way of dealing with, and ultimately succeeding in, an uncertain and turbulent environment.',
+     'https://www.youtube.com/watch?v=FX322RVNGj4&t=1s'),
+    (21, 5, 4, 'Ansible - Zero to Hero',
+     'Agile is a mindset informed by the Agile Manifesto’s values and principles',
+     'Agile is the ability to create and respond to change. It is a way of dealing with, and ultimately succeeding in, an uncertain and turbulent environment.',
+     'https://www.youtube.com/watch?v=BS0GLQaSGPo'),
+    (22, 5, 5, 'Master AWS',
+     'Agile is a mindset informed by the Agile Manifesto’s values and principles',
+     'Agile is the ability to create and respond to change. It is a way of dealing with, and ultimately succeeding in, an uncertain and turbulent environment.',
+     'https://www.youtube.com/watch?v=HK_q1lH5x5M'),
 
-    -- Lectures for Published Science Courses
-    (16, 6, 1, 'Introduction to Physics', 'Basic concepts of physics.',
+    -- Lectures for Fundamentals of Physics course
+    (23, 6, 1, 'Introduction to Physics', 'Basic concepts of physics.',
      'This lecture covers fundamental concepts in physics including motion and forces. Perfect for beginners!',
-     'https://www.youtube.com/watch?v=vwx567'),
-    (17, 6, 2, 'Newton’s Laws of Motion',
+     'https://www.youtube.com/watch?v=b1t41Q3xRM8'),
+    (24, 6, 2, 'Newton’s Laws of Motion',
      'Understanding Newtons laws.',
      'Dive deep into Newtons three laws of motion and their applications in real-world scenarios.',
-     'https://www.youtube.com/watch?v=yza890'),
-    (18, 6, 3, 'Energy Conservation', 'Principles of energy conservation.',
+     'https://www.youtube.com/watch?v=g550H4e5FCY'),
+    (25, 6, 3, 'Energy Conservation', 'Principles of energy conservation.',
      'Learn about the principle of conservation of energy and its significance in physics.',
-     'https://www.youtube.com/watch?v=bcd123'),
-    (19, 6, 4, 'Thermodynamics Basics', 'Introduction to thermodynamics.',
+     'https://www.youtube.com/watch?v=OTK9JrKC6EY'),
+    (26, 6, 4, 'Thermodynamics Basics', 'Introduction to thermodynamics.',
      'Explore the basic principles of thermodynamics and their applications in various scientific fields.',
-     'https://www.youtube.com/watch?v=efg456'),
-    (20, 6, 5, 'Waves and Sound', 'Understanding waves in physics.',
+     'https://www.youtube.com/watch?v=8N1BxHgsoOw'),
+    (27, 6, 5, 'Waves and Sound', 'Understanding waves in physics.',
      'This lecture covers the properties of waves and sound including frequency and amplitude.',
-     'https://www.youtube.com/watch?v=hij789'),
+     'https://www.youtube.com/watch?v=s9wZkP64rAc'),
 
-    (21, 7, 1, 'Astrophysics Overview', 'Basics of astrophysics.',
+    -- Lectures for Astrophysics: Exploring the Universe course
+    (28, 7, 1, 'Astrophysics Overview', 'Basics of astrophysics.',
      'Get an overview of astrophysics including stars and galaxies. A fascinating introduction!',
-     'https://www.youtube.com/watch?v=klm012'),
-    (22, 7, 2, 'Black Holes', 'Understanding black holes.',
+     'https://www.youtube.com/watch?v=TCrRs_OBN0E'),
+    (29, 7, 2, 'Tidal Forces', 'Understanding black holes.',
      'This lecture explores black holes: their formation and significance in astrophysics.',
-     'https://www.youtube.com/watch?v=nop345'),
+     'https://www.youtube.com/watch?v=N9Le2TavtX8'),
+    (30, 7, 3, 'Black Holes', 'Understanding black holes.',
+     'This lecture explores black holes: their formation and significance in astrophysics.',
+     'https://www.youtube.com/watch?v=r5pGFSEpBbQ'),
 
-    -- Lectures for Drafted Science Courses
+    -- Lectures for Quantum Mechanics Basics course DRAFT
+    (31, 8, 1, 'What Is Quantum Mechanics?', 'Understanding the quantum mechanics basics and how it is different from
+classical mechanics.', 'Understanding the quantum mechanics basics and how it is different from classical mechanics.',
+     'https://www.youtube.com/watch?v=7RmBH96QNyQ'),
 
-    -- Lectures for Published Business Courses
-    (23, 10, 1, 'Starting Your Business', 'Key steps to start a business.',
+    -- Lectures for Chemistry Fundamentals course DRAFT
+    (32, 9, 1, 'General Chemistry explained', 'Understanding the chemistry basics',
+     'Understanding the chemistry basics', 'https://www.youtube.com/watch?v=5iTOphGnCtg'),
+
+    -- Lectures for Entrepreneurship Essentials course
+    (33, 10, 1, 'Starting Your Business', 'Key steps to start a business.',
      'Learn the essential steps needed to start your own business successfully from idea generation to execution.',
-     'https://www.youtube.com/watch?v=qrs678'),
-    (24, 10, 2, 'Market Research Techniques', 'Understanding market research.',
+     'https://www.youtube.com/watch?v=bXLZ8I7s8tw'),
+    (34, 10, 2, 'Market Research Techniques', 'Understanding market research.',
      'Explore effective market research techniques that can help you understand your target audience better.',
-     'https://www.youtube.com/watch?v=tuv901'),
-    (25, 10, 3, 'Business Planning Essentials', 'Creating a solid business plan.',
+     'https://www.youtube.com/watch?v=mUlYuYooV5Y'),
+    (35, 10, 3, 'Business Planning Essentials', 'Creating a solid business plan.',
      'In this lecture we will cover how to create a comprehensive business plan that outlines your business goals and strategies.',
-     'https://www.youtube.com/watch?v=wxy234'),
-    (26, 10, 4, 'Funding Your Business', 'Options for business funding.',
-     'Discover various funding options available for startups including loans and investors.',
-     'https://www.youtube.com/watch?v=zab567'),
+     'https://www.youtube.com/watch?v=cqnsfLjeXtQ'),
 
-    (27, 11, 1, 'Digital Marketing Fundamentals', 'Basics of digital marketing.',
+    -- Lectures for Advanced Marketing Strategies course
+    (36, 11, 1, 'Digital Marketing Fundamentals', 'Basics of digital marketing.',
      'Understand the fundamentals of digital marketing including SEO and social media strategies.',
-     'https://www.youtube.com/watch?v=cde890'),
-    (28, 11, 2, 'Email Marketing Strategies', 'Effective email marketing tips.',
+     'https://www.youtube.com/watch?v=h95cQkEWBx0'),
+    (37, 11, 2, 'Email Marketing Strategies', 'Effective email marketing tips.',
      'Learn how to create effective email marketing campaigns that engage your audience effectively.',
-     'https://www.youtube.com/watch?v=fgh012'),
-    (29, 11, 3, 'Analyzing Marketing Metrics', 'Importance of metrics in marketing.',
+     'https://www.youtube.com/watch?v=PsC5IUiXMUs'),
+    (38, 11, 3, 'Analyzing Marketing Metrics', 'Importance of metrics in marketing.',
      'Explore key marketing metrics that can help you measure campaign success effectively.',
-     'https://www.youtube.com/watch?v=jkl345'),
+     'https://www.youtube.com/watch?v=eg4I-RU_vKU'),
 
-    -- Lectures for Drafted Business Courses
+    -- Lectures for Financial Management for Entrepreneurs course DRAFT
+    (39, 12, 1, 'Digital Marketing Fundamentals', 'Basics of digital marketing.',
+     'Understand the fundamentals of digital marketing including SEO and social media strategies.',
+     'https://www.youtube.com/watch?v=e8wJBq6vOAI'),
 
-    -- Lectures for Published Engineering Courses
-    (30, 14, 1, 'Basics of Electrical Circuits', 'Understanding electrical circuits.',
+    -- Lectures for Digital Marketing Strategies course
+    (40, 13, 1, 'Effective Marketing Strategies', 'Basics of digital marketing.',
+     'Understand the fundamentals of digital marketing including SEO and social media strategies.',
+     'https://www.youtube.com/watch?v=4ajmfzj9G1g'),
+    (41, 13, 2, 'Psychological Marketing Triggers', 'Basics of digital marketing.',
+     'Understand the fundamentals of digital marketing including SEO and social media strategies.',
+     'https://www.youtube.com/watch?v=hYZG8qnS2T4'),
+    (42, 13, 3, 'Facebook Ads Tutorial', 'Basics of digital marketing.',
+     'Understand the fundamentals of digital marketing including SEO and social media strategies.',
+     'https://www.youtube.com/watch?v=PRlzOTVM87Y'),
+
+    -- Lectures for Electrical Engineering Basics course
+    (43, 14, 1, 'Basics of Electrical Circuits', 'Understanding electrical circuits.',
      'This lecture introduces basic concepts related to electrical circuits including voltage and current.',
-     'https://www.youtube.com/watch?v=mno678'),
-    (31, 14, 2, 'AC vs DC Current', 'Differences between AC and DC.',
+     'https://www.youtube.com/watch?v=_asax7PmhcE'),
+    (44, 14, 2, 'AC vs DC Current', 'Differences between AC and DC.',
      'Learn about alternating current (AC) and direct current (DC) along with their applications.',
-     'https://www.youtube.com/watch?v=pqr901'),
-    (32, 14, 3, 'Ohms Law', 'Understanding Ohms Law.',
-     'Explore Ohms Law and its significance in electrical engineering.', 'https://www.youtube.com/watch?v=stu234'),
+     'https://www.youtube.com/watch?v=vN9aR2wKv0U'),
+    (45, 14, 3, 'Ohms Law', 'Understanding Ohms Law.',
+     'Explore Ohms Law and its significance in electrical engineering.', 'https://www.youtube.com/watch?v=HsLLq6Rm5tU'),
 
-    -- Lectures for Drafted Engineering Course
+    -- Lectures for Advanced Topics in Civil Engineering course DRAFT
+    (46, 15, 1, 'What is civil engineering?', 'Understanding Ohms Law.',
+     'Explore Ohms Law and its significance in electrical engineering.', 'https://www.youtube.com/watch?v=bFljMHTQ1QY'),
 
-    -- Lectures for Published Personal Development Courses
-    (33, 17, 1, 'Goal Setting Techniques', 'Effective goal setting strategies.',
+    -- Lectures for Introduction to Mechanical Engineering course DRAFT
+
+    -- Lectures for Leadership Skills Development course
+    (47, 17, 1, 'Goal Setting Techniques', 'Effective goal setting strategies.',
      'Learn effective techniques for setting personal goals that lead to success.',
-     'https://www.youtube.com/watch?v=vwx567'),
-    (34, 17, 2, 'Building Confidence', 'Strategies to build self-confidence.',
+     'https://www.youtube.com/watch?v=L4N1q4RNi9I'),
+    (48, 17, 2, 'Building Confidence', 'Strategies to build self-confidence.',
      'This lecture covers practical strategies to enhance self-confidence in personal and professional settings.',
-     'https://www.youtube.com/watch?v=yza890'),
-    (35, 18, 1, 'Building Time Efficiency Habits', 'Strategies to build time efficiency habits.',
+     'https://www.youtube.com/watch?v=IitIl2C3Iy8'),
+    (49, 17, 3, 'Guide to Leadership', 'Guide to Leadership',
+     'This lecture covers practical strategies to enhance self-confidence in personal and professional settings.',
+     'https://www.youtube.com/watch?v=eXDNkwIeOqA'),
+
+    -- Lectures for Time Management Techniques course DRAFT
+    (50, 18, 1, 'Building Time Efficiency Habits', 'Strategies to build time efficiency habits.',
      'This lecture covers practical strategies to enhance your time management.',
-     'https://www.youtube.com/watch?v=yza890'),
+     'https://www.youtube.com/watch?v=iONDebHX9qk'),
 
-    -- Lectures for Drafted Personal Development Course
+    -- Lectures for Effective Communication Skills course DRAFT
+    (51, 19, 1, 'The art of effective communication', 'How to communicate more effective',
+     'This lecture covers practical strategies to enhance your time management.',
+     'https://www.youtube.com/watch?v=2Yw6dFQBklA'),
 
-    -- Lectures for Published Design Courses
-    (36, 21, 1, 'Introduction to Color Theory', 'Understanding color theory basics.',
-     'Explore the basics of color theory and its application in graphic design.',
-     'https://www.youtube.com/watch?v=abc123'),
-    (37, 21, 2, 'Typography Basics', 'Fundamentals of typography.',
+    -- Lectures for Stress Management Techniques course DRAFT
+
+    -- Lectures for Introduction to Graphic Design course
+    (52, 21, 1, 'Introduction to Graphic Design', 'Fundamentals of typography.',
      'Learn about typography principles essential for effective design communication.',
-     'https://www.youtube.com/watch?v=def456'),
+     'https://www.youtube.com/watch?v=GQS7wPujL2k'),
+    (53, 21, 2, 'Introduction to Color Theory', 'Understanding color theory basics.',
+     'Explore the basics of color theory and its application in graphic design.',
+     'https://www.youtube.com/watch?v=2QTHs7QSR9o'),
+    (54, 21, 3, 'Typography Basics', 'Fundamentals of typography.',
+     'Learn about typography principles essential for effective design communication.',
+     'https://www.youtube.com/watch?v=yAuUDyUC-GM'),
 
-    (38, 22, 1, 'Introduction to UI/UX', 'Understanding the UI/UX theory basics.',
+    -- Lectures for UI/UX Design Fundamentals course
+    (55, 22, 1, 'Introduction to UI/UX', 'Understanding the UI/UX theory basics.',
      'Explore the basics of user interface and user experience theory and its application.',
-     'https://www.youtube.com/watch?v=abc123'),
-    (39, 22, 2, 'Deep dive into UI/UX', 'Fundamentals of UI/UX.',
+     'https://www.youtube.com/watch?v=55NvZjUZIO8'),
+    (56, 22, 2, 'Deep dive into UI/UX', 'Fundamentals of UI/UX.',
      'Learn about UI/UX principles essential for effective design and user interaction.',
-     'https://www.youtube.com/watch?v=def456'),
+     'https://www.youtube.com/watch?v=cGQPMNilEQg'),
+    (57, 22, 3, 'Top 10 UI/UX Tools', 'Top 10 UI/UX Tools',
+     'Learn about UI/UX principles essential for effective design and user interaction.',
+     'https://www.youtube.com/watch?v=dcPp_U-v3bI'),
 
-    -- Lectures for Drafted Design Course
-
-    -- Lectures for Published Health & Wellness Courses
-    (40, 23, 1, 'Nutrition Fundamentals', 'Basics of nutrition science.',
+    -- Lectures for Nutrition Basics for a Healthier Life course
+    (58, 23, 1, 'Nutrition Fundamentals', 'Basics of nutrition science.',
      'Understand fundamental concepts related to nutrition science that promote health.',
-     'https://www.youtube.com/watch?v=ghi789'),
-    (41, 23, 2, 'Healthy Eating Habits', 'Importance of healthy eating.',
+     'https://www.youtube.com/watch?v=uaFXMdTGV30'),
+    (59, 23, 2, 'Healthy Eating Habits', 'Importance of healthy eating.',
      'Learn about healthy eating habits that can improve overall well-being.',
-     'https://www.youtube.com/watch?v=jkl012');
+     'https://www.youtube.com/watch?v=yTNN_0j5S2Q'),
+    (60, 23, 3, 'How to track calories', 'Importance of calories counting.',
+    'Learn about healthy eating habits that can improve overall well-being.',
+    'https://www.youtube.com/watch?v=YwYa9UuEhqg');
+
+    -- Lectures for Fitness Strategies for Wellness course DRAFT
 
 INSERT INTO `user_enrolled_course` (`course_id`, `user_id`)
 VALUES (1, 12),
