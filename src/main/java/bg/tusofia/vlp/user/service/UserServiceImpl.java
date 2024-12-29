@@ -1,5 +1,6 @@
 package bg.tusofia.vlp.user.service;
 
+import bg.tusofia.vlp.course.domain.Status;
 import bg.tusofia.vlp.exception.UserNotFoundException;
 import bg.tusofia.vlp.user.domain.RoleType;
 import bg.tusofia.vlp.user.domain.User;
@@ -70,7 +71,25 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserPublicProfileDto getUserPublicProfileById(Long userId) {
         var user = checkUserExistsById(userId);
-        return userMapper.userToUserPublicProfileDto(user);
+        var userDto = userMapper.userToUserPublicProfileDto(user);
+        var userPublishedCourses = userDto.createdCourses()
+                .stream()
+                .filter(courseOverviewDto -> courseOverviewDto.status() == Status.PUBLISHED)
+                .toList();
+        return new UserPublicProfileDto(
+                userDto.id(),
+                userDto.firstName(),
+                userDto.lastName(),
+                userDto.bio(),
+                userDto.linkedInProfileUrl(),
+                userDto.email(),
+                userDto.profileImagePath(),
+                userDto.role(),
+                userDto.isTeacherAccessRequested(),
+                userPublishedCourses,
+                userDto.enrolledCourses(),
+                userDto.completedCourses()
+        );
     }
 
     @Override

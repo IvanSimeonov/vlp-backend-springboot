@@ -21,7 +21,6 @@ import org.springframework.core.io.UrlResource;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -106,7 +105,7 @@ public class AssignmentSolutionServiceImpl implements AssignmentSolutionService 
                 .orElseThrow(
                         () -> new LectureNotFoundException(assignmentSolutionCreateDto.lectureId())
                 );
-        var filePath = saveAssignmentFile(assignmentSolutionCreateDto.file());
+        var filePath = saveAssignmentFile(assignmentSolutionCreateDto, lecture.getCourse().getId());
 
         var assignmentSolution = assignmentSolutionMapper.assignmentSolutionCreateDtoToAssignmentSolution(assignmentSolutionCreateDto);
         assignmentSolution.setSubmissionStatus(SubmissionStatus.SUBMITTED);
@@ -145,9 +144,11 @@ public class AssignmentSolutionServiceImpl implements AssignmentSolutionService 
         courseCompletionService.gradeAndCompleteCourse(assignmentSolutionId);
     }
 
-    private String saveAssignmentFile(MultipartFile file) {
+    private String saveAssignmentFile(AssignmentSolutionCreateDto assignmentSolutionCreateDto, Long courseId) {
+        var file = assignmentSolutionCreateDto.file();
+        var lectureId = assignmentSolutionCreateDto.lectureId();
         var userId = getCurrentAuthenticatedUser().getId();
-        var filePath = constructFilePath(userId, file.getOriginalFilename());
+        var filePath = constructFilePath(userId, lectureId, courseId, file.getOriginalFilename());
         try {
             Files.deleteIfExists(filePath);
             Files.copy(file.getInputStream(), filePath);
@@ -157,14 +158,19 @@ public class AssignmentSolutionServiceImpl implements AssignmentSolutionService 
         }
     }
 
-    private Path constructFilePath(Long userId, String originalFilename) {
+    private Path constructFilePath(Long userId, Long lectureId, Long courseId, String originalFileName) {
         var userDir = Paths.get(uploadDir, String.valueOf(userId));
         try {
             Files.createDirectories(userDir);
         } catch (IOException e) {
             throw new FileStorageException("Failed to create user directory");
         }
-        var fileName = MessageFormat.format("assignment_user_{0}_{1}", userId, originalFilename);
+        var fileExtension = "";
+        int dotIndex = originalFileName.lastIndexOf('.');
+        if (dotIndex > 0 && dotIndex < originalFileName.length() -1) {
+            fileExtension = originalFileName.substring(dotIndex);
+        }
+        var fileName = MessageFormat.format("solution_U{0}_C{1}_L{2}{3}", userId, courseId, lectureId, fileExtension);
         return userDir.resolve(fileName);
     }
 
