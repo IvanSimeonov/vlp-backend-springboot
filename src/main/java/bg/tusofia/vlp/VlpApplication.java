@@ -7,6 +7,7 @@ import bg.tusofia.vlp.course.dto.CourseCreateDto;
 import bg.tusofia.vlp.course.dto.CourseStatusUpdateDto;
 import bg.tusofia.vlp.course.service.CourseService;
 import bg.tusofia.vlp.lecture.dto.LectureCreateDto;
+import bg.tusofia.vlp.lecture.dto.LectureDto;
 import bg.tusofia.vlp.lecture.service.LectureService;
 import bg.tusofia.vlp.topic.service.TopicService;
 import bg.tusofia.vlp.user.domain.RoleType;
@@ -95,7 +96,7 @@ public class VlpApplication {
 
             var springSecurityCourseId = courseService.createCourse(courseCreateDto);
 
-            var lecture1intro = new LectureCreateDto("Getting Started",
+            var lecture1intro = new LectureDto(null,"Getting Started",
                 "Welcome to this course! Let me explain what is the agenda of this course. Also demonstrate what will we build.",
                 """
                     Creating a simple Spring Boot app without security.
@@ -109,7 +110,7 @@ public class VlpApplication {
                 springSecurityCourseId
             );
 
-            var lecture2securityConfig = new LectureCreateDto("Security Configuration I",
+            var lecture2securityConfig = new LectureDto(null,"Security Configuration I",
                 "Changing the default security configurations",
                 """
                     Understanding about UI part of the EazyBank application.
@@ -119,7 +120,7 @@ public class VlpApplication {
                 2, springSecurityCourseId
             );
 
-            var lecture3inMemory = new LectureCreateDto("InMemoryUserDetailsManager",
+            var lecture3inMemory = new LectureDto(null,"InMemoryUserDetailsManager",
                 "Defining and Managing Users using InMemoryUserDetailsManager",
                 """
                     Configuring users using InMemoryUserDetailsManager.
@@ -129,7 +130,7 @@ public class VlpApplication {
                     """,
                 "https://www.youtube.com/watch?v=XNkV6m4fosw", 3, springSecurityCourseId);
 
-            var lecture4manageUsersInDb = new LectureCreateDto("Database User Management",
+            var lecture4manageUsersInDb = new LectureDto(null,"Database User Management",
                 "Defining & Managing Users using a database",
                 """
                     Understanding JdbcUserDetailsManager & creating Users inside the DB.
@@ -138,7 +139,7 @@ public class VlpApplication {
                     """,  "https://www.youtube.com/watch?v=d7ZmZFbE_qY", 4, springSecurityCourseId
                 );
 
-            var lecture5passwordEncoders = new LectureCreateDto("Password Encoders",
+            var lecture5passwordEncoders = new LectureDto(null, "Password Encoders",
                 "Password Management with Password Encoders",
                 """
                     How our passwords validated with out PasswordEncoders.
@@ -147,7 +148,7 @@ public class VlpApplication {
                     """,  "https://www.youtube.com/watch?v=d7ZmZFbE_qY", 5, springSecurityCourseId
             );
 
-            var lecture6authenticationProvider = new LectureCreateDto("Authentication Provider",
+            var lecture6authenticationProvider = new LectureDto(null, "Authentication Provider",
                 "Understanding Authentication Provider and implementing it",
                 """
                     Why should we consider creating our own AuthenticationProvider
@@ -158,12 +159,12 @@ public class VlpApplication {
             );
 
 
-            var lecture1introId = lectureService.createLecture(lecture1intro);
-            var lecture2securityConfigId = lectureService.createLecture(lecture2securityConfig);
-            var lecture3inMemoryId = lectureService.createLecture(lecture3inMemory);
-            var lecture4manageUsersInDbId = lectureService.createLecture(lecture4manageUsersInDb);
-            var lecture5passwordEncodersId = lectureService.createLecture(lecture5passwordEncoders);
-            var lecture6authenticationProviderId = lectureService.createLecture(lecture6authenticationProvider);
+            var lecture1introId = lectureService.createUpdateLecture(lecture1intro);
+            var lecture2securityConfigId = lectureService.createUpdateLecture(lecture2securityConfig);
+            var lecture3inMemoryId = lectureService.createUpdateLecture(lecture3inMemory);
+            var lecture4manageUsersInDbId = lectureService.createUpdateLecture(lecture4manageUsersInDb);
+            var lecture5passwordEncodersId = lectureService.createUpdateLecture(lecture5passwordEncoders);
+            var lecture6authenticationProviderId = lectureService.createUpdateLecture(lecture6authenticationProvider);
 
             // PUBLISH THE COURSE!!!
             courseService.updateCourseStatus(springSecurityCourseId, new CourseStatusUpdateDto(PUBLISHED));
@@ -179,7 +180,7 @@ public class VlpApplication {
             "marie@reiter.com"
             };
 
-            var lectureIdsForAssignments = new Long[] {
+            var lectureIdsForAssignments = new LectureDto[] {
                 lecture1introId, lecture2securityConfigId, lecture3inMemoryId, lecture4manageUsersInDbId,
                 lecture5passwordEncodersId, lecture6authenticationProviderId
             };
@@ -195,12 +196,12 @@ public class VlpApplication {
             for (String username: usersToBeEnrolled) {
                 mockSecurityContext.loginAsUser(username);
 
-                for (Long lId : lectureIdsForAssignments) {
+                for (LectureDto lectureDto : lectureIdsForAssignments) {
                     for (var i = 0; i < random.nextInt(6); i++) {
                         var solution = new AssignmentSolutionCreateDto(
-                          lId, new DemoMultipartFile(
-                              String.format("%s_lecture_%d_solution_%d", username, lId, i),
-                            String.format("LECTURE %d, SOLUTION %d", lId, i))
+                            lectureDto.id(), new DemoMultipartFile(
+                              String.format("%s_lecture_%d_solution_%d", username, lectureDto.id(), i),
+                            String.format("LECTURE %d, SOLUTION %d", lectureDto.id(), i))
                         );
                         assignmentSolutionService.uploadAssignmentSolution(solution);
                     }
