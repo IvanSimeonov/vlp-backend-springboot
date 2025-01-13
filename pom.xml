@@ -59,7 +59,7 @@
         <openapi-generator-maven-plugin.version>7.10.0</openapi-generator-maven-plugin.version>
         <angular-client.version>0.1.1</angular-client.version>
         <exec-maven-plugin.version>3.5.0</exec-maven-plugin.version>
-
+        <javers.version>7.7.2-SNAPSHOT</javers.version>
     </properties>
     <dependencies>
         <dependency>
@@ -137,12 +137,12 @@
         <dependency>
             <groupId>org.javers</groupId>
             <artifactId>javers-spring-boot-starter-sql</artifactId>
-            <version>7.7.0</version>
+            <version>${javers.version}</version>
         </dependency>
         <dependency>
             <groupId>org.javers</groupId>
             <artifactId>javers-spring-boot-starter-redis</artifactId>
-            <version>7.7.2-SNAPSHOT</version>
+            <version>${javers.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -328,5 +328,4 @@
         </build>
     </profile>
     </profiles>
-
 </project>

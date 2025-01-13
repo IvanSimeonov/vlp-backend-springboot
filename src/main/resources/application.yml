@@ -11,8 +11,6 @@ management:
         health:
           show-details: always
 spring:
-    autoconfigure:
-        exclude: org.javers.spring.boot.sql.JaversSqlAutoConfiguration
     sql:
         init:
             schema-locations: classpath:/db/schema.sql
@@ -26,7 +24,7 @@ spring:
         password: ${SPRING_DATASOURCE_PASSWORD:vlpdbpassword}
         driver-class-name: com.mysql.cj.jdbc.Driver
     jpa:
-        show-sql: true
+        show-sql: false
         open-in-view: false
         hibernate:
             ddl-auto: validate
@@ -61,13 +59,7 @@ user:
                 upload-dir: userAssignments
 javers:
     newObjectSnapshot: true
-    objectAccessHook: org.javers.hibernate.integration.HibernateUnproxyObjectAccessHook
-    sql:
-        enabled: false
+    auditableAspectEnabled: true
+    springDataAuditableRepositoryAspectEnabled: true
     redis:
-        enabled: true
-        audit-duration: 2h
-        jedis:
-            host: localhost
-            port: 6379
-            database: 0
+        enabled: false

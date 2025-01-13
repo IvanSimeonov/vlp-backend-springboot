@@ -1,12 +1,10 @@
 package bg.tusofia.vlp;
 
-import bg.tusofia.vlp.assignment.dto.AssignmentSolutionCreateDto;
 import bg.tusofia.vlp.assignment.service.AssignmentSolutionService;
 import bg.tusofia.vlp.course.domain.DifficultyLevel;
 import bg.tusofia.vlp.course.dto.CourseCreateDto;
 import bg.tusofia.vlp.course.dto.CourseStatusUpdateDto;
 import bg.tusofia.vlp.course.service.CourseService;
-import bg.tusofia.vlp.lecture.dto.LectureCreateDto;
 import bg.tusofia.vlp.lecture.dto.LectureDto;
 import bg.tusofia.vlp.lecture.service.LectureService;
 import bg.tusofia.vlp.topic.service.TopicService;
@@ -14,9 +12,7 @@ import bg.tusofia.vlp.user.domain.RoleType;
 import bg.tusofia.vlp.user.domain.User;
 import bg.tusofia.vlp.user.domain.UserStatus;
 import bg.tusofia.vlp.user.repository.UserRepository;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.javers.core.Javers;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -27,7 +23,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -55,12 +50,9 @@ public class VlpApplication {
                                         LectureService lectureService,
                                         CourseService courseService,
                                         UserRepository userRepository,
-                                        AssignmentSolutionService assignmentSolutionService,
-                                        ObjectMapper objectMapper,
-                                        PlatformTransactionManager transactionManager,
-                                        Javers javers) {
+                                        AssignmentSolutionService assignmentSolutionService) {
         return args -> {
-            var random = new Random();
+            //var random = new Random();
             var mockSecurityContext = new MockSecurityContext(userRepository);
             mockSecurityContext.loginAsUser("root@admin.com");
             var user = new User();
@@ -168,8 +160,6 @@ public class VlpApplication {
 
             // PUBLISH THE COURSE!!!
             courseService.updateCourseStatus(springSecurityCourseId, new CourseStatusUpdateDto(PUBLISHED));
-
-            
             
             var usersToBeEnrolled = new String[] {
                 "hans@hofer.com", "sabine@mayer.com",
@@ -191,23 +181,21 @@ public class VlpApplication {
                 courseService.enrollUserToCourse(springSecurityCourseId);
             }
 
-
             // Create random assignments for each user
-            for (String username: usersToBeEnrolled) {
-                mockSecurityContext.loginAsUser(username);
-
-                for (LectureDto lectureDto : lectureIdsForAssignments) {
-                    for (var i = 0; i < random.nextInt(6); i++) {
-                        var solution = new AssignmentSolutionCreateDto(
-                            lectureDto.id(), new DemoMultipartFile(
-                              String.format("%s_lecture_%d_solution_%d", username, lectureDto.id(), i),
-                            String.format("LECTURE %d, SOLUTION %d", lectureDto.id(), i))
-                        );
-                        assignmentSolutionService.uploadAssignmentSolution(solution);
-                    }
-                }
-
-            }
+//            for (String username: usersToBeEnrolled) {
+//                mockSecurityContext.loginAsUser(username);
+//
+//                for (LectureDto lectureDto : lectureIdsForAssignments) {
+//                    for (var i = 0; i < random.nextInt(2); i++) {
+//                        var solution = new AssignmentSolutionCreateDto(
+//                            lectureDto.id(), new DemoMultipartFile(
+//                              String.format("%s_lecture_%d_solution_%d", username, lectureDto.id(), i),
+//                            String.format("LECTURE %d, SOLUTION %d", lectureDto.id(), i))
+//                        );
+//                        assignmentSolutionService.uploadAssignmentSolution(solution);
+//                    }
+//                }
+//            }
         };
     }
 
@@ -294,7 +282,7 @@ public class VlpApplication {
 
         @Override
         public void setAuthentication(Authentication authentication) {
-
+            // NOOP
         }
     }
 }
