@@ -1,0 +1,105 @@
+name: Backend CI/CD Pipeline
+
+on:
+  push:
+    branches: ['main']
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+  pull_request:
+    branches: ['main']
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+
+jobs:
+  build-test-deploy:
+    name: Build, Test, and Deploy VLP Backend
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup MySQL database
+        uses: mirromutth/mysql-action@v1.1
+        with:
+          character set server: 'utf8'
+          collation server: 'utf8_general_ci'
+          mysql database: 'vlp'
+          mysql user: ${{ secrets.DB_MYSQL_USER }}
+          mysql password: ${{ secrets.DB_MYSQL_PASSWORD }}
+
+      - name: Setup JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+          cache: 'maven'
+
+      - name: Build with Maven
+        run: mvn -B install --file pom.xml
+
+      - name: Extract Maven Version
+        id: extract-version
+        run: echo "VERSION=$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)" >> $GITHUB_ENV
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.18.0'
+          registry-url: 'https://registry.npmjs.org'
+          always-auth: true
+
+      - name: Publish generated Angular Client to NPM
+        uses: JS-DevTools/npm-publish@v3
+        with:
+          package: target/generated-sources/angular/dist
+          token: ${{ secrets.NPM_TOKEN_VLP }}
+          access: public
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ vars.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Setup QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Generate Docker metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ vars.DOCKERHUB_USERNAME }}/vlp-backend-springboot
+          tags: |
+            type=raw,value=latest
+            type=raw,value=${{ env.VERSION }}
+            type=sha,format=long
+          labels: |
+            org.opencontainers.image.title=VLP Backend Spring Boot
+            org.opencontainers.image.description=Virtual Learning Platform backend application
+            org.opencontainers.image.version=${{ env.VERSION }}
+            org.opencontainers.image.authors=Ivan Simeonov ivannicksimeonov@gmail.com
+            org.opencontainers.image.category=application
+            org.opencontainers.image.source=${{ github.repository }}
+            org.opencontainers.image.created=${{ steps.meta.outputs.date }}
+
+      - name: Build and push image to Docker Hub
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          platforms: linux/amd64,linux/arm64
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max

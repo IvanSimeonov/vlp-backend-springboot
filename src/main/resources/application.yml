@@ -1,7 +1,15 @@
 server:
     port: 8080
-
-
+management:
+    server:
+        port: 8081
+    endpoints:
+        web:
+            exposure:
+                include: "*"
+    endpoint:
+        health:
+          show-details: always
 spring:
     sql:
         init:
@@ -11,9 +19,9 @@ spring:
     application:
         name: Virtual Learning Platform
     datasource:
-        url: jdbc:mysql://localhost:3306/vlp?createDatabaseIfNotExist=true
-        username: vlp
-        password: vlpdbpassword
+        url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/vlp?createDatabaseIfNotExist=true}
+        username: ${SPRING_DATASOURCE_USERNAME:vlp}
+        password: ${SPRING_DATASOURCE_PASSWORD:vlpdbpassword}
         driver-class-name: com.mysql.cj.jdbc.Driver
     jpa:
         show-sql: true

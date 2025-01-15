@@ -33,7 +33,8 @@ public class WebSecurityConfiguration {
 
     private static final String[] WHITE_LISTED_URLS = {"/api/v1/courses/**", "/api/v1/auth/**", "/api/v1/users/**", "/api/v1/assignment/**", "/api/v1/topics/**", "/swagger-ui/**",
             "/swagger-ui.html",
-            "/v3/api-docs/**"};
+            "/v3/api-docs/**",
+            "/actuator/**"};
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final UserService userService;
 
