@@ -1,5 +1,6 @@
 package bg.tusofia.vlp.course.mapper;
 
+import bg.tusofia.vlp.common.domain.UserCompletedCourseId;
 import bg.tusofia.vlp.course.domain.Course;
 import bg.tusofia.vlp.course.domain.CourseOverview;
 import bg.tusofia.vlp.course.dto.*;
@@ -86,6 +87,10 @@ public abstract class CourseMapper {
     @Mapping(target = "totalRatings", expression = "java(course.getRatings().size())")
     public abstract CourseDetailsDto courseToCourseDetailsDto(Course course);
 
+    @Mapping(target = "topicOverviewDto", source = "topic")
+    @Mapping(target = "lectures", source = "lectures")
+    public abstract CourseDto courseToCourseDto(Course course);
+
     @Named("mapTopic")
     protected Topic mapTopic(Long topicId) {
         return topicRepository.getReferenceById(topicId);
@@ -99,5 +104,9 @@ public abstract class CourseMapper {
     protected Double calculateAverageRating(Course course) {
         var avg = course.getRatings().stream().mapToInt(CourseRating::getRating).average().orElse(0.0);
         return BigDecimal.valueOf(avg).setScale(2, RoundingMode.HALF_UP).doubleValue();
+    }
+
+    protected Long map(UserCompletedCourseId value) {
+        return value.getUserId();
     }
 }

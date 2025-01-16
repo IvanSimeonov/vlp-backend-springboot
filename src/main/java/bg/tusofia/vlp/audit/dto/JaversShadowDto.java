@@ -12,6 +12,7 @@ public record JaversShadowDto(
 
     List<Object> changes,
     Long version,
-    Boolean isInitial
+    Boolean isInitial,
+    Long objectId
 ) {
 }

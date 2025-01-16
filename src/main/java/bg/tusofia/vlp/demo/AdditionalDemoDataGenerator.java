@@ -1,6 +1,7 @@
 package bg.tusofia.vlp.demo;
 
 import bg.tusofia.vlp.assignment.service.AssignmentSolutionService;
+import bg.tusofia.vlp.course.domain.Course;
 import bg.tusofia.vlp.course.domain.DifficultyLevel;
 import bg.tusofia.vlp.course.dto.CourseCreateDto;
 import bg.tusofia.vlp.course.dto.CourseStatusUpdateDto;
@@ -13,6 +14,10 @@ import bg.tusofia.vlp.user.domain.User;
 import bg.tusofia.vlp.user.domain.UserStatus;
 import bg.tusofia.vlp.user.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.javers.core.Javers;
+import org.javers.core.metamodel.object.InstanceId;
+import org.javers.repository.jql.JqlQuery;
+import org.javers.repository.jql.QueryBuilder;
 import org.springframework.boot.context.event.ApplicationStartedEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Profile;
@@ -29,6 +34,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
+import java.util.LinkedHashSet;
 
 import static bg.tusofia.vlp.course.domain.Status.PUBLISHED;
 
@@ -48,13 +55,20 @@ public class AdditionalDemoDataGenerator implements ApplicationListener<Applicat
   private final CourseService courseService;
   private final UserRepository userRepository;
   private final AssignmentSolutionService assignmentSolutionService;
+  private final Javers javers;
 
-  public AdditionalDemoDataGenerator(TopicService topicService, LectureService lectureService, CourseService courseService, UserRepository userRepository, AssignmentSolutionService assignmentSolutionService) {
+  public AdditionalDemoDataGenerator(TopicService topicService,
+                                     LectureService lectureService,
+                                     CourseService courseService,
+                                     UserRepository userRepository,
+                                     AssignmentSolutionService assignmentSolutionService,
+                                     Javers javers) {
     this.topicService = topicService;
     this.lectureService = lectureService;
     this.courseService = courseService;
     this.userRepository = userRepository;
     this.assignmentSolutionService = assignmentSolutionService;
+    this.javers = javers;
   }
 
   @Override
@@ -71,6 +85,17 @@ public class AdditionalDemoDataGenerator implements ApplicationListener<Applicat
     user.setLastName("James");
     user.setStatus(UserStatus.ACTIVE);
     user.setEmail("michaeljames@iamnewteacher.com");
+
+
+    var usersToBeEnrolled = new String[][] {
+        new String[] { "lukas@meyer.com", "Lukas", "Meyer"},
+        new String[] { "joe@black.com", "Joe", "Black"},
+        new String[] { "wu@lee.com", "Wu", "Lee"},
+        new String[] { "tim@schmidt.com", "Tim", "Schmidt"},
+        new String[] { "katrin@weiss.com", "Katrin", "Weiss"},
+    };
+    Arrays.stream(usersToBeEnrolled).forEach(params -> createStudent(params[0], params[1], params[2]));
+
     userRepository.save(user);
 
     mockSecurityContext.loginAsUser("michaeljames@iamnewteacher.com");
@@ -169,14 +194,7 @@ public class AdditionalDemoDataGenerator implements ApplicationListener<Applicat
     // PUBLISH THE COURSE!!!
     courseService.updateCourseStatus(springSecurityCourseId, new CourseStatusUpdateDto(PUBLISHED));
 
-    var usersToBeEnrolled = new String[] {
-        "hans@hofer.com", "sabine@mayer.com",
-        "lukas@wagner.com", "julia@bauer.com", "markus@gruber.com", "sophia@huber.com",
-        "felix@steiner.com", "emma@berger.com", "paul@maier.com", "laura@wolf.com",
-        "simon@weber.com", "anna@schmid.com", "david@schwarz.com", "sarah@koch.com",
-        "max@binder.com", "lisa@fuchs.com", "thomas@auer.com", "nina@winkler.com", "christian@moser.com",
-        "marie@reiter.com"
-    };
+
 
     var lectureIdsForAssignments = new LectureDto[] {
         lecture1introId, lecture2securityConfigId, lecture3inMemoryId, lecture4manageUsersInDbId,
@@ -184,10 +202,32 @@ public class AdditionalDemoDataGenerator implements ApplicationListener<Applicat
     };
 
     // Enroll users to the course
-    for (String username: usersToBeEnrolled) {
-      mockSecurityContext.loginAsUser(username);
+    for (String[] userParameters: usersToBeEnrolled) {
+      mockSecurityContext.loginAsUser(userParameters[0]);
       courseService.enrollUserToCourse(springSecurityCourseId);
     }
+
+    var lecture7 = new LectureDto(null, "7 Provider",
+        "Understanding Authentication Provider and implementing it",
+        """
+            Why should we consider creating our own AuthenticationProvider
+           Understanding AuthenticationProvider methods.
+           Implementing and Customizing the AuthenticationProvider inside our application.
+           Environment specific Security configurations using Profiles.
+            """,  "https://www.youtube.com/watch?v=d7ZmZFbE_qY", 7, springSecurityCourseId
+    );
+
+
+
+    mockSecurityContext.loginAsUser("tim@schmidt.com");
+    var userToChange = userRepository.findUserByEmail("tim@schmidt.com").orElse(null);
+    userToChange.setFirstName("CHANGED FIRSTNAME");
+    userRepository.save(userToChange);
+
+    mockSecurityContext.loginAsUser("michaeljames@iamnewteacher.com");
+    lectureService.createUpdateLecture(lecture7);
+
+    //courseService.enrollUserToCourse(springSecurityCourseId);
 
     // Create random assignments for each user
 //            for (String username: usersToBeEnrolled) {
@@ -206,8 +246,29 @@ public class AdditionalDemoDataGenerator implements ApplicationListener<Applicat
 //            }
 
     log.info("Demo data generation completed.");
+
+    var courseQuery = QueryBuilder.byInstanceId(springSecurityCourseId, Course.class).build();
+
+    var shadows = javers.findShadows(courseQuery);
+    var snapshots = javers.findSnapshots(courseQuery);
+    var changes = javers.findChanges(courseQuery);
+
+    var obj = shadows.get(0).get();
+    log.info("Object is: {}", obj);
+
   }
 
+  private void createStudent(String email, String firstname, String lastname) {
+    var user = new User();
+    user.setRole(RoleType.ROLE_STUDENT);
+    user.setEnabled(true);
+    user.setPassword("$2a$12$9LHpOsnz2RwbioJqCcBGgOHSx9Tn.FfdswODJF.0UzpCOz6VQ0d4u");
+    user.setFirstName(firstname);
+    user.setLastName(lastname);
+    user.setStatus(UserStatus.ACTIVE);
+    user.setEmail(email);
+    userRepository.save(user);
+  }
 
   private static class MockSecurityContext implements SecurityContext {
 
