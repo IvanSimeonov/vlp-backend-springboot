@@ -1,0 +1,106 @@
+services:
+  vlp-database-mysql:
+    container_name: vlp-database-mysql
+    image: mysql:8.0.32
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: vlp
+      MYSQL_USER: vlp
+      MYSQL_PASSWORD: vlpdbpassword
+    ports:
+      - "3306:3306"
+    networks:
+      - vlp-network
+    volumes:
+      - vlp-mysql-db-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  vlp-backend-springboot:
+    container_name: vlp-backend-springboot
+    image: ivannicksim/vlp-backend-springboot:latest
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://vlp-database-mysql:3306/vlp?createDatabaseIfNotExist=true
+      SPRING_DATASOURCE_USERNAME: vlp
+      SPRING_DATASOURCE_PASSWORD: vlpdbpassword
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+    depends_on:
+      vlp-database-mysql:
+        condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "wget --spider -q http://localhost:8081/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    networks:
+      - vlp-network
+
+  vlp-frontend-angular:
+    container_name: vlp-frontend-angular
+    image: ivannicksim/vlp-frontend-angular:latest
+    ports:
+      - "4200:4200"
+    depends_on:
+      vlp-backend-springboot:
+        condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4200"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    networks:
+      - vlp-network
+
+  vlp-monitoring-prometheus:
+    container_name: vlp-monitoring-prometheus
+    image: prom/prometheus:latest
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - vlp-monitoring-prometheus-data:/prometheus
+    depends_on:
+      vlp-backend-springboot:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - vlp-network
+
+  vlp-monitoring-grafana:
+    container_name: vlp-monitoring-grafana
+    image: grafana/grafana:latest
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=vlpgrafanapassword
+      - GF_USERS_ALLOW_SIGN_UP=false
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
+      - vlp-monitoring-grafana-data:/var/lib/grafana
+    depends_on:
+      vlp-backend-springboot:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - vlp-network
+
+networks:
+  vlp-network:
+    name: vlp-network
+    driver: bridge
+
+volumes:
+  vlp-mysql-db-data:
+    name: vlp-mysql-db-data
+  vlp-monitoring-prometheus-data:
+    name: vlp-monitoring-prometheus-data
+  vlp-monitoring-grafana-data:
+    name: vlp-monitoring-grafana-data
+
