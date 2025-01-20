@@ -12,7 +12,10 @@ import bg.tusofia.vlp.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.reactive.TransactionContextManager;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -32,21 +35,22 @@ public class CourseCompletionServiceImpl implements CourseCompletionService {
     private final CourseRepository courseRepository;
     private final UserRepository userRepository;
     private final AssignmentSolutionRepository assignmentSolutionRepository;
+    private AssignmentSolution assignmentSolution;
 
     @Transactional
     public void gradeSolution(Long assignmentSolutionId, Integer grade) {
-        var assignmentSolution = assignmentSolutionRepository.findById(assignmentSolutionId)
+        assignmentSolution = assignmentSolutionRepository.findById(assignmentSolutionId)
                 .orElseThrow(() -> new AssignmentSolutionNotFoundException(assignmentSolutionId));
         assignmentSolution.setGrade(grade);
         assignmentSolution.setSubmissionStatus(SubmissionStatus.GRADED);
-        assignmentSolutionRepository.saveAndFlush(assignmentSolution);
+        assignmentSolutionRepository.save(assignmentSolution);
     }
 
     @Transactional
     @Override
     public void gradeAndCompleteCourse(Long assignmentSolutionId) {
-        var assignmentSolution = assignmentSolutionRepository.findById(assignmentSolutionId)
-                .orElseThrow(() -> new AssignmentSolutionNotFoundException(assignmentSolutionId));
+//        assignmentSolution = assignmentSolutionRepository.findById(assignmentSolutionId)
+//                .orElseThrow(() -> new AssignmentSolutionNotFoundException(assignmentSolutionId));
 //        var courseId = assignmentSolution.getLecture().getCourse().getId();
 //        var studentId = assignmentSolution.getStudent().getId();
 //        var course = courseRepository.findById(courseId).orElseThrow(() -> new CourseNotFoundException(courseId));
@@ -55,8 +59,7 @@ public class CourseCompletionServiceImpl implements CourseCompletionService {
         var student = assignmentSolution.getStudent();
 
         if (areAllSolutionsGraded(course, student)) {
-            // this.courseRepository.save(calculateAvgGradeAndCompleteCourse(course, student));
-            calculateAvgGradeAndCompleteCourse(course, student);
+            this.courseRepository.save(calculateAvgGradeAndCompleteCourse(course, student));
         }
 
     }

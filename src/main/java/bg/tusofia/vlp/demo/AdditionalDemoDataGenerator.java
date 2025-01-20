@@ -1,5 +1,7 @@
 package bg.tusofia.vlp.demo;
 
+import bg.tusofia.vlp.assignment.dto.AssignmentSolutionCreateDto;
+import bg.tusofia.vlp.assignment.dto.AssignmentSolutionDto;
 import bg.tusofia.vlp.assignment.service.AssignmentSolutionService;
 import bg.tusofia.vlp.course.domain.Course;
 import bg.tusofia.vlp.course.domain.DifficultyLevel;
@@ -34,8 +36,10 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
+import java.util.List;
 
 import static bg.tusofia.vlp.course.domain.Status.PUBLISHED;
 
@@ -195,11 +199,11 @@ public class AdditionalDemoDataGenerator implements ApplicationListener<Applicat
     courseService.updateCourseStatus(springSecurityCourseId, new CourseStatusUpdateDto(PUBLISHED));
 
 
-
-    var lectureIdsForAssignments = new LectureDto[] {
+    var lectureDtosForAssignments = new LectureDto[] {
         lecture1introId, lecture2securityConfigId, lecture3inMemoryId, lecture4manageUsersInDbId,
         lecture5passwordEncodersId, lecture6authenticationProviderId
     };
+
 
     // Enroll users to the course
     for (String[] userParameters: usersToBeEnrolled) {
@@ -207,25 +211,27 @@ public class AdditionalDemoDataGenerator implements ApplicationListener<Applicat
       courseService.enrollUserToCourse(springSecurityCourseId);
     }
 
-    var lecture7 = new LectureDto(null, "7 Provider",
-        "Understanding Authentication Provider and implementing it",
-        """
-            Why should we consider creating our own AuthenticationProvider
-           Understanding AuthenticationProvider methods.
-           Implementing and Customizing the AuthenticationProvider inside our application.
-           Environment specific Security configurations using Profiles.
-            """,  "https://www.youtube.com/watch?v=d7ZmZFbE_qY", 7, springSecurityCourseId
-    );
 
-
-
+    // LOGIN AS TIM SCHMIDT - CHANGE USERNAME, SUBMIT ASSIGNMENTS
     mockSecurityContext.loginAsUser("tim@schmidt.com");
     var userToChange = userRepository.findUserByEmail("tim@schmidt.com").orElse(null);
     userToChange.setFirstName("CHANGED FIRSTNAME");
     userRepository.save(userToChange);
 
+    List<AssignmentSolutionDto> solutionsToGrade = new ArrayList<>();
+    for (LectureDto lectureDto: lectureDtosForAssignments) {
+      var ascd = new AssignmentSolutionCreateDto(lectureDto.id(), new DemoMultipartFile(String.valueOf(lectureDto.sequenceNumber()), "Solution: " + lectureDto.title()));
+      solutionsToGrade.add(assignmentSolutionService.uploadAssignmentSolution(ascd));
+    }
+
     mockSecurityContext.loginAsUser("michaeljames@iamnewteacher.com");
-    lectureService.createUpdateLecture(lecture7);
+
+    for (AssignmentSolutionDto solution: solutionsToGrade) {
+      assignmentSolutionService.gradeAssignmentSolution(solution.id(), 80);
+    }
+
+
+
 
     //courseService.enrollUserToCourse(springSecurityCourseId);
 

@@ -1,6 +1,7 @@
 package bg.tusofia.vlp.audit.controller;
 
 import bg.tusofia.vlp.audit.dto.JaversShadowDto;
+import bg.tusofia.vlp.common.domain.UserCompletedCourse;
 import bg.tusofia.vlp.course.domain.Course;
 import bg.tusofia.vlp.course.dto.CourseDto;
 import bg.tusofia.vlp.course.mapper.CourseMapper;

@@ -20,7 +20,10 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.reactive.TransactionContext;
+import org.springframework.transaction.reactive.TransactionContextManager;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
