@@ -9,7 +9,6 @@
         <version>3.4.0</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-
     <groupId>bg.tusofia</groupId>
     <artifactId>vlp</artifactId>
     <version>1.0.0-SNAPSHOT</version>
@@ -59,7 +58,7 @@
         <openapi-generator-maven-plugin.version>7.10.0</openapi-generator-maven-plugin.version>
         <angular-client.version>1.0.0</angular-client.version>
         <exec-maven-plugin.version>3.5.0</exec-maven-plugin.version>
-        <javers.version>7.7.2-SNAPSHOT</javers.version>
+        <javers.version>7.8.0</javers.version>
     </properties>
     <dependencies>
         <dependency>

@@ -1,27 +1,21 @@
 package bg.tusofia.vlp.audit.controller;
 
 import bg.tusofia.vlp.audit.dto.JaversShadowDto;
-import bg.tusofia.vlp.common.domain.UserCompletedCourse;
 import bg.tusofia.vlp.course.domain.Course;
 import bg.tusofia.vlp.course.dto.CourseDto;
 import bg.tusofia.vlp.course.mapper.CourseMapper;
 import bg.tusofia.vlp.course.repository.CourseRepository;
-import bg.tusofia.vlp.course.service.CourseService;
-import bg.tusofia.vlp.lecture.domain.Lecture;
 import bg.tusofia.vlp.user.domain.User;
 import bg.tusofia.vlp.user.dto.UserOverviewDto;
+import bg.tusofia.vlp.user.mapper.UserMapper;
+import bg.tusofia.vlp.user.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.javers.core.Javers;
-import org.javers.core.metamodel.object.InstanceId;
 import org.javers.repository.jql.QueryBuilder;
-import org.javers.shadow.Shadow;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @RestController
 @Slf4j
@@ -30,13 +24,20 @@ public class JaversAuditController {
 
   private final Javers javers;
   private final CourseMapper courseMapper;
-
   private final CourseRepository courseRepository;
+  private final UserRepository userRepository;
+  private final UserMapper userMapper;
 
-  public JaversAuditController(Javers javers, CourseMapper courseMapper, CourseRepository courseRepository) {
+  public JaversAuditController(Javers javers,
+                               CourseMapper courseMapper,
+                               CourseRepository courseRepository,
+                               UserMapper userMapper,
+                               UserRepository userRepository) {
     this.javers = javers;
     this.courseMapper = courseMapper;
     this.courseRepository = courseRepository;
+    this.userMapper = userMapper;
+    this.userRepository = userRepository;
   }
 
   /**
@@ -70,14 +71,39 @@ public class JaversAuditController {
     if (version == null) {
       return courseMapper.courseToCourseDto(courseRepository.findCourseById(id).orElse(null));
     }
-    var course = (Course) javers.findShadows(
-                QueryBuilder.byInstanceId(id, Course.class)
-                    .withVersion(version)
-                    .withChildValueObjects(true)
-                    .withScopeDeepPlus()
-                    .build()
-            )
-            .getFirst().get();
+
+    // define query
+    var query = QueryBuilder.byInstanceId(id, Course.class)
+        .withVersion(version)
+        .withChildValueObjects(true)
+        .withScopeDeepPlus()
+        .build();
+
+    var course = (Course) javers.findShadows(query).getFirst().get();
+
+    // find snapshots
+    var snapshot = javers.findSnapshots(query);
+
+    // changes
+    var changes = javers.findChanges(query);
+
     return courseMapper.courseToCourseDto(course);
+  }
+
+  @GetMapping("/user/{id}")
+  @Transactional
+  public UserOverviewDto getUserVersion(@PathVariable Long id, @RequestParam(required = false) Long version) {
+    if (version == null) {
+      return userMapper.userToUserOverviewDto(userRepository.findById(id).orElse(null));
+    }
+    var user = (User) javers.findShadows(
+            QueryBuilder.byInstanceId(id, User.class)
+                .withVersion(version)
+                .withChildValueObjects(true)
+                .withScopeDeepPlus()
+                .build()
+        )
+        .getFirst().get();
+    return userMapper.userToUserOverviewDto(user);
   }
 }

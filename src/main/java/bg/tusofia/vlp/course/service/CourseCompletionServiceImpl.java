@@ -12,10 +12,10 @@ import bg.tusofia.vlp.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
-import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.reactive.TransactionContextManager;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -37,13 +37,17 @@ public class CourseCompletionServiceImpl implements CourseCompletionService {
     private final AssignmentSolutionRepository assignmentSolutionRepository;
     private AssignmentSolution assignmentSolution;
 
+    private final PlatformTransactionManager platformTransactionManager;
+
     @Transactional
     public void gradeSolution(Long assignmentSolutionId, Integer grade) {
+        TransactionStatus status = TransactionAspectSupport.currentTransactionStatus();
+        log.info("Transaction status: {}", status);
         assignmentSolution = assignmentSolutionRepository.findById(assignmentSolutionId)
                 .orElseThrow(() -> new AssignmentSolutionNotFoundException(assignmentSolutionId));
         assignmentSolution.setGrade(grade);
         assignmentSolution.setSubmissionStatus(SubmissionStatus.GRADED);
-        assignmentSolutionRepository.save(assignmentSolution);
+        assignmentSolution = assignmentSolutionRepository.save(assignmentSolution);
     }
 
     @Transactional
@@ -55,13 +59,15 @@ public class CourseCompletionServiceImpl implements CourseCompletionService {
 //        var studentId = assignmentSolution.getStudent().getId();
 //        var course = courseRepository.findById(courseId).orElseThrow(() -> new CourseNotFoundException(courseId));
 //        var student = userRepository.findById(studentId).orElseThrow(() -> new UserNotFoundException(studentId));
+        TransactionStatus status = TransactionAspectSupport.currentTransactionStatus();
+        log.info("Transaction status: {}", status);
         var course = assignmentSolution.getLecture().getCourse();
         var student = assignmentSolution.getStudent();
 
         if (areAllSolutionsGraded(course, student)) {
+            log.info("Transaction status: {}", status);
             this.courseRepository.save(calculateAvgGradeAndCompleteCourse(course, student));
         }
-
     }
 
     private Course calculateAvgGradeAndCompleteCourse(Course course, User student) {
